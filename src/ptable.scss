@@ -44,6 +44,12 @@ code {
         margin:-2px -2px 0 0;
         display:inline-block;
         text-align:center;
+        transition:.2s all;
+    }
+
+    .element:hover{
+        background-color:$c_gondola;
+        transform:scale(1.2);
     }
 
     .element.hidden {
