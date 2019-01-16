@@ -31,29 +31,48 @@ class Center extends Component {
     }
 }
 
-function Element(props) {
-    return (
-        <div className={'element' + (props.hidden ? ' hidden' : '')}>
-            {props.symbol}
-        </div>
-    );
+class Element extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = { click: props.click || false };
+    }
+
+    handleClick() {
+        this.setState({ click: !this.state.click });
+    }
+
+    render() {
+        return (
+            <div
+                className={'element' + (this.props.hidden ? ' hidden' : '') + (this.state.click ? ' click' : '')}
+                onClick={this.handleClick.bind(this)}
+            >
+                {this.props.symbol}
+            </div>
+        );
+    }
 }
 
 class Ptable extends Component {
 
     renderGroup(index, width) {
         const list = [];
+        const start = index * width;
 
         for (let i = 0; i < width; i++) {
+            const key = start + i;
             list.push(
                 <Element
-                    symbol={elements[index * width + i] || undefined}
-                    hidden={!elements[(index * width + i)]}
+                    anom={key}
+                    key={key}
+                    symbol={elements[key] || undefined}
+                    hidden={!elements[key]}
                 />
             );
         }
 
-        return (<div className="group">{list}</div>);
+        return (<div className="group" key={index}>{list}</div>);
     }
 
     render() {
@@ -73,7 +92,7 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <div className="title"> Hello World </div>
+                <div className="title"> Periodic Table Builder </div>
                 <Center><Ptable /></Center>
             </div>
         );

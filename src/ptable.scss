@@ -3,6 +3,13 @@ $c_coca: #331F26;
 $c_gondola: #27161D;
 $c_gold: #ddc239;
 
+@mixin noselect() {
+    -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+    -moz-user-select: none; /* mozilla browsers */
+    -khtml-user-select: none; /* webkit (konqueror) browsers */
+    -ms-user-select: none; /* IE10+ */
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -41,15 +48,24 @@ code {
         font-size:2.4vw;
         padding: .1rem;
         border: 2px solid $c_gondola;
+        background-color:$c_coca;
         margin:-2px -2px 0 0;
         display:inline-block;
         text-align:center;
-        transition:.2s all;
+        transition:.16s transform;
+
+        @include noselect;
     }
 
     .element:hover{
-        background-color:$c_gondola;
+        z-index: 2;
+        cursor:pointer;
         transform:scale(1.2);
+        border-color:$c_gold;
+    }
+
+    .element.click{
+        background-color: $c_gondola;
     }
 
     .element.hidden {
