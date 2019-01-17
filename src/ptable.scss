@@ -3,9 +3,13 @@ $c_coca: #331F26;
 $c_gondola: #27161D;
 $c_gold: #ddc239;
 
-$fade_time: .34s;
+$fade_time: .24s;
 
 $golden_ratio: 1.618;
+
+@mixin background-color-alpha($color, $alpha) {
+  background-color: rgba(red($color), green($color), blue($color), $alpha);
+}
 
 @mixin noselect() {
     -webkit-user-select: none; /* webkit (safari, chrome) browsers */
@@ -19,9 +23,14 @@ $golden_ratio: 1.618;
     100% { opacity: 1 }
 }
 
-@keyframes fadeout{
+@keyframes fadeout {
     0% { opacity: 1 }
     100% { opacity: 0 }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(-90deg); }
 }
 
 body {
@@ -46,7 +55,11 @@ code {
 }
 
 .blur{
-    filter:blur(2px);
+    filter:blur(4px);
+}
+
+.fadeout{
+    animation:fadeout $fade_time;
 }
 
 .title {
@@ -116,35 +129,61 @@ code {
     left:0;
     right:0;
     bottom:0;
-    background-color:rgba(0,0,0,.5);
+    @include background-color-alpha($c_gondola, .8);
 
     .card{
 
-        margin-top: 30%;
-        background-color: $c_coca;
         $w: 40rem;
+        $h: $w / $golden_ratio;
+
+        margin-top: 10rem;
+        background-color: $c_coca;
         width: $w;
-        height: $w / $golden_ratio;
-        border: 3px solid $c_gondola;
+        height: $h;
+        box-shadow: 0 2px 12px rgba(0,0,0,.3);
+
+        position:relative;
 
         .element {
-            text-align: center;
-            margin: 3rem 2rem;
+            display:inline-block;
+            margin: 3rem 4rem;
+            font-size: $w * .08;
+        }
 
-            width: $w * .2;
-            height: $w * .18;
-            font-size: $w * .11;
-            border-radius: .4rem;
-            border: 3px solid $c_gold;
-            background-color: $c_coca;
-            display: inline-block;
-            text-align: center;
-            transition: .16s transform;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, .3);
+        .button-x {
+            top: .5rem;
+            right: .5rem;
         }
     }
 }
 
-.fadeout{
-    animation:fadeout $fade_time;
+$btx_pad: .1rem;
+
+.button-x {
+    height: calc(1rem + 1px);
+    width: calc(1rem + 1px);
+    background-color: transparent;
+    padding: $btx_pad;
+    position: absolute;
+    border-radius: 5px;
+    border: 2px solid $c_gondola;
+    transition: .1s all;
+}
+
+.button-x:hover {
+    background-color: $c_gold;
+    color: $c_gondola;
+    cursor: pointer;
+    animation: spin .21s ease-in-out;
+}
+
+.button-x:after {
+    content: '+';
+    position: absolute;
+    transform: rotate(-45deg);
+    font-size: 2rem;
+    padding: $btx_pad * 1.6;
+
+    bottom: -52%;
+    left: -33%;
 }

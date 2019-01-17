@@ -29,7 +29,6 @@ class Center extends Component {
 }
 
 class Element extends Component {
-
     constructor(props) {
         super(props);
         this.state = { click: props.click || false };
@@ -55,7 +54,6 @@ class Element extends Component {
 }
 
 class Ptable extends Component {
-
     renderGroup(index, width) {
         const list = [];
         const start = index * width;
@@ -89,12 +87,17 @@ class Ptable extends Component {
     }
 }
 
+function XButton(props) {
+    return (<div className='button-x' />);
+}
+
 function ElementCard(props) {
     return (
         <Center>
             <div className='card-holder'>
                 <div className={'card' + (props.dismounting ? ' fadeout' : '')}>
                     <div className='element'>{props.elm}</div>
+                    <XButton />
                 </div>
             </div>
         </Center>
@@ -102,7 +105,6 @@ function ElementCard(props) {
 }
 
 class Inspector extends Component {
-
     constructor(props) {
         super(props);
         this.dismount = this.dismount.bind(this);
