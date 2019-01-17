@@ -3,11 +3,25 @@ $c_coca: #331F26;
 $c_gondola: #27161D;
 $c_gold: #ddc239;
 
+$fade_time: .34s;
+
+$golden_ratio: 1.618;
+
 @mixin noselect() {
     -webkit-user-select: none; /* webkit (safari, chrome) browsers */
     -moz-user-select: none; /* mozilla browsers */
     -khtml-user-select: none; /* webkit (konqueror) browsers */
     -ms-user-select: none; /* IE10+ */
+}
+
+@keyframes fadein {
+    0% { opacity: 0 }
+    100% { opacity: 1 }
+}
+
+@keyframes fadeout{
+    0% { opacity: 1 }
+    100% { opacity: 0 }
 }
 
 body {
@@ -25,6 +39,14 @@ body {
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.content{
+    transition: $fade_time filter;
+}
+
+.blur{
+    filter:blur(2px);
 }
 
 .title {
@@ -57,14 +79,15 @@ code {
         @include noselect;
     }
 
-    .element:hover{
+    .element:hover {
         z-index: 2;
         cursor:pointer;
         transform:scale(1.2);
         border-color:$c_gold;
+        border-radius:10%;
     }
 
-    .element.click{
+    .element.click {
         background-color: $c_gondola;
     }
 
@@ -75,11 +98,53 @@ code {
     }
 }
 
-.padjust{
+.padjust {
 
     display:flex;
 
-    .padding{
+    .padding {
         width:50%;
     }
+}
+
+.inspector {
+
+    animation:fadein $fade_time;
+    z-index:6;
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-color:rgba(0,0,0,.5);
+
+    .card{
+
+        margin-top: 30%;
+        background-color: $c_coca;
+        $w: 40rem;
+        width: $w;
+        height: $w / $golden_ratio;
+        border: 3px solid $c_gondola;
+
+        .element {
+            text-align: center;
+            margin: 3rem 2rem;
+
+            width: $w * .2;
+            height: $w * .18;
+            font-size: $w * .11;
+            border-radius: .4rem;
+            border: 3px solid $c_gold;
+            background-color: $c_coca;
+            display: inline-block;
+            text-align: center;
+            transition: .16s transform;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, .3);
+        }
+    }
+}
+
+.fadeout{
+    animation:fadeout $fade_time;
 }
