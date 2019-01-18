@@ -92,7 +92,7 @@ class Ptable extends Component {
 }
 
 function XButton(props) {
-    return (<div className='button-x' />);
+    return (<div className='button-x' onClick={props.onClick} />);
 }
 
 class ElementCard extends Component {
@@ -114,10 +114,12 @@ class ElementCard extends Component {
                         className={'card' + (this.props.dismounting ? ' fadeout' : '')}
                         onClick={this.handleClick}
                     >
-                        <input type='text' value={this.props.elm.symbol} className='elm-symbol' />
-                        <input type='text' value={this.props.elm.anom}   className='elm-anom' />
-                        <input type='text' value={this.props.elm.name}   className='elm-name' />
-                        <XButton />
+                        <div className='datalist'>
+                            <input type='text' value={this.props.elm.symbol} className='elm-symbol' />
+                            <input type='text' value={this.props.elm.anom}   className='elm-anom' />
+                            <input type='text' value={this.props.elm.name}   className='elm-name' />
+                        </div>
+                        <XButton onClick={this.props.inspectorDismount} />
                     </div>
                 </div>
             </Center>
@@ -150,6 +152,7 @@ class Inspector extends Component {
             >
                 <ElementCard
                     dismounting={this.state.dismounting}
+                    inspectorDismount={this.dismount}
                     elm={this.props.elm}
                 />
             </div>

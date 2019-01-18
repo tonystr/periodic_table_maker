@@ -131,7 +131,24 @@ code {
     bottom:0;
     @include background-color-alpha($c_gondola, .8);
 
-    .card{
+    .datalist {
+
+        display:inline-block;
+        margin:2rem;
+        width:calc(100% - 4rem);
+
+        input {
+            display: block;
+            border: none;
+            background: transparent;
+            color: $c_gold;
+            width:100%;
+            font-size:1.4rem;
+            margin-top:.4rem;
+        }
+    }
+
+    .card {
 
         $w: 40rem;
         $h: $w / $golden_ratio;
@@ -174,7 +191,7 @@ $btx_pad: .1rem;
     background-color: $c_gold;
     color: $c_gondola;
     cursor: pointer;
-    animation: spin .21s ease-in-out;
+    animation: spin .18s ease-in-out;
 }
 
 .button-x:after {
@@ -184,6 +201,6 @@ $btx_pad: .1rem;
     font-size: 2rem;
     padding: $btx_pad * 1.6;
 
-    bottom: -52%;
-    left: -33%;
+    bottom: -54%;
+    left: -31%;
 }
