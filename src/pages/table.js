@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 
 import elementsRaw from '../table.json';
 
-let elements = elementsRaw.slice();
+let anom = 1;
+let skip = 0;
+let elements = [];
 
-for (let i = 0; i < 18 * 7; i++) {
-    const elm = elements[i];
+for (let i = 0; i < elementsRaw.length; i++) {
+    const elm = elementsRaw[i];
     if (typeof elm === 'number') {
 
-        elements = elements.slice(0, i)
-            .concat(new Array(elm))
-            .concat(elements.slice(i + 1));
+        skip += elm - 1;
 
-        i += elm;
+    } else elements[i + skip] = {
+        symbol: elementsRaw[i],
+        anom: anom++,
+        name: 'This is the name of the atom'
     }
 }
 
@@ -31,23 +34,26 @@ class Center extends Component {
 class Element extends Component {
     constructor(props) {
         super(props);
-        this.state = { click: props.click || false };
+        this.state = {
+            click: props.click || false,
+            elm: props.elm || false
+        };
         this.handleClick = this.handleClick.bind(this);
     }
 
     handleClick() {
         // this.setState({ click: !this.state.click });
-        this.props.onSelect(this.props.symbol);
+        this.props.onSelect(this.state.elm);
     }
 
     render() {
         return (
             <div
-                symbol={this.props.symbol}
-                className={'element' + (this.props.hidden ? ' hidden' : '') + (this.state.click ? ' click' : '')}
+                symbol={this.state.elm ? this.state.elm.symbol : undefined}
+                className={'element' + (!this.state.elm ? ' hidden' : '') + (this.state.click ? ' click' : '')}
                 onClick={this.handleClick}
             >
-                {this.props.symbol}
+                {this.state.elm ? this.state.elm.symbol : undefined}
             </div>
         );
     }
@@ -63,10 +69,8 @@ class Ptable extends Component {
             list.push(
                 <Element
                     onSelect={this.props.onInspect}
-                    anom={key}
                     key={key}
-                    symbol={elements[key] || undefined}
-                    hidden={!elements[key]}
+                    elm={elements[key] || undefined}
                 />
             );
         }
@@ -91,17 +95,34 @@ function XButton(props) {
     return (<div className='button-x' />);
 }
 
-function ElementCard(props) {
-    return (
-        <Center>
-            <div className='card-holder'>
-                <div className={'card' + (props.dismounting ? ' fadeout' : '')}>
-                    <div className='element'>{props.elm}</div>
-                    <XButton />
+class ElementCard extends Component {
+    constructor(props) {
+        super(props);
+        this.handleClick = this.handleClick.bind(this);
+    }
+
+    handleClick(evt) {
+        evt.stopPropagation();
+        evt.nativeEvent.stopImmediatePropagation();
+    }
+
+    render() {
+        return (
+            <Center>
+                <div className='card-holder'>
+                    <div
+                        className={'card' + (this.props.dismounting ? ' fadeout' : '')}
+                        onClick={this.handleClick}
+                    >
+                        <input type='text' value={this.props.elm.symbol} className='elm-symbol' />
+                        <input type='text' value={this.props.elm.anom}   className='elm-anom' />
+                        <input type='text' value={this.props.elm.name}   className='elm-name' />
+                        <XButton />
+                    </div>
                 </div>
-            </div>
-        </Center>
-    );
+            </Center>
+        );
+    }
 }
 
 class Inspector extends Component {
@@ -123,7 +144,10 @@ class Inspector extends Component {
 
     render() {
         return (
-            <div className={'inspector' + (this.state.dismounting ? ' fadeout' : '')} onClick={this.dismount}>
+            <div
+                className={'inspector' + (this.state.dismounting ? ' fadeout' : '')}
+                onClick={this.dismount}
+            >
                 <ElementCard
                     dismounting={this.state.dismounting}
                     elm={this.props.elm}
@@ -143,7 +167,6 @@ export default class App extends Component {
     }
 
     onInspectElement(elm) {
-        console.log(elm);
         this.setState({ inspect: elm });
     }
 
