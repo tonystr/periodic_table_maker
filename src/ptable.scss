@@ -2,6 +2,8 @@
 $c_coca: #331F26;
 $c_gondola: #27161D;
 $c_gold: #ddc239;
+$c_gray: #443331;
+$c_green: #45a372;
 
 $fade_time: .24s;
 
@@ -94,10 +96,37 @@ code {
 
     .element:hover {
         z-index: 2;
-        cursor:pointer;
-        transform:scale(1.2);
-        border-color:$c_gold;
-        border-radius:10%;
+        cursor: pointer;
+        transform: scale(1.2);
+        border-radius: 3px/3px;
+        border-color: $c_gold;
+    }
+
+    .element.undef {
+        color: $c_gray;
+    }
+
+    .element.undef:hover{
+        color: $c_green;
+        border-color: $c_green;
+    }
+
+    .element.undef:hover::after{
+        content:"+";
+        position: absolute;
+        top:-.8rem;
+        right:-.8rem;
+        background-color: $c_coca;
+        border: 2px solid $c_green;
+
+        height:1rem;
+        width:1rem;
+        font-size:1.909rem;
+        line-height: .55rem;
+        border-radius: 50%;
+        padding:.2rem;
+        padding-right: .35rem;
+        padding-left:.05rem;
     }
 
     .element.click {
@@ -105,9 +134,9 @@ code {
     }
 
     .element.hidden {
-        visibility:hidden;
-        opacity:0;
-        border-color:transparent;
+        visibility: hidden;
+        opacity: 0;
+        border-color: transparent;
     }
 }
 
@@ -131,21 +160,43 @@ code {
     bottom:0;
     @include background-color-alpha($c_gondola, .8);
 
-    .datalist {
+    .data-input {
+        display:flex;
+        flex-direction: row;
+        font-size:1.4rem;
 
-        display:inline-block;
-        margin:2rem;
-        width:calc(100% - 4rem);
+        form, ul{
+            width:50%;
+            margin-top:3rem;
+        }
+
+        input, li {
+            padding: .2rem .6rem;
+            margin-bottom: .2rem;
+            font-size:1.4rem;
+        }
 
         input {
             display: block;
-            border: none;
-            background: transparent;
+            background: $c_gondola;
+            border-radius: .4rem;
             color: $c_gold;
             width:100%;
-            font-size:1.4rem;
-            margin-top:.4rem;
+
+            border: 2px solid transparent;
+            transition: .13s all;
         }
+
+        input:hover{
+
+            border-color: $c_green;
+        }
+    }
+
+    .datalist {
+        display:inline-block;
+        margin:2rem;
+        width:calc(100% - 4rem);
     }
 
     .card {
