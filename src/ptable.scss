@@ -2,8 +2,9 @@
 $c_coca: #331F26;
 $c_gondola: #27161D;
 $c_gold: #ddc239;
-$c_gray: #443331;
+$c_gray: #4c2f36;
 $c_green: #45a372;
+$c_red: #F1414b;
 
 $fade_time: .24s;
 
@@ -52,22 +53,101 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.content{
+.bottom{
+    position: absolute;
+    bottom:0;
+    width:100%;
+}
+
+.button {
+    display: inline-block;
+    font-size: 1.2rem;
+    padding: .2rem .4rem;
+    border: 2px solid transparent;
+    border-radius: .4rem;
+    transition: .14s all;
+    color: $c_gray;
+    background-color: $c_gondola;
+}
+
+.button.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.button:hover {
+    border-color: $c_green;
+    color: $c_green;
+    cursor: pointer;
+}
+
+.button.delete:hover {
+    border-color: $c_red;
+    color: $c_red;
+}
+
+.content {
     transition: $fade_time filter;
 }
 
-.blur{
+.blur {
     filter:blur(4px);
 }
 
-.fadeout{
-    animation:fadeout $fade_time;
+.fadeout {
+    animation: fadeout $fade_time;
 }
 
 .title {
     font-size: 2rem;
     text-align:center;
     margin:2rem;
+}
+
+a {
+    color: $c_green;
+}
+
+a:hover {
+    background-color: $c_green;
+    color: $c_gondola;
+}
+
+.login {
+
+    min-width: 380px;
+    font-size: 1.4rem;
+
+    .field {
+
+        margin-top: 2.4rem;
+
+        input {
+            font-size: 1.4rem;
+            float: right;
+        }
+    }
+
+    a {
+        font-size: 1.2rem;
+        width:100%;
+    }
+}
+
+input {
+    padding: .2rem .6rem;
+    animation: fadein .3s;
+    background: $c_gondola;
+    border-radius: .4rem;
+    color: $c_gold;
+
+    border: 2px solid transparent;
+    transition: .13s all;
+}
+
+input:hover{
+
+    border-color: $c_green;
 }
 
 .ptable {
@@ -79,11 +159,20 @@ code {
         wrap:nowrap;
     }
 
+    $elmh: 3.8vw;
+    $elmp: .1vw;
+    $spegpad: 2.8vw;
+
+    .special-groups {
+        margin-top: $spegpad;
+    }
+
     .element {
-        width:4.3vw;
-        height:3.8vw;
-        font-size:2.4vw;
-        padding: .1rem;
+        animation: fadein $fade_time * 3;
+        width: 4.3vw;
+        height: $elmh;
+        font-size: 2.2vw;
+        padding: $elmp;
         border: 2px solid $c_gondola;
         background-color:$c_coca;
         margin:-2px -2px 0 0;
@@ -94,8 +183,30 @@ code {
         @include noselect;
     }
 
-    .element:hover {
-        z-index: 2;
+    .element.slidedown {
+
+        position: relative;
+        font-size: 1vw;
+        background-color: transparent;
+    }
+
+    .element.slidedown::before{
+        position: absolute;
+        content: '';
+        z-index: -1;
+        top: 0;
+        left: -1px;
+        right: -1px;
+        bottom: 0;
+        background-color: $c_gondola;
+        border: 2px solid $c_gondola;
+
+        height: $elmh * 3 + $spegpad + $elmp * 6;
+        border-bottom-left-radius: .6vw;
+    }
+
+    .element:not(.slidedown):hover {
+        z-index: 4;
         cursor: pointer;
         transform: scale(1.2);
         border-radius: 3px/3px;
@@ -106,12 +217,12 @@ code {
         color: $c_gray;
     }
 
-    .element.undef:hover{
+    .element:not(.slidedown).undef:hover{
         color: $c_green;
         border-color: $c_green;
     }
 
-    .element.undef:hover::after{
+    .element:not(.slidedown).undef:hover::after{
         content:"+";
         position: absolute;
         top:-.8rem;
@@ -164,10 +275,11 @@ code {
         display:flex;
         flex-direction: row;
         font-size:1.4rem;
+        margin-top:2rem;
 
         form, ul{
             width:50%;
-            margin-top:3rem;
+            margin:0;
         }
 
         input, li {
@@ -178,24 +290,13 @@ code {
 
         input {
             display: block;
-            background: $c_gondola;
-            border-radius: .4rem;
-            color: $c_gold;
-            width:100%;
-
-            border: 2px solid transparent;
-            transition: .13s all;
-        }
-
-        input:hover{
-
-            border-color: $c_green;
+            width:calc(100% - 1.4rem);
         }
     }
 
     .datalist {
         display:inline-block;
-        margin:2rem;
+        margin: 2rem 0rem;
         width:calc(100% - 4rem);
     }
 
@@ -203,14 +304,30 @@ code {
 
         $w: 40rem;
         $h: $w / $golden_ratio;
+        $pad: .8rem;
 
         margin-top: 10rem;
+        padding: $pad;
         background-color: $c_coca;
         width: $w;
         height: $h;
         box-shadow: 0 2px 12px rgba(0,0,0,.3);
 
         position:relative;
+
+        .bottom-bar {
+
+            position: absolute;
+
+            bottom: $pad;
+            right: $pad;
+            left: $pad;
+
+            .button {
+                float: right;
+                margin-left: $pad;
+            }
+        }
 
         .element {
             display:inline-block;

@@ -1,35 +1,6 @@
 import React, { Component } from 'react';
-
-import elementsRaw from '../table.json';
-
-let anom = 1;
-let skip = 0;
-let elements = [];
-
-for (let i = 0; i < elementsRaw.length; i++) {
-    const elm = elementsRaw[i];
-    if (typeof elm === 'number') {
-
-        skip += elm - 1;
-
-    } else elements[i + skip] = {
-        symbol: elementsRaw[i],
-        anom: anom++,
-        name: 'This is the name of the atom'
-    }
-}
-
-class Center extends Component {
-    render() {
-        return (
-            <div className='padjust'>
-                <div className='padding' />
-                {this.props.children}
-                <div className='padding' />
-            </div>
-        );
-    }
-}
+import { Link } from 'react-router-dom';
+import { Center } from './global.js';
 
 class Element extends Component {
     constructor(props) {
@@ -56,7 +27,8 @@ class Element extends Component {
                     'element' +
                     (!this.state.elm ? ' hidden' : '') +
                     (this.state.click ? ' click' : '') +
-                    (this.state.isUndef ? ' undef' : '')
+                    (this.state.isUndef ? ' undef' : '') +
+                    (this.state.elm.slidedown ? ' slidedown' : '')
                 }
                 onClick={this.handleClick}
             >
@@ -75,16 +47,24 @@ class Ptable extends Component {
             elements: [],
             width: 18,
             table: 1,
-            reload: this.loadTable
+            reload: this.loadTable,
+            def: {
+                isDefault: true,
+                name: '',
+                symbol: '',
+                atom_number: undefined
+            }
         };
 
         this.loadTable();
     }
 
     loadTable = () => {
-        this.setState({
-            loaded: false
-        });
+        if (this.state.loaded) {
+            this.setState({
+                loaded: false
+            });
+        }
         apiFetch({
             method: 'GET',
             reqtype: 'table_elements',
@@ -98,16 +78,41 @@ class Ptable extends Component {
         });
     }
 
-    renderGroup(index, width) {
+    renderSpecialGroup = (num, width) => {
+        const diff = 32;
+        const start = 57 + num * diff;
+        const def = this.state.def;
+        const list = [];
+
+        for (let i = 0; i < 3; i++) {
+            list.push(
+                <Element
+                    onSelect={undefined}
+                    key={start - i - 1}
+                    elm={undefined}
+                />
+            );
+        }
+
+        for (let anum = start; anum < start + 15; anum++) {
+            const elm = this.state.elements.find(elm => elm.atom_number === anum) ||
+                        Object.assign({}, def, { atom_number: anum, symbol: anum });
+            list.push(
+                <Element
+                    onSelect={this.props.onInspect}
+                    key={anum}
+                    elm={!elm.hidden && elm}
+                />
+            );
+        }
+
+        return <div className='group' key={num}>{list}</div>;
+    }
+
+    renderGroup = (index, width) => {
         const list = [];
         const start = index * this.state.width;
-
-        const def = {
-            isDefault: true,
-            name: '',
-            symbol: '',
-            atom_number: undefined
-        };
+        const def = this.state.def;
 
         for (let i = 0; i < width; i++) {
             const key = start + i;
@@ -125,8 +130,10 @@ class Ptable extends Component {
                 (key > 37 && key < 48)) {
 
                 elm = Object.assign({}, def, { atom_number: anum, hidden: true });
-            } else if (key === 92 || key === 110) {
-                elm = Object.assign({}, def, { symbol: '+' });
+            } else if (key === 92) {
+                elm = Object.assign({}, def, { symbol: '57-71', slidedown: true });
+            } else if (key === 110) {
+                elm = Object.assign({}, def, { symbol: '89-103', slidedown: true });
             } else {
                 elm = (this.state.elements.find(elm => elm.atom_number === anum) ||
                     Object.assign({}, def, { atom_number: anum, symbol: anum }));
@@ -151,16 +158,17 @@ class Ptable extends Component {
         const height = 7;
         const list = [];
 
-        console.log('rerendering ptable');
-
         if (this.state.loaded) {
             for (let i = 0; i < height; i++) {
                 list.push(this.renderGroup(i, width));
             }
+            list.push(
+                <div className='special-groups' key={8}>
+                    {this.renderSpecialGroup(0)}
+                    {this.renderSpecialGroup(1)}
+                </div>
+            );
         }
-
-        console.log('state elms: ');
-        console.log(this.state.elements);
 
         return (<div className='ptable'>{list}</div>);
     }
@@ -294,6 +302,20 @@ class ElementCard extends Component {
         evt.nativeEvent.stopImmediatePropagation();
     }
 
+    delete = () => {
+        console.log('delete');
+        const data = {
+            method: 'DELETE',
+            reqtype: 'element',
+            table: 1, // 'table_test'
+            anom: this.state.elm.anom
+        };
+
+        apiFetch(data, () => {
+            this.handleDismount();
+        });
+    }
+
     render() {
         return (
             <Center>
@@ -302,21 +324,35 @@ class ElementCard extends Component {
                         className={'card' + (this.props.dismounting ? ' fadeout' : '')}
                         onClick={this.handleClick}
                     >
-                        {this.state.loaded && (
-                            <div className="data-input">
-                                <ul>
-                                    <li>Symbol:</li>
-                                    <li>Atomic Number:</li>
-                                    <li>Name:</li>
-                                </ul>
-                                <form className='datalist' method='POST'>
-                                    <ElementInput name="symbol" elm={this.state.elm} onChange={this.inputOnChange} className='elm-symbol' />
-                                    <ElementInput name="anom"   elm={this.state.elm} onChange={this.inputOnChange} className='elm-anom' />
-                                    <ElementInput name="name"   elm={this.state.elm} onChange={this.inputOnChange} className='elm-name' />
-                                </form>
-                            </div>
-                        )}
                         <XButton onClick={this.handleDismount} />
+                        <div className='data-input'>
+                            <ul>
+                                <li>Symbol:</li>
+                                <li>Atomic Number:</li>
+                                <li>Name:</li>
+                            </ul>
+                            {this.state.loaded && (
+                                <form className='datalist' method='POST'>
+                                    <ElementInput name='symbol' elm={this.state.elm} onChange={this.inputOnChange} className='elm-symbol' />
+                                    <ElementInput name='anom'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-anom' />
+                                    <ElementInput name='name'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-name' />
+                                </form>
+                            )}
+                        </div>
+                        <div className='bottom-bar'>
+                            <div
+                                className='button delete'
+                                onClick={this.delete}
+                            >
+                                Delete
+                            </div>
+                            <div
+                                className={'button add' + (this.state.changed ? '' : ' hidden')}
+                                onClick={undefined}
+                            >
+                                Add
+                            </div>
+                        </div>
                     </div>
                 </div>
             </Center>
@@ -358,7 +394,18 @@ class Inspector extends Component {
     }
 }
 
-export default class App extends Component {
+class Header extends Component {
+    render() {
+        return (
+            <div>
+                Click -->
+                <Link to='/login'>log in</Link>
+            </div>
+        );
+    }
+}
+
+export default class PTable extends Component {
     constructor(props) {
         super(props);
         this.state = { inspect: false, blur: false };
@@ -383,6 +430,7 @@ export default class App extends Component {
     render() {
         return (
             <div className='app'>
+                <Header />
                 <div className={this.state.blur ? 'content blur' : 'content'}>
                     <div className='title'> Periodic Table Builder </div>
                     <Center><Ptable ref="table" onInspect={this.onInspectElement} /></Center>

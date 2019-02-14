@@ -14,19 +14,20 @@ const config = {
 }
 
 const con = mysql.createConnection(config);
-    
+
 app.use(cors());
 
-app.get('/', (servReq, servRes) => {
 
-    console.log(`got request: ${servReq.headers.data}`);
+con.connect(err => {
+    if (err) return console.error(err);
 
-    const data = JSON.parse(servReq.headers.data);
+    app.get('/', (servReq, servRes) => {
 
-    if (data && data.reqtype) {
+        console.log(`got request: ${servReq.headers.data}`);
 
-        con.connect(err => {
-            if (err) return console.error(err);
+        const data = JSON.parse(servReq.headers.data);
+
+        if (data && data.reqtype) {
 
             switch (data.method) {
                 case 'GET':
@@ -97,16 +98,34 @@ app.get('/', (servReq, servRes) => {
                         servRes.send(res);
                     });
                     //servRes.send('something');
-                    break
+                    break;
+
+                case 'DELETE':
+                    if (!data.anom) {
+                        const res = { error: 'proper data not set' };
+                        servRes.send(res);
+                        console.log('responding with:', res);
+                        return;
+                    }
+                    con.query(
+                        `DELETE FROM element WHERE atom_number=${data.anom}`,
+                        (err, res) => {
+                            if (err) return console.error(err);
+                            console.log('responding with:', res);
+                            servRes.send(res);
+                        }
+                    );
+                    break;
 
                 default:
                     servRes.send({
                         error: 'Specified data method does not exist'
                     });
+                    console.log('responding with: error: \'Specified data method does not exist\'');
                     break;
             }
-        });
-    }
+        }
+    });
 });
 
 const server = app.listen(port, () => {
