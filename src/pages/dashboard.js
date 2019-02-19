@@ -17,7 +17,7 @@ class Dropdown extends Component {
         super(props);
 
         this.state = {
-            deleteClicks: 0 ,
+            deleteClicks: 0,
             deletemsgs: [
                 'delete',
                 'are you sure?',
@@ -32,6 +32,10 @@ class Dropdown extends Component {
         this.setState({
             deleteClicks: this.state.deleteClicks + 1
         });
+    }
+
+    handleEditClick = () => {
+        // TODO: edit menu
     }
 
     render() {
@@ -50,7 +54,7 @@ class Dropdown extends Component {
                 >
                     {this.state.deletemsgs[this.state.deleteClicks]}
                 </div>
-                <div className='field'>edit</div>
+                <div className='field' onClick={this.handleEditClick}>edit</div>
             </div>
         );
     }
