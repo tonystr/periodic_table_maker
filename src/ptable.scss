@@ -5,6 +5,7 @@ $c_gold: #ddc239;
 $c_gray: #4c2f36;
 $c_green: #45a372;
 $c_red: #F1414b;
+$c_txtwhite: #927277;
 
 $fade_time: .24s;
 
@@ -53,6 +54,10 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+.dashapp{
+    min-height: 100%;
+}
+
 .bottom{
     position: absolute;
     bottom:0;
@@ -66,8 +71,12 @@ code {
     border: 2px solid transparent;
     border-radius: .4rem;
     transition: .14s all;
-    color: $c_gray;
+    color: $c_txtwhite;
     background-color: $c_gondola;
+}
+
+.button.disabled {
+    color: $c_gray;
 }
 
 .button.hidden {
@@ -106,6 +115,12 @@ code {
 
 a {
     color: $c_green;
+    outline:none;
+    text-decoration: none;
+}
+
+a:-webkit-any-link {
+    text-decoration: none;
 }
 
 a:hover {
@@ -118,13 +133,87 @@ a:hover {
     justify-content: space-between;
 }
 
+.dropdown{
+    position: absolute;
+    z-index: 700;
+    background-color:$c_gondola;
+    padding: .8rem 0;
+    border-radius: .2rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+    max-width:16rem;
+
+    .field {
+        padding: 0 1rem;
+    }
+
+    .field:hover {
+        cursor:pointer;
+        background-color: $c_coca;
+    }
+}
+
 .dashboard {
     width: 70%;
     padding: 0 15%;
 
+    .tablesection {
+    }
+
     .table {
+        position: relative;
         padding: .5rem 1rem;
+        padding-bottom: 1rem;
         border: 1px solid $c_gondola;
+        border-bottom:none;
+        transition: .06s all;
+
+        color: $c_gold;
+
+        .name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            padding-bottom: .2rem;
+        }
+
+        .options {
+            position: absolute;
+            right: .8rem;
+            top: .6rem;
+            color: $c_gondola;
+            transform: rotate(-90deg);
+            z-index: 2;
+        }
+
+        .options:hover::before {
+            content: '';
+            left: -.31rem;
+            top: -.11rem;
+            position: absolute;
+            width: 1.4rem;
+            height: 1.4rem;
+            border: .16rem solid $c_green;
+            border-radius: 50%;
+        }
+
+        .options:hover {
+            color: $c_green;
+        }
+    }
+
+    .table.last {
+        padding: .5rem 1rem;
+        border-bottom: 1px solid $c_gondola;
+
+        .name {
+            color: $c_green;
+            font-weight: normal;
+            @include noselect;
+        }
+    }
+
+    .table:hover {
+        background-color: $c_gray;
+        cursor: pointer;
     }
 }
 
@@ -173,7 +262,6 @@ input:hover{
         display:flex;
         wrap:nowrap;
     }
-
     $elmh: 3.8vw;
     $elmp: .1vw;
     $spegpad: 2.8vw;
@@ -188,9 +276,9 @@ input:hover{
         height: $elmh;
         font-size: 2.2vw;
         padding: $elmp;
-        border: 2px solid $c_gondola;
+        border: 1px solid $c_gondola;
         background-color:$c_coca;
-        margin:-2px -2px 0 0;
+        margin: -1px -1px 0 0;
         display:inline-block;
         text-align:center;
         transition:.16s transform;
@@ -212,9 +300,9 @@ input:hover{
         top: 0;
         left: -1px;
         right: -1px;
-        bottom: 0;
         background-color: $c_gondola;
-        border: 2px solid $c_gondola;
+        border: 1px solid $c_gondola;
+        border-top-width: 2px;
 
         height: $elmh * 3 + $spegpad + $elmp * 6;
         border-bottom-left-radius: .6vw;
@@ -339,6 +427,7 @@ input:hover{
             left: $pad;
 
             .button {
+                @include noselect;
                 float: right;
                 margin-left: $pad;
             }

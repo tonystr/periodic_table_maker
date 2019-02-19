@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Center, apiFetch, author } from './global.js';
+import { Center, apiFetch, Author } from './global.js';
 import { Link, Redirect } from 'react-router-dom';
 
 export default class Login extends Component {
@@ -43,9 +43,11 @@ export default class Login extends Component {
             let resAuth = (res && res.length && res[0].author_id) || null;
 
             if (resAuth != null) {
-                author.username = this.state.username;
-                author.password = this.state.password;
-                author.authenticate(resAuth, () => {
+                Author.authenticate({
+                    username: this.state.username,
+                    password: this.state.password,
+                    auth: resAuth
+                }, () => {
                     this.setState({
                         auth: resAuth
                     });

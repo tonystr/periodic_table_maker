@@ -17,18 +17,14 @@ const con = mysql.createConnection(config);
 
 app.use(cors());
 
-
 con.connect(err => {
     if (err) return console.error(err);
 
     app.get('/', (servReq, servRes) => {
-
         console.log(`got request: ${servReq.headers.data}`);
-
         const data = JSON.parse(servReq.headers.data);
 
         if (data && data.reqtype) {
-
             switch (data.method) {
 
                 case 'LOGIN':
@@ -66,39 +62,58 @@ con.connect(err => {
 
                 case 'GET':
                     console.log('table reqtype: ' + data.reqtype);
-                    if (data.reqtype === 'element') {
-                        if (data.anom === undefined) {
 
-                            console.log('anom is undefined');
-                            servRes.send({error: 'proper data not set'});
-                        } else {
+                    switch (data.reqtype) {
+                        case 'element':
+                            if (data.anom === undefined) {
+
+                                console.log('anom is undefined');
+                                servRes.send({error: 'proper data not set'});
+                            } else {
+                                con.query(
+                                    `SELECT * FROM element WHERE table_id=${data.table} AND atom_number=${data.anom}`,
+                                    (err, res) => {
+
+                                    if (err) return console.error(err);
+                                    console.log('responding with:', res);
+                                    servRes.send(res);
+                                });
+                            }
+                            break;
+
+                        case 'table_elements':
                             con.query(
-                                `SELECT * FROM element WHERE table_id=${data.table} AND atom_number=${data.anom}`,
+                                `SELECT atom_number, symbol FROM element WHERE table_id=${data.table}`,
                                 (err, res) => {
 
                                 if (err) return console.error(err);
                                 console.log('responding with:', res);
                                 servRes.send(res);
                             });
-                        }
-                    } else if (data.reqtype === 'table_elements') {
-                        con.query(
-                            `SELECT atom_number, symbol FROM element WHERE table_id=${data.table}`,
-                            (err, res) => {
+                            break;
 
-                            if (err) return console.error(err);
-                            console.log('responding with:', res);
-                            servRes.send(res);
-                        });
-                    } else if (data.reqtype === 'tables') {
-                        con.query(
-                            `SELECT * FROM \`table\` WHERE author_id=${data.authorID}`,
-                            (err, res) => {
+                        case 'tables':
+                            con.query(
+                                `SELECT * FROM \`table\` WHERE author_id=${data.authorID}`,
+                                (err, res) => {
 
-                            if (err) return console.error(err);
-                            console.log('responding with:', res);
-                            servRes.send(res);
-                        });
+                                if (err) return console.error(err);
+                                console.log('responding with:', res);
+                                servRes.send(res);
+                            });
+                            break;
+
+                        case 'username':
+                            console.log('rquesting username...');
+                            con.query(
+                                `SELECT name FROM author WHERE author_id=${data.authorID}`,
+                                (err, res) => {
+
+                                if (err) return console.error(err);
+                                console.log('responding with:', res);
+                                servRes.send(res);
+                            });
+                            break;
                     }
                     break;
 
@@ -124,39 +139,79 @@ con.connect(err => {
                     break;
 
                 case 'ADD':
-                    if (!data.name || !data.symbol || !data.anom) {
-                        const res = { error: 'proper data not set' };
-                        servRes.send(res);
-                        console.log('responding with:', res);
-                        return;
-                    }
-                    con.query(
-                        `INSERT INTO element (name, symbol, atom_number, atomic_mass, electron_negativity, table_id, type_id)
-                        VALUES ("${data.name}", "${data.symbol}", ${data.anom}, 1, 1, 1, 1)`,
-                        (err, res) => {
+                    if (data.reqtype === 'element') {
+                        if (!data.name || !data.symbol || !data.anom) {
+                            const res = { error: 'proper data not set' };
+                            servRes.send(res);
+                            console.log('responding with:', res);
+                            return;
+                        }
+                        con.query(
+                            `INSERT INTO element (name, symbol, atom_number, atomic_mass, electron_negativity, table_id, type_id)
+                            VALUES ("${data.name}", "${data.symbol}", ${data.anom}, 1, 1, ${data.table}, 1)`,
+                            (err, res) => {
 
-                        if (err) return console.error(err);
-                        console.log('responding with:', res);
-                        servRes.send(res);
-                    });
+                            if (err) return console.error(err);
+                            console.log('responding with:', res);
+                            servRes.send(res);
+                        });
+                    } else if (data.reqtype === 'table') {
+                        con.query(
+                            `INSERT INTO \`table\` (name, author_id, note)
+                            VALUES ("${data.name}", ${data.authorID}, "${data.note}")`,
+                            (err, res) => {
+
+                            if (err) return console.error(err);
+                            console.log('responding with:', res);
+                            servRes.send(res);
+                        });
+                    }
                     //servRes.send('something');
                     break;
 
                 case 'DELETE':
-                    if (!data.anom) {
-                        const res = { error: 'proper data not set' };
-                        servRes.send(res);
-                        console.log('responding with:', res);
-                        return;
+                    switch (data.reqtype) {
+                        case 'element':
+                            if (!data.anom) {
+                                const res = { error: 'proper data not set' };
+                                servRes.send(res);
+                                console.log('responding with:', res);
+                                return;
+                            }
+                            con.query(
+                                `DELETE FROM element WHERE atom_number=${data.anom}`,
+                                (err, res) => {
+                                    if (err) return console.error(err);
+                                    console.log('responding with:', res);
+                                    servRes.send(res);
+                                }
+                            );
+                            break;
+
+                        case 'table':
+                            if (!data.tableID) {
+                                const res = { error: 'tableID not set' };
+                                servRes.send(res);
+                                console.log('responding with:', res);
+                                return;
+                            }
+                            con.query(
+                                `DELETE FROM  element  WHERE table_id=${data.tableID};`,
+                                (err, res) => {
+                                    if (err) return console.error(err);
+
+                                    con.query(
+                                        `DELETE FROM \`table\` WHERE table_id=${data.tableID};`,
+                                        (err, res) => {
+                                            if (err) return console.error(err);
+                                            console.log('responding with:', res);
+                                            servRes.send(res);
+                                        }
+                                    );
+                                }
+                            );
+                            break;
                     }
-                    con.query(
-                        `DELETE FROM element WHERE atom_number=${data.anom}`,
-                        (err, res) => {
-                            if (err) return console.error(err);
-                            console.log('responding with:', res);
-                            servRes.send(res);
-                        }
-                    );
                     break;
 
                 default:

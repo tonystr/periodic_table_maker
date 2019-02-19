@@ -25,21 +25,48 @@ async function apiFetch(data, callBack) {
     }).catch(e => console.log(e));
 }
 
-function authenticate(auth, callback) {
+function authenticate(options, callback) {
     console.log(`this in authenticate func: ${this}`);
-    author.authenticated = true;
-    author.auth = auth;
-    document.cookie = `auth=${auth}`;
+    Author.auth = options.auth;
+    let date = new Date();
+    date.setDate(date.getDate() + 7);
+    document.cookie =
+        `auth=${options.auth}; expires=${date}; path=/`;
 
     callback();
 }
 
-const author = {
-    authenticated: false,
+function checkAuth() {
+    if (!Author.auth) {
+        const match = document.cookie.match(/auth\s*=\s*(\d+)/i);
+        if (match) {
+            Author.auth = Number(match[1]);
+        }
+    }
+
+    return Author.auth;
+}
+
+async function checkUsername(callback) {
+    if (Author.username === '') {
+        await apiFetch({
+            method: 'GET',
+            reqtype: 'username',
+            authorID: checkAuth()
+        }, res => {
+            Author.username = (res && res[0] && res[0].name) || '';
+            callback(Author.username);
+        });
+    } else callback(Author.username);
+}
+
+const Author = {
     username: '',
     password: '',
     auth: 0,
-    authenticate: authenticate
+    authenticate: authenticate,
+    checkAuth: checkAuth,
+    checkUsername: checkUsername
 }
 
-export { Center, apiFetch, author };
+export { Center, apiFetch, Author };
