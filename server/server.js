@@ -30,6 +30,40 @@ con.connect(err => {
         if (data && data.reqtype) {
 
             switch (data.method) {
+
+                case 'LOGIN':
+                    console.log('sending login SELECT request');
+                    con.query(
+                        `SELECT author_id FROM author WHERE name="${data.username}" AND password="${data.password}"`,
+                        (err, res) => {
+
+                        if (err) return console.error(err);
+                        console.log('responding with:', res);
+                        servRes.send(res);
+                    });
+                    break;
+
+                case 'SIGNUP':
+                    console.log('sending login SIGNUP request');
+                    con.query(
+                        `INSERT INTO author (name, password)
+                        VALUES ("${data.username}", "${data.password}")`,
+                        (err, res) => {
+
+                        if (err) return console.error(err);
+                        console.log('responding with:', res);
+
+                        con.query(
+                            `SELECT author_id FROM author WHERE name="${data.username}" AND password="${data.password}"`,
+                            (err, res) => {
+
+                            if (err) return console.error(err);
+                            console.log('responding with:', res);
+                            servRes.send(res);
+                        });
+                    });
+                    break;
+
                 case 'GET':
                     console.log('table reqtype: ' + data.reqtype);
                     if (data.reqtype === 'element') {
@@ -48,9 +82,17 @@ con.connect(err => {
                             });
                         }
                     } else if (data.reqtype === 'table_elements') {
-                        console.log('got here');
                         con.query(
                             `SELECT atom_number, symbol FROM element WHERE table_id=${data.table}`,
+                            (err, res) => {
+
+                            if (err) return console.error(err);
+                            console.log('responding with:', res);
+                            servRes.send(res);
+                        });
+                    } else if (data.reqtype === 'tables') {
+                        con.query(
+                            `SELECT * FROM \`table\` WHERE author_id=${data.authorID}`,
                             (err, res) => {
 
                             if (err) return console.error(err);

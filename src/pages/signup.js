@@ -26,29 +26,24 @@ export default class Login extends Component {
         }
     }
 
-    login = () => {
+    signup = () => {
         if (this.state.username === '' || this.state.password === '') {
-            console.log('Can\'t log in without a username or password');
+            console.log('Can\'t sign up without a username or password');
             return;
         }
 
         apiFetch({
-            method: 'LOGIN',
-            reqtype: 'login',
+            method: 'SIGNUP',
+            reqtype: 'signup',
             username: this.state.username,
             password: this.state.password
         }, res => {
-            console.log('login responded:', res);
-
-            let resAuth = (res && res.length && res[0].author_id) || null;
-
-            if (resAuth != null) {
+            console.log('callback from signup:', res);
+            if (res && res[0]) {
                 author.username = this.state.username;
                 author.password = this.state.password;
-                author.authenticate(resAuth, () => {
-                    this.setState({
-                        auth: resAuth
-                    });
+                author.authenticate(res[0].author_id, () => {
+                    this.setState({ auth: res[0].author_id });
                 });
             }
         });
@@ -59,7 +54,10 @@ export default class Login extends Component {
         return (
             <Center>
                 <div className='login'>
-                    <div className='field'><h1> Log in </h1></div>
+                    <div className='field'>
+                        <h1> Sign up </h1>
+                        <div>(do not use your normal passwords, this page is not secure) </div>
+                    </div>
                     <div className='field'>
                         Username:
                         <
@@ -80,8 +78,8 @@ export default class Login extends Component {
                         />
                     </div>
                     <div className='field redirbar'>
-                        <div className='button' onClick={this.login}> Log in </div>
-                        <div><Link className='signup' to='/signup'> Create new user? </Link></div>
+                        <div className='button' onClick={this.signup}> Create </div>
+                        <div><Link to='/login'> Log in instead? </Link></div>
                     </div>
                 </div>
             </Center>

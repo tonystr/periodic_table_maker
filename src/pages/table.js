@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Center } from './global.js';
+import { Link, Redirect } from 'react-router-dom';
+import { Center, apiFetch, author } from './global.js';
 
 class Element extends Component {
     constructor(props) {
@@ -42,11 +42,16 @@ class Ptable extends Component {
     constructor(props) {
         super(props);
 
+        let cookies = decodeURIComponent(document.cookie);
+        let tableCookie = cookies.match(/auth\s*=\s*(\d+)/i);
+
+        console.log(tableCookie);
+
         this.state = {
             loaded: false,
             elements: [],
             width: 18,
-            table: 1,
+            table: (tableCookie && Number(tableCookie[1])) || -1,
             reload: this.loadTable,
             def: {
                 isDefault: true,
@@ -176,19 +181,6 @@ class Ptable extends Component {
 
 function XButton(props) {
     return (<div className='button-x' onClick={props.onClick} />);
-}
-
-async function apiFetch(data, callBack) {
-    await fetch('http://localhost:5487', {
-        headers: {
-            accepts: 'application/json',
-            data: JSON.stringify(data)
-        },
-    })
-    .then(res => {
-        res.json().then(json => callBack(json));
-
-    }).catch(e => console.log(e));
 }
 
 function ElementInput(props) {
@@ -428,6 +420,7 @@ export default class PTable extends Component {
     }
 
     render() {
+        if (!author.authenticated) return <Redirect to='login' />;
         return (
             <div className='app'>
                 <Header />

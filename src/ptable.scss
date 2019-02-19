@@ -113,6 +113,21 @@ a:hover {
     color: $c_gondola;
 }
 
+.redirbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dashboard {
+    width: 70%;
+    padding: 0 15%;
+
+    .table {
+        padding: .5rem 1rem;
+        border: 1px solid $c_gondola;
+    }
+}
+
 .login {
 
     min-width: 380px;
