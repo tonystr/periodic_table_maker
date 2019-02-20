@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Author, apiFetch, Center } from './global.js';
+import { Author, apiFetch, Center, Header } from './global.js';
 import { Redirect, Link } from 'react-router-dom'
 
 class Welcome extends Component {
@@ -34,12 +34,12 @@ class Dropdown extends Component {
         });
     }
 
-    handleEditClick = () => {
-        // TODO: edit menu
+    handleEditClick = evt => {
+        this.props.editTable(this.props.table);
+        this.props.dismount();
     }
 
     render() {
-        console.log('this.props.x:', this.props.x);
         return (
             <div
                 className='dropdown'
@@ -73,29 +73,29 @@ class Table extends Component {
             if (evt.target.classList.contains('table') ||
                 findAncestor(evt.target, 'table')) {
                 evt.preventDefault();
-                this.props.createDropdown(
-                    <Dropdown
-                        x={evt.pageX}
-                        y={evt.pageY}
-                        delete={this.delete}
-                    />
-                );
+                this.createDropdown();
             }
         }, false);
+    }
+
+    createDropdown = (evt) => {
+        this.props.createDropdown(
+            <Dropdown
+                x={evt.pageX}
+                y={evt.pageY}
+                delete={this.delete}
+                editTable={this.props.editTable}
+                dismount={this.props.destroyDropdown}
+                table={this.props.table}
+            />
+        );
     }
 
     handleClickOptions = evt => {
         evt.stopPropagation();
         evt.preventDefault();
         evt.nativeEvent.stopImmediatePropagation();
-
-        this.props.createDropdown(
-            <Dropdown
-                x={evt.pageX}
-                y={evt.pageY}
-                delete={this.delete}
-            />
-        );
+        this.createDropdown(evt);
     }
 
     delete = () => {
@@ -104,7 +104,6 @@ class Table extends Component {
             reqtype: 'table',
             tableID: this.state.table.table_id
         }, () => {
-            console.log('callback from table delete request!');
             this.setState({ deleted: true });
         });
     }
@@ -147,8 +146,9 @@ class TableCreator extends Component {
         this.state = {
             dismounting: false,
             changed: false,
-            name: '',
-            desc: ''
+            table: props.table
+            //name: '',
+            //desc: ''
         }
     }
 
@@ -162,26 +162,36 @@ class TableCreator extends Component {
     }
 
     handleInput = evt => {
-        let obj = { changed: true };
-        obj[evt.target.name] = evt.target.value;
+        let obj = { changed: true, table: this.state.table };
+        obj.table[evt.target.name] = evt.target.value;
         this.setState(obj);
     }
 
     createTable = () => {
-        if (!this.state.name) return console.log('can\'t create table without a name');
+        if (!this.state.table.name) return console.log('can\'t create table without a name');
 
-        console.log('auth:', Author.checkAuth());
-
-        apiFetch({
-            method: 'ADD',
-            reqtype: 'table',
-            name: this.state.name,
-            note: this.state.desc,
-            authorID: Author.checkAuth()
-        }, () => {
-            console.log('response from table create request');
-            this.dismount();
-        });
+        if (this.state.table.new) {
+            apiFetch({
+                method: 'ADD',
+                reqtype: 'table',
+                name: this.state.table.name,
+                note: this.state.table.note,
+                authorID: Author.checkAuth()
+            }, () => {
+                this.dismount();
+            });
+        } else {
+            apiFetch({
+                method: 'UPDATE',
+                reqtype: 'table',
+                name: this.state.table.name,
+                note: this.state.table.note,
+                tableID: this.state.table.table_id
+                // authorID: Author.checkAuth()
+            }, () => {
+                this.dismount();
+            });
+        }
     }
 
     render() {
@@ -203,8 +213,8 @@ class TableCreator extends Component {
                                     <li>Description:</li>
                                 </ul>
                                 <form className='datalist' method='POST'>
-                                    <input type='text' name='name' onChange={this.handleInput} />
-                                    <input type='text' name='desc' onChange={this.handleInput} />
+                                    <input type='text' defaultValue={this.state.table.name} name='name' onChange={this.handleInput} maxlength='45' />
+                                    <input type='text' defaultValue={this.state.table.note} name='note' onChange={this.handleInput} maxlength='256' />
                                 </form>
                             </div>
                             <div className='bottom-bar'>
@@ -212,7 +222,7 @@ class TableCreator extends Component {
                                     className={'button add' + (this.state.changed ? '' : ' hidden')}
                                     onClick={this.createTable}
                                 >
-                                    Create
+                                    {this.state.table.new ? 'Create' : 'Update'}
                                 </div>
                             </div>
                         </div>
@@ -235,7 +245,7 @@ export default class Dashboard extends Component {
         this.state = {
             loaded: false,
             tables: [],
-            create: false,
+            create: null,
             username: '',
             dropdown: null
         };
@@ -250,7 +260,6 @@ export default class Dashboard extends Component {
     }
 
     loadTables = () => {
-        console.log(`load table:`, Author.checkAuth());
         apiFetch({
             method: 'GET',
             reqtype: 'tables',
@@ -261,7 +270,13 @@ export default class Dashboard extends Component {
     }
 
     onClickNewTable = () => {
-        this.setState({ create: true });
+        this.setState({ create: { new: true } });
+        console.log(this.state.create);
+    }
+
+    editTable = (table = { new: true }) => {
+        this.setState({ create: table });
+        console.log(this.state.create);
     }
 
     renderTables = () => {
@@ -273,6 +288,8 @@ export default class Dashboard extends Component {
                     key={table.table_id}
                     table={table}
                     createDropdown={this.createDropdown}
+                    destroyDropdown={this.destroyDropdown}
+                    editTable={this.editTable}
                 />
             );
         }
@@ -281,7 +298,7 @@ export default class Dashboard extends Component {
     }
 
     onInspectEscape = () => {
-        this.setState({ create: false });
+        this.setState({ create: null });
         if (Author.checkAuth()) this.loadTables();
     }
 
@@ -291,15 +308,18 @@ export default class Dashboard extends Component {
         });
     }
 
+    destroyDropdown = () => {
+        this.setState({ dropdown: null });
+    }
+
     cancelDropdown = evt => {
         if (this.state.dropdown &&
             !evt.target.classList.contains('dropdown') &&
-            !findAncestor(evt.target, 'dropdown')) this.setState({ dropdown: null });
+            !findAncestor(evt.target, 'dropdown')
+        ) this.destroyDropdown();
     }
 
     render() {
-
-        console.log('auth:', Author.checkAuth());
         if (!Author.checkAuth()) return <Redirect to='login' />;
 
         return (
@@ -307,6 +327,7 @@ export default class Dashboard extends Component {
                 className='dashapp'
                 onClick={this.cancelDropdown}
             >
+                <Header />
                 <div className={'dashboard' + (this.state.create ? ' blur' : '')}>
                     {this.state.username !== '' && <Welcome user={this.state.username} />}
                     <h1>Your tables</h1>
@@ -317,6 +338,7 @@ export default class Dashboard extends Component {
                 {this.state.create && <TableCreator
                     blur={this.onBlur}
                     onDismount={this.onInspectEscape}
+                    table={this.state.create}
                 />}
                 {this.state.dropdown}
             </div>

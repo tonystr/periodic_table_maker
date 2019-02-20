@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Center, apiFetch, Author } from './global.js';
+import { Center, apiFetch, Author, Header } from './global.js';
 import { Link, Redirect } from 'react-router-dom';
 
 export default class Login extends Component {
@@ -10,12 +10,13 @@ export default class Login extends Component {
             changed: false,
             username: '',
             password: '',
-            auth: null
+            auth: null,
+            error: false
         };
     }
 
     handleChange = evt => {
-        let obj = { changed: true };
+        let obj = { changed: true, error: false };
         obj[evt.target.name] = evt.target.value
         this.setState(obj);
     }
@@ -28,6 +29,7 @@ export default class Login extends Component {
 
     login = () => {
         if (this.state.username === '' || this.state.password === '') {
+            this.setState({ changed: false, error: true });
             console.log('Can\'t log in without a username or password');
             return;
         }
@@ -38,8 +40,6 @@ export default class Login extends Component {
             username: this.state.username,
             password: this.state.password
         }, res => {
-            console.log('login responded:', res);
-
             let resAuth = (res && res.length && res[0].author_id) || null;
 
             if (resAuth != null) {
@@ -49,9 +49,12 @@ export default class Login extends Component {
                     auth: resAuth
                 }, () => {
                     this.setState({
-                        auth: resAuth
+                        auth: resAuth,
+                        error: false
                     });
                 });
+            } else {
+                this.setState({ changed: false, error: true });
             }
         });
     }
@@ -59,34 +62,36 @@ export default class Login extends Component {
     render() {
         if (this.state.auth) return <Redirect to='dashboard' />;
         return (
-            <Center>
-                <div className='login'>
-                    <div className='field'><h1> Log in </h1></div>
-                    <div className='field'>
-                        Username:
-                        <
-                            input
-                            name='username'
-                            onKeyPress={this.handleKeyPress}
-                            onChange={this.handleChange}
-                        />
+            <>
+                <Header />
+                <Center>
+                    <div className='login'>
+                        <div className='field'><h1> Log in </h1></div>
+                        <div className={'field' + (this.state.error ? ' error' : '')}>
+                            Username:
+                            <input
+                                name='username'
+                                onKeyPress={this.handleKeyPress}
+                                onChange={this.handleChange}
+
+                            />
+                        </div>
+                        <div className={'field' + (this.state.error ? ' error' : '')}>
+                            Password:
+                            <input
+                                name='password'
+                                onKeyPress={this.handleKeyPress}
+                                onChange={this.handleChange}
+                                type='password'
+                            />
+                        </div>
+                        <div className='field redirbar'>
+                            <div className='button' onClick={this.login}> Log in </div>
+                            <div><Link className='signup' to='/signup'> Create new user? </Link></div>
+                        </div>
                     </div>
-                    <div className='field'>
-                        Password:
-                        <
-                            input
-                            name='password'
-                            onKeyPress={this.handleKeyPress}
-                            onChange={this.handleChange}
-                            type='password'
-                        />
-                    </div>
-                    <div className='field redirbar'>
-                        <div className='button' onClick={this.login}> Log in </div>
-                        <div><Link className='signup' to='/signup'> Create new user? </Link></div>
-                    </div>
-                </div>
-            </Center>
+                </Center>
+            </>
         );
     }
 }

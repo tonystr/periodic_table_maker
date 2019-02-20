@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { Center, apiFetch, Author } from './global.js';
+import { Redirect } from 'react-router-dom';
+import { Center, apiFetch, Author, Header } from './global.js';
 
 class Element extends Component {
     constructor(props) {
@@ -14,8 +14,6 @@ class Element extends Component {
     }
 
     handleClick = () => {
-        // this.setState({ click: !this.state.click });
-        console.log(this.state.elm);
         this.props.onSelect(this.state.elm);
     }
 
@@ -70,7 +68,6 @@ class Ptable extends Component {
             reqtype: 'table_elements',
             table: this.state.tableID
         }, res => {
-            console.log('loaded table:', res);
             this.setState({
                 loaded: true,
                 elements: res
@@ -115,7 +112,7 @@ class Ptable extends Component {
         const def = this.state.def;
 
         for (let i = 0; i < width; i++) {
-            const key = start + i;
+            let key = start + i;
             let anum = key + 1 -
                 (key > 1  && 16) -
                 (key > 20 && 10) -
@@ -141,12 +138,12 @@ class Ptable extends Component {
 
             if (elm !== undefined) {
 
-                if (index == 0) key = "string" + key;
+                if (index === 0) key = "string" + key;
 
                 list.push(
                     <Element
                         onSelect={this.props.onInspect}
-                        key={elm.symbol || key}
+                        key={key}
                         elm={!elm.hidden && elm}
                     />
                 );
@@ -164,15 +161,17 @@ class Ptable extends Component {
         const height = 7;
         const list = [];
 
-        for (let i = 0; i < height; i++) {
-            list.push(this.renderGroup(i, width));
+        if (this.state.loaded) {
+            for (let i = 0; i < height; i++) {
+                list.push(this.renderGroup(i, width));
+            }
+            list.push(
+                <div className='special-groups' key={8}>
+                    {this.renderSpecialGroup(0)}
+                    {this.renderSpecialGroup(1)}
+                </div>
+            );
         }
-        list.push(
-            <div className='special-groups' key={8}>
-                {this.renderSpecialGroup(0)}
-                {this.renderSpecialGroup(1)}
-            </div>
-        );
 
         return <div className='ptable'>{list}</div>;
     }
@@ -190,6 +189,7 @@ function ElementInput(props) {
             name={props.name}
             onChange={props.onChange}
             onKeyPress={props.onKeyPress}
+            maxlength={props.maxlength || 45}
         />
     );
 }
@@ -198,7 +198,6 @@ class ElementCard extends Component {
     constructor(props) {
         super(props);
         const undef = !!props.elm.isDefault;
-        console.log('undef:', undef);
         this.state = {
             dismount: this.props.inspectorDismount,
             loaded: undef,
@@ -231,8 +230,6 @@ class ElementCard extends Component {
     dismount = () => {
         if (this.state.changed) {
             // update SQL
-            console.log('adding element to table:', this.state.tableID);
-
             const elm = this.state.elm;
             apiFetch({
                 method: this.state.method,
@@ -252,17 +249,12 @@ class ElementCard extends Component {
     }
 
     fetchElement = (anom) => {
-
-        console.log('fetch element:', anom);
-
-        const data = {
+        apiFetch({
             method: 'GET',
             reqtype: 'element',
             table: this.state.tableID,
             anom: anom
-        };
-
-        apiFetch(data, res => {
+        }, res => {
             if (res.length) {
                 const elm = res[0];
                 this.setState({
@@ -299,67 +291,67 @@ class ElementCard extends Component {
 
     delete = () => {
         if (this.state.method === 'ADD') {
-            this.state.method = 'don\'t touch it, you idiot'
+            this.setState({ method: 'don\'t touch it, you idiot' });
             return this.handleDismount();
         }
 
-        const data = {
+        apiFetch({
             method: 'DELETE',
             reqtype: 'element',
             table: this.state.tableID,
             anom: this.state.elm.anom
-        };
-
-        apiFetch(data, () => {
+        }, () => {
             this.handleDismount();
         });
     }
 
     handleKeyPress = evt => {
-        console.log('handling keypress');
         if (evt.key === 'Enter') this.handleDismount();
     }
 
     render() {
         return (
-            <Center>
-                <div className='card-holder'>
-                    <div
-                        className={'card' + (this.props.dismounting ? ' fadeout' : '')}
-                        onClick={this.handleClick}
-                    >
-                        <XButton onClick={this.handleDismount} />
-                        <div className='data-input'>
-                            <ul>
-                                <li>Symbol:</li>
-                                <li>Atomic Number:</li>
-                                <li>Name:</li>
-                            </ul>
-                            {this.state.loaded && (
-                                <form className='datalist' method='POST'>
-                                    <ElementInput name='symbol' elm={this.state.elm} onChange={this.inputOnChange} className='elm-symbol' />
-                                    <ElementInput name='anom'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-anom' />
-                                    <ElementInput name='name'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-name' onKeyPress={this.handleKeyPress} />
-                                </form>
-                            )}
-                        </div>
-                        <div className='bottom-bar'>
-                            <div
-                                className={'button delete' + (this.state.changed ? '' : ' hidden')}
-                                onClick={this.delete}
-                            >
-                                {this.state.method === 'ADD' ? 'Cancel' : 'Delete'}
+            <>
+                <Header />
+                <Center>
+                    <div className='card-holder'>
+                        <div
+                            className={'card' + (this.props.dismounting ? ' fadeout' : '')}
+                            onClick={this.handleClick}
+                        >
+                            <XButton onClick={this.handleDismount} />
+                            <div className='data-input'>
+                                <ul>
+                                    <li>Symbol:</li>
+                                    <li>Atomic Number:</li>
+                                    <li>Name:</li>
+                                </ul>
+                                {this.state.loaded && (
+                                    <form className='datalist' method='POST'>
+                                        <ElementInput name='symbol' elm={this.state.elm} onChange={this.inputOnChange} className='elm-symbol' maxlength={4} />
+                                        <ElementInput name='anom'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-anom' />
+                                        <ElementInput name='name'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-name' onKeyPress={this.handleKeyPress} />
+                                    </form>
+                                )}
                             </div>
-                            <div
-                                className={'button add' + (this.state.changed ? '' : ' hidden')}
-                                onClick={this.handleDismount}
-                            >
-                                {this.state.method === 'ADD' ? 'Add' : 'Update'}
+                            <div className='bottom-bar'>
+                                <div
+                                    className={'button delete' + (this.state.method !== 'ADD' || this.state.changed ? '' : ' hidden')}
+                                    onClick={this.delete}
+                                >
+                                    {this.state.method === 'ADD' ? 'Cancel' : 'Delete'}
+                                </div>
+                                <div
+                                    className={'button add' + (this.state.changed ? '' : ' hidden')}
+                                    onClick={this.handleDismount}
+                                >
+                                    {this.state.method === 'ADD' ? 'Add' : 'Update'}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </Center>
+                </Center>
+            </>
         );
     }
 }
@@ -399,18 +391,6 @@ class Inspector extends Component {
     }
 }
 
-class Header extends Component {
-    render() {
-        return null;
-        /* return (
-            <div>
-                Click -->
-                <Link to='/login'>log in</Link>
-            </div>
-        ); */
-    }
-}
-
 export default class PTable extends Component {
     constructor(props) {
         super(props);
@@ -442,25 +422,26 @@ export default class PTable extends Component {
         if (!Author.checkAuth()) return <Redirect to='login' />;
 
         return (
-            <div className='app'>
+            <>
                 <Header />
-                <div className={this.state.blur ? 'content blur' : 'content'}>
-                    <div className='title'> Periodic Table Builder </div>
-                    <Center>
-                        <Ptable
-                            tableID={this.state.tableID}
-                            ref='table'
-                            onInspect={this.onInspectElement}
-                        />
-                    </Center>
+                <div className='ptabapp'>
+                    <div className={this.state.blur ? 'content blur' : 'content'}>
+                        <Center>
+                            <Ptable
+                                tableID={this.state.tableID}
+                                ref='table'
+                                onInspect={this.onInspectElement}
+                            />
+                        </Center>
+                    </div>
+                    {this.state.inspect && <Inspector
+                        elm={this.state.inspect}
+                        blur={this.onBlur}
+                        onDismount={this.onInspectEscape}
+                        tableID={this.state.tableID}
+                    />}
                 </div>
-                {this.state.inspect && <Inspector
-                    elm={this.state.inspect}
-                    blur={this.onBlur}
-                    onDismount={this.onInspectEscape}
-                    tableID={this.state.tableID}
-                />}
-            </div>
+            </>
         );
     }
 }

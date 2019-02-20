@@ -41,28 +41,38 @@ con.connect(err => {
 
                 case 'SIGNUP':
                     console.log('sending login SIGNUP request');
-                    con.query(
-                        `INSERT INTO author (name, password)
-                        VALUES ("${data.username}", "${data.password}")`,
-                        (err, res) => {
 
-                        if (err) return console.error(err);
-                        console.log('responding with:', res);
-
-                        con.query(
-                            `SELECT author_id FROM author WHERE name="${data.username}" AND password="${data.password}"`,
-                            (err, res) => {
-
+                    con.query(`SELECT author_id FROM author WHERE name="${data.username}"`, (err, res) => {
+                            console.log('got res from inital author check:', res);
                             if (err) return console.error(err);
-                            console.log('responding with:', res);
-                            servRes.send(res);
-                        });
+
+                            if (res && res[0]) {
+                                res = { error: 'name taken' };
+                                console.log('responding with:', res);
+                                servRes.send(res);
+                            } else {
+                                con.query(
+                                    `INSERT INTO author (name, password)
+                                    VALUES ("${data.username}", "${data.password}")`,
+                                    (err, res) => {
+
+                                    if (err) return console.error(err);
+                                    console.log('got res:', res);
+
+                                    con.query(
+                                        `SELECT author_id FROM author WHERE name="${data.username}" AND password="${data.password}"`,
+                                        (err, res) => {
+
+                                        if (err) return console.error(err);
+                                        console.log('responding with:', res);
+                                        servRes.send(res);
+                                    });
+                                });
+                            }
                     });
                     break;
 
                 case 'GET':
-                    console.log('table reqtype: ' + data.reqtype);
-
                     switch (data.reqtype) {
                         case 'element':
                             if (data.anom === undefined) {
@@ -103,6 +113,17 @@ con.connect(err => {
                             });
                             break;
 
+                        case 'table':
+                            con.query(
+                                `SELECT * FROM \`table\` WHERE table_id=${data.tableID}`,
+                                (err, res) => {
+
+                                if (err) return console.error(err);
+                                console.log('responding with:', res);
+                                servRes.send(res);
+                            });
+                            break;
+
                         case 'username':
                             console.log('rquesting username...');
                             con.query(
@@ -118,24 +139,38 @@ con.connect(err => {
                     break;
 
                 case 'UPDATE':
-                    if (!data.name || !data.symbol || !data.anom) {
-                        servRes.send({error: 'proper data not set'});
-                        return;
-                    }
-                    // UPDATE `periodic_table`.`element` SET `name` = 'Hydrogenium' WHERE (`element_id` = '1');
-                    console.log(`UPDATE element SET
-                        name="${data.name}", symbol="${data.symbol}"
-                        WHERE table_id=${data.table} AND atom_number=${data.anom}`);
-                    con.query(
-                        `UPDATE element SET
-                        name="${data.name}", symbol="${data.symbol}"
-                        WHERE table_id=${data.table} AND atom_number=${data.anom}`,
-                        (err, res) => {
+                    switch (data.reqtype) {
+                        case 'element':
+                            if (!data.name || !data.symbol || !data.anom) {
+                                servRes.send({error: 'proper data not set'});
+                                return;
+                            }
+                            // UPDATE `periodic_table`.`element` SET `name` = 'Hydrogenium' WHERE (`element_id` = '1');
+                            con.query(
+                                `UPDATE element SET
+                                name="${data.name}", symbol="${data.symbol}"
+                                WHERE table_id=${data.table} AND atom_number=${data.anom}`,
+                                (err, res) => {
 
-                        if (err) return console.error(err);
-                        console.log('responding with:', res);
-                        servRes.send(res);
-                    });
+                                if (err) return console.error(err);
+                                console.log('responding with:', res);
+                                servRes.send(res);
+                            });
+                            break;
+
+                        case 'table':
+                            con.query(
+                                `UPDATE \`table\` SET
+                                name="${data.name}", note="${data.note}"
+                                WHERE table_id=${data.tableID}`,
+                                (err, res) => {
+
+                                if (err) return console.error(err);
+                                console.log('responding with:', res);
+                                servRes.send(res);
+                            });
+                            break;
+                    }
                     break;
 
                 case 'ADD':

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Center, apiFetch, Author } from './global.js';
+import { Center, apiFetch, Author, Header } from './global.js';
 import { Link, Redirect } from 'react-router-dom';
 
 export default class Login extends Component {
@@ -22,7 +22,7 @@ export default class Login extends Component {
 
     handleKeyPress = evt => {
         if (evt.key === 'Enter') {
-            this.login();
+            this.signup();
         }
     }
 
@@ -38,13 +38,21 @@ export default class Login extends Component {
             username: this.state.username,
             password: this.state.password
         }, res => {
+            let resAuth = (res && res.length && res[0].author_id) || null;
             console.log('callback from signup:', res);
-            if (res && res[0]) {
-                Author.username = this.state.username;
-                Author.password = this.state.password;
-                Author.authenticate(res[0].author_id, () => {
-                    this.setState({ auth: res[0].author_id });
+            if (resAuth != null) {
+                Author.authenticate({
+                    username: this.state.username,
+                    password: this.state.password,
+                    auth: resAuth
+                }, () => {
+                    this.setState({
+                        auth: resAuth,
+                        error: false
+                    });
                 });
+            } else {
+                this.setState({ changed: false, error: true });
             }
         });
     }
@@ -52,37 +60,40 @@ export default class Login extends Component {
     render() {
         if (this.state.auth) return <Redirect to='dashboard' />;
         return (
-            <Center>
-                <div className='login'>
-                    <div className='field'>
-                        <h1> Sign up </h1>
-                        <div>(do not use your normal passwords, this page is not secure) </div>
+            <>
+                <Header />
+                <Center>
+                    <div className='login'>
+                        <div className='field'>
+                            <h1> Sign up </h1>
+                            <div>(do not use your normal passwords, this page is not secure) </div>
+                        </div>
+                        <div className='field'>
+                            Username:
+                            <
+                                input
+                                name='username'
+                                onKeyPress={this.handleKeyPress}
+                                onChange={this.handleChange}
+                            />
+                        </div>
+                        <div className='field'>
+                            Password:
+                            <
+                                input
+                                name='password'
+                                onKeyPress={this.handleKeyPress}
+                                onChange={this.handleChange}
+                                type='password'
+                            />
+                        </div>
+                        <div className='field redirbar'>
+                            <div className='button' onClick={this.signup}> Create </div>
+                            <div><Link to='/login'> Log in instead? </Link></div>
+                        </div>
                     </div>
-                    <div className='field'>
-                        Username:
-                        <
-                            input
-                            name='username'
-                            onKeyPress={this.handleKeyPress}
-                            onChange={this.handleChange}
-                        />
-                    </div>
-                    <div className='field'>
-                        Password:
-                        <
-                            input
-                            name='password'
-                            onKeyPress={this.handleKeyPress}
-                            onChange={this.handleChange}
-                            type='password'
-                        />
-                    </div>
-                    <div className='field redirbar'>
-                        <div className='button' onClick={this.signup}> Create </div>
-                        <div><Link to='/login'> Log in instead? </Link></div>
-                    </div>
-                </div>
-            </Center>
+                </Center>
+            </>
         );
     }
 }

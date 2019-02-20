@@ -32,6 +32,15 @@ $golden_ratio: 1.618;
     100% { opacity: 0 }
 }
 
+
+@keyframes shake {
+    0%   { transform: translateX(0) }
+    25%  { transform: translateX(+6px) }
+    50%  { transform: translateX(0) }
+    75%  { transform: translateX(-6px) }
+    100% { transform: translateX(0) }
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(-90deg); }
@@ -52,6 +61,85 @@ body {
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+header {
+    background-color: $c_gondola;
+    padding: .8rem 2rem;
+
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .34);
+
+    $isize: 1rem;
+
+    div {
+        display: inline-block;
+    }
+
+    .center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .user {
+        float: right;
+        position: relative;
+        background-color: $c_coca;
+        padding: .1rem .5rem;
+        padding-left: $isize + .6rem;
+        border-radius: 1rem;
+        margin-left: 1rem;
+        border: 2px solid transparent;
+        transition: .1s all;
+
+        .usercontrolls {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 8rem;
+            padding-top: 2rem;
+
+            .content {
+
+                background-color: $c_gondola;
+                padding: .4rem 0;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+
+                div {
+                    display: block;
+                    padding: 0 .6rem;
+                }
+
+                div:hover {
+                    cursor: pointer;
+                    background-color: $c_coca;
+                }
+            }
+        }
+    }
+
+    .user:hover {
+        border-color: $c_green;
+
+        .usercontrolls {
+            opacity: 1;
+            pointer-events: all;
+        }
+    }
+
+    .user::after {
+        content: '';
+        position: absolute;
+        $off: .3rem;
+        left: $off;
+        top: $off;
+        width: $isize;
+        height: $isize;
+        background-color:$c_green;
+        border-radius:1rem;
+    }
 }
 
 .dashapp{
@@ -99,6 +187,10 @@ code {
     transition: $fade_time filter;
 }
 
+.ptabapp {
+    margin-top: 4rem;
+}
+
 .blur {
     filter:blur(4px);
 }
@@ -141,6 +233,7 @@ a:hover {
     border-radius: .2rem;
     box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
     max-width:16rem;
+    @include noselect;
 
     .field {
         padding: 0 1rem;
@@ -225,11 +318,23 @@ a:hover {
     .field {
 
         margin-top: 2.4rem;
+        position: relative;
 
         input {
             font-size: 1.4rem;
             float: right;
         }
+    }
+
+    .field.error {
+        animation: shake .24s;
+    }
+
+    .field.error::after {
+        content: '*';
+        position: absolute;
+        right: .4rem;
+        color: $c_red;
     }
 
     a {
@@ -271,7 +376,7 @@ input:hover{
     }
 
     .element {
-        animation: fadein $fade_time * 3;
+        animation: fadein $fade_time * .3;
         width: 4.3vw;
         height: $elmh;
         font-size: 2.2vw;
@@ -291,6 +396,7 @@ input:hover{
         position: relative;
         font-size: 1vw;
         background-color: transparent;
+        pointer-events: none;
     }
 
     .element.slidedown::before{
