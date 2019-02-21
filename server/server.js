@@ -182,8 +182,8 @@ con.connect(err => {
                             return;
                         }
                         con.query(
-                            `INSERT INTO element (name, symbol, atom_number, atomic_mass, electron_negativity, table_id, type_id)
-                            VALUES ("${data.name}", "${data.symbol}", ${data.anom}, 1, 1, ${data.table}, 1)`,
+                            `INSERT INTO element (name, symbol, atom_number, table_id)
+                            VALUES ("${data.name}", "${data.symbol}", ${data.anom}, ${data.table})`,
                             (err, res) => {
 
                             if (err) return console.error(err);
@@ -192,8 +192,8 @@ con.connect(err => {
                         });
                     } else if (data.reqtype === 'table') {
                         con.query(
-                            `INSERT INTO \`table\` (name, author_id, note)
-                            VALUES ("${data.name}", ${data.authorID}, "${data.note}")`,
+                            `INSERT INTO \`table\` (name, author_id, note, public)
+                            VALUES ("${data.name}", ${data.authorID}, "${data.note}", 0)`,
                             (err, res) => {
 
                             if (err) return console.error(err);
@@ -206,6 +206,52 @@ con.connect(err => {
 
                 case 'DELETE':
                     switch (data.reqtype) {
+                        case 'author':
+                            con.query(
+                                `SELECT table_id FROM \`table\` WHERE author_id=${data.authorID}`,
+                                (err, res) => {
+                                    if (err) return console.error(err);
+                                    if (res.length) {
+
+                                        let tables = res;
+                                        let sql = `DELETE FROM element WHERE `;
+                                        for (let table of tables) {
+                                            sql += `table_id=${table.table_id} OR `;
+                                        }
+
+                                        console.log(sql.slice(0, -4));
+                                        console.log(res);
+
+                                        con.query(
+                                            sql.slice(0, -4), // remove last " OR "
+                                            (err, res) => {
+                                                if (err) return console.error(err);
+
+                                                let sql = `DELETE FROM \`table\` WHERE `;
+                                                for (let table of tables) {
+                                                    sql += `table_id=${table.table_id} OR `;
+                                                }
+
+                                                con.query(
+                                                    sql.slice(0, -4), // remove last " OR "
+                                                    (err, res) => {
+                                                        if (err) return console.error(err);
+                                                        deleteAuthor(data.authorID, con, () => {
+                                                            servRes.send(res);
+                                                        });
+                                                    }
+                                                );
+                                            }
+                                        );
+                                    } else {
+                                        deleteAuthor(data.authorID, con, () => {
+                                            servRes.send(res);
+                                        });
+                                    }
+                                }
+                            );
+                            break;
+
                         case 'element':
                             if (!data.anom) {
                                 const res = { error: 'proper data not set' };
@@ -224,27 +270,10 @@ con.connect(err => {
                             break;
 
                         case 'table':
-                            if (!data.tableID) {
-                                const res = { error: 'tableID not set' };
-                                servRes.send(res);
+                            deleteTable(data.tableID, con, res => {
                                 console.log('responding with:', res);
-                                return;
-                            }
-                            con.query(
-                                `DELETE FROM  element  WHERE table_id=${data.tableID};`,
-                                (err, res) => {
-                                    if (err) return console.error(err);
-
-                                    con.query(
-                                        `DELETE FROM \`table\` WHERE table_id=${data.tableID};`,
-                                        (err, res) => {
-                                            if (err) return console.error(err);
-                                            console.log('responding with:', res);
-                                            servRes.send(res);
-                                        }
-                                    );
-                                }
-                            );
+                                servRes.send(res);
+                            });
                             break;
                     }
                     break;
@@ -259,6 +288,35 @@ con.connect(err => {
         }
     });
 });
+
+function deleteAuthor(authorID, con, callback = null) {
+    con.query(
+        `DELETE FROM author WHERE author_id=${authorID}`,
+        (err, res) => {
+            if (err) return console.error(err);
+            console.log('inner of delete author');
+            callback(res);
+        }
+    );
+}
+
+function deleteTable(tid, con, callback = null) {
+    con.query(
+        `DELETE FROM element WHERE table_id=${tid};`,
+        err => {
+            if (err) return console.error(err);
+
+            con.query(
+                `DELETE FROM \`table\` WHERE table_id=${tid};`,
+                (err, res) => {
+                    if (err) return console.error(err);
+
+                    if (callback) callback(res);
+                }
+            );
+        }
+    );
+}
 
 const server = app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

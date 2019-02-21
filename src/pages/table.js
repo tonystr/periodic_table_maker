@@ -311,47 +311,44 @@ class ElementCard extends Component {
 
     render() {
         return (
-            <>
-                <Header />
-                <Center>
-                    <div className='card-holder'>
-                        <div
-                            className={'card' + (this.props.dismounting ? ' fadeout' : '')}
-                            onClick={this.handleClick}
-                        >
-                            <XButton onClick={this.handleDismount} />
-                            <div className='data-input'>
-                                <ul>
-                                    <li>Symbol:</li>
-                                    <li>Atomic Number:</li>
-                                    <li>Name:</li>
-                                </ul>
-                                {this.state.loaded && (
-                                    <form className='datalist' method='POST'>
-                                        <ElementInput name='symbol' elm={this.state.elm} onChange={this.inputOnChange} className='elm-symbol' maxlength={4} />
-                                        <ElementInput name='anom'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-anom' />
-                                        <ElementInput name='name'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-name' onKeyPress={this.handleKeyPress} />
-                                    </form>
-                                )}
+            <Center>
+                <div className='card-holder'>
+                    <div
+                        className={'card' + (this.props.dismounting ? ' fadeout' : '')}
+                        onClick={this.handleClick}
+                    >
+                        <XButton onClick={this.handleDismount} />
+                        <div className='data-input'>
+                            <ul>
+                                <li>Symbol:</li>
+                                <li>Atomic Number:</li>
+                                <li>Name:</li>
+                            </ul>
+                            {this.state.loaded && (
+                                <form className='datalist' method='POST'>
+                                    <ElementInput name='symbol' elm={this.state.elm} onChange={this.inputOnChange} className='elm-symbol' maxlength={4} />
+                                    <ElementInput name='anom'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-anom' />
+                                    <ElementInput name='name'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-name' onKeyPress={this.handleKeyPress} />
+                                </form>
+                            )}
+                        </div>
+                        <div className='bottom-bar'>
+                            <div
+                                className={'button delete' + (this.state.method !== 'ADD' || this.state.changed ? '' : ' hidden')}
+                                onClick={this.delete}
+                            >
+                                {this.state.method === 'ADD' ? 'Cancel' : 'Delete'}
                             </div>
-                            <div className='bottom-bar'>
-                                <div
-                                    className={'button delete' + (this.state.method !== 'ADD' || this.state.changed ? '' : ' hidden')}
-                                    onClick={this.delete}
-                                >
-                                    {this.state.method === 'ADD' ? 'Cancel' : 'Delete'}
-                                </div>
-                                <div
-                                    className={'button add' + (this.state.changed ? '' : ' hidden')}
-                                    onClick={this.handleDismount}
-                                >
-                                    {this.state.method === 'ADD' ? 'Add' : 'Update'}
-                                </div>
+                            <div
+                                className={'button add' + (this.state.changed ? '' : ' hidden')}
+                                onClick={this.handleDismount}
+                            >
+                                {this.state.method === 'ADD' ? 'Add' : 'Update'}
                             </div>
                         </div>
                     </div>
-                </Center>
-            </>
+                </div>
+            </Center>
         );
     }
 }

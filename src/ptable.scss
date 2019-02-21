@@ -142,6 +142,39 @@ header {
     }
 }
 
+input[type="text"] {
+    padding: .2rem .6rem;
+    animation: fadein .3s;
+    background: $c_gondola;
+    border-radius: .3rem;
+    color: $c_gold;
+
+    border: 2px solid transparent;
+    transition: .13s all;
+}
+
+input[type="text"]:hover{
+    border-color: $c_green;
+}
+
+.checkbox {
+    background-color: $c_gondola;
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: .3rem;
+    border: 2px solid $c_gondola;
+}
+
+.checkbox:hover {
+    border-color: $c_green;
+    cursor: pointer;
+}
+
+.checkbox:after {
+    font-family: "Font Awesome 5 Free";
+    content: "\f00c";
+}
+
 .dashapp{
     min-height: 100%;
 }
@@ -343,22 +376,6 @@ a:hover {
     }
 }
 
-input {
-    padding: .2rem .6rem;
-    animation: fadein .3s;
-    background: $c_gondola;
-    border-radius: .4rem;
-    color: $c_gold;
-
-    border: 2px solid transparent;
-    transition: .13s all;
-}
-
-input:hover{
-
-    border-color: $c_green;
-}
-
 .ptable {
 
     margin: auto;
@@ -480,6 +497,13 @@ input:hover{
     bottom:0;
     @include background-color-alpha($c_gondola, .8);
 
+    display: flex;
+    align-items: center;
+
+    .padjust {
+        margin: auto auto;
+    }
+
     .data-input {
         display:flex;
         flex-direction: row;
@@ -515,7 +539,6 @@ input:hover{
         $h: $w / $golden_ratio;
         $pad: .8rem;
 
-        margin-top: 10rem;
         padding: $pad;
         background-color: $c_coca;
         width: $w;

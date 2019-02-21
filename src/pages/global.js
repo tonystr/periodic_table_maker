@@ -36,10 +36,19 @@ class UserInfo extends Component {
 
     handleDeleteClick = () => {
         if (this.state.deleteCounter >= this.state.deleteMessages.length - 1) {
-            Author.delete();
-        } else this.setState({
-            deleteCounter: this.state.deleteCounter + 1
-        });
+            Author.delete(() => {
+                this.setState({ redirect: 'signup' });
+            });
+        } else {
+            const count = this.state.deleteCounter + 1;
+            this.setState({ deleteCounter: count });
+
+            setTimeout(() => {
+                if (this.state.deleteCounter === count) {
+                    this.setState({ deleteCounter: 0 });
+                }
+            }, 4600);
+        }
     }
 
     render() {
@@ -175,15 +184,14 @@ function authorLogout() {
     console.log('logged out, auth is now:', Author.checkAuth());
 }
 
-function authorDelete() {
-    // TODO delete author
-
+function authorDelete(callback) {
     apiFetch({
         method: 'DELETE',
         reqtype: 'author',
         authorID: Author.checkAuth()
     }, res => {
-        console.log('response from delete request');
+        Author.logout();
+        callback(res);
     });
 }
 

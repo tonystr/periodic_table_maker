@@ -73,7 +73,7 @@ class Table extends Component {
             if (evt.target.classList.contains('table') ||
                 findAncestor(evt.target, 'table')) {
                 evt.preventDefault();
-                this.createDropdown();
+                this.createDropdown(evt);
             }
         }, false);
     }
@@ -209,12 +209,14 @@ class TableCreator extends Component {
                             <div className='button-x' onClick={this.dismount} />
                             <div className='data-input'>
                                 <ul>
-                                    <li>Table name:</li>
-                                    <li>Description:</li>
+                                    <li>Table name</li>
+                                    <li>Description</li>
+                                    <li>Public</li>
                                 </ul>
                                 <form className='datalist' method='POST'>
                                     <input type='text' defaultValue={this.state.table.name} name='name' onChange={this.handleInput} maxlength='45' />
                                     <input type='text' defaultValue={this.state.table.note} name='note' onChange={this.handleInput} maxlength='256' />
+                                    <div class='checkbox' defaultValue={this.state.table.public} name='public' onChange={this.handleInput} />
                                 </form>
                             </div>
                             <div className='bottom-bar'>
