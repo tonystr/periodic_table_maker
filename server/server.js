@@ -161,7 +161,7 @@ con.connect(err => {
                         case 'table':
                             con.query(
                                 `UPDATE \`table\` SET
-                                name="${data.name}", note="${data.note}"
+                                name="${data.name}", note="${data.note}", public=${data.public ? 1 : 0}
                                 WHERE table_id=${data.tableID}`,
                                 (err, res) => {
 
@@ -193,7 +193,7 @@ con.connect(err => {
                     } else if (data.reqtype === 'table') {
                         con.query(
                             `INSERT INTO \`table\` (name, author_id, note, public)
-                            VALUES ("${data.name}", ${data.authorID}, "${data.note}", 0)`,
+                            VALUES ("${data.name}", ${data.authorID}, "${data.note}", ${data.public ? 1 : 0})`,
                             (err, res) => {
 
                             if (err) return console.error(err);

@@ -142,7 +142,7 @@ header {
     }
 }
 
-input[type="text"] {
+input {
     padding: .2rem .6rem;
     animation: fadein .3s;
     background: $c_gondola;
@@ -153,7 +153,7 @@ input[type="text"] {
     transition: .13s all;
 }
 
-input[type="text"]:hover{
+input:hover{
     border-color: $c_green;
 }
 
@@ -163,6 +163,12 @@ input[type="text"]:hover{
     height: 1.2rem;
     border-radius: .3rem;
     border: 2px solid $c_gondola;
+
+    font-size: 1rem;
+    i {
+        margin-left: .1rem;
+        opacity: 0;
+    }
 }
 
 .checkbox:hover {
@@ -170,9 +176,8 @@ input[type="text"]:hover{
     cursor: pointer;
 }
 
-.checkbox:after {
-    font-family: "Font Awesome 5 Free";
-    content: "\f00c";
+.checkbox.checked i {
+    opacity: 1;
 }
 
 .dashapp{

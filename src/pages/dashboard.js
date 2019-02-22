@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Author, apiFetch, Center, Header } from './global.js';
+import { Author, apiFetch, Center, Header, InputCheckbox, findAncestor } from './global.js';
 import { Redirect, Link } from 'react-router-dom'
 
 class Welcome extends Component {
@@ -147,8 +147,6 @@ class TableCreator extends Component {
             dismounting: false,
             changed: false,
             table: props.table
-            //name: '',
-            //desc: ''
         }
     }
 
@@ -167,6 +165,13 @@ class TableCreator extends Component {
         this.setState(obj);
     }
 
+    handleInputPublic = checked => {
+        let obj = { changed: true, table: this.state.table };
+        obj.table.public = !checked;
+        console.log('handled input checked:', !checked);
+        this.setState(obj);
+    }
+    
     createTable = () => {
         if (!this.state.table.name) return console.log('can\'t create table without a name');
 
@@ -176,6 +181,7 @@ class TableCreator extends Component {
                 reqtype: 'table',
                 name: this.state.table.name,
                 note: this.state.table.note,
+                public: this.state.table.public || false,
                 authorID: Author.checkAuth()
             }, () => {
                 this.dismount();
@@ -186,6 +192,7 @@ class TableCreator extends Component {
                 reqtype: 'table',
                 name: this.state.table.name,
                 note: this.state.table.note,
+                public: this.state.table.public || false,
                 tableID: this.state.table.table_id
                 // authorID: Author.checkAuth()
             }, () => {
@@ -214,9 +221,10 @@ class TableCreator extends Component {
                                     <li>Public</li>
                                 </ul>
                                 <form className='datalist' method='POST'>
-                                    <input type='text' defaultValue={this.state.table.name} name='name' onChange={this.handleInput} maxlength='45' />
-                                    <input type='text' defaultValue={this.state.table.note} name='note' onChange={this.handleInput} maxlength='256' />
-                                    <div class='checkbox' defaultValue={this.state.table.public} name='public' onChange={this.handleInput} />
+                                    <input type='text' defaultValue={this.state.table.name} name='name' onChange={this.handleInput} maxLength='45' />
+                                    <input type='text' defaultValue={this.state.table.note} name='note' onChange={this.handleInput} maxLength='256' />
+
+                                    <InputCheckbox onChange={this.handleInputPublic} checked={this.state.table.public} />
                                 </form>
                             </div>
                             <div className='bottom-bar'>
@@ -233,11 +241,6 @@ class TableCreator extends Component {
             </div>
         );
     }
-}
-
-function findAncestor(el, cls) {
-    while ((el = el.parentElement) && !el.classList.contains(cls));
-    return el;
 }
 
 export default class Dashboard extends Component {
@@ -272,11 +275,11 @@ export default class Dashboard extends Component {
     }
 
     onClickNewTable = () => {
-        this.setState({ create: { new: true } });
+        this.setState({ create: { new: true, public: false } });
         console.log(this.state.create);
     }
 
-    editTable = (table = { new: true }) => {
+    editTable = (table = { new: true, public: false }) => {
         this.setState({ create: table });
         console.log(this.state.create);
     }

@@ -189,7 +189,7 @@ function ElementInput(props) {
             name={props.name}
             onChange={props.onChange}
             onKeyPress={props.onKeyPress}
-            maxlength={props.maxlength || 45}
+            maxLength={props.maxLength || 45}
         />
     );
 }
@@ -326,7 +326,7 @@ class ElementCard extends Component {
                             </ul>
                             {this.state.loaded && (
                                 <form className='datalist' method='POST'>
-                                    <ElementInput name='symbol' elm={this.state.elm} onChange={this.inputOnChange} className='elm-symbol' maxlength={4} />
+                                    <ElementInput name='symbol' elm={this.state.elm} onChange={this.inputOnChange} className='elm-symbol' maxLength={4} />
                                     <ElementInput name='anom'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-anom' />
                                     <ElementInput name='name'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-name' onKeyPress={this.handleKeyPress} />
                                 </form>

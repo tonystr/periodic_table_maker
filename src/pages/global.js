@@ -35,7 +35,7 @@ class UserInfo extends Component {
     }
 
     handleDeleteClick = () => {
-        if (this.state.deleteCounter >= this.state.deleteMessages.length - 1) {
+        if (this.state.deleteCounter >= this.state.deleteMessages.length - 2) {
             Author.delete(() => {
                 this.setState({ redirect: 'signup' });
             });
@@ -127,6 +127,44 @@ class Header extends Component {
     }
 }
 
+class InputCheckbox extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            checked: props.checked || false,
+            onChange: props.onChange
+        };
+    }
+
+    handleClick = evt => {
+        let checkbox = evt.target.classList.contains('checkbox') ?
+            evt.target :
+            findAncestor(evt.target, 'checkbox');
+        this.setState({
+            checked: checkbox && !checkbox.classList.contains('checked')
+        });
+        this.state.onChange(this.state.checked);
+        console.log('set checked to:', this.state.checked);
+    }
+
+    render() {
+        return (
+            <div
+                className={'checkbox' + (this.state.checked ? ' checked' : '')}
+                onClick={this.handleClick}
+            >
+                <i className="fa fa-check" aria-hidden="true"></i>
+            </div>
+        );
+    }
+}
+
+function findAncestor(el, cls) {
+    while ((el = el.parentElement) && !el.classList.contains(cls));
+    return el;
+}
+
 async function apiFetch(data, callBack) {
     await fetch('http://localhost:5487', {
         headers: {
@@ -206,4 +244,4 @@ const Author = {
     delete: authorDelete
 }
 
-export { Center, apiFetch, Author, Header };
+export { Center, apiFetch, Author, Header, InputCheckbox, findAncestor };
