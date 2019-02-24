@@ -168,10 +168,9 @@ class TableCreator extends Component {
     handleInputPublic = checked => {
         let obj = { changed: true, table: this.state.table };
         obj.table.public = !checked;
-        console.log('handled input checked:', !checked);
         this.setState(obj);
     }
-    
+
     createTable = () => {
         if (!this.state.table.name) return console.log('can\'t create table without a name');
 
@@ -255,13 +254,15 @@ export default class Dashboard extends Component {
             dropdown: null
         };
 
-        Author.checkUsername(name => {
-            this.setState({ username: name });
-        });
-
         if (Author.checkAuth()) this.loadTables();
 
         document.addEventListener('click', this.cancelDropdown);
+    }
+
+    componentDidMount = () => {
+        Author.checkUsername(name => {
+            this.setState({ username: name });
+        });
     }
 
     loadTables = () => {
@@ -276,12 +277,10 @@ export default class Dashboard extends Component {
 
     onClickNewTable = () => {
         this.setState({ create: { new: true, public: false } });
-        console.log(this.state.create);
     }
 
     editTable = (table = { new: true, public: false }) => {
         this.setState({ create: table });
-        console.log(this.state.create);
     }
 
     renderTables = () => {

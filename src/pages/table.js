@@ -19,7 +19,7 @@ class Element extends Component {
 
     render() {
         return (
-            <div
+            <td
                 symbol={this.state.elm ? this.state.elm.symbol : undefined}
                 className={
                     'element' +
@@ -30,8 +30,10 @@ class Element extends Component {
                 }
                 onClick={this.handleClick}
             >
-                {this.state.elm ? this.state.elm.symbol : undefined}
-            </div>
+                <span className='anum'>{this.state.elm && !this.state.isUndef ? this.state.elm.atom_number : undefined}</span>
+                <span className='symbol'>{this.state.elm ? this.state.elm.symbol : undefined}</span>
+                {this.state.elm && !this.state.isUndef && <span className='mass'><span>{this.state.elm.atomic_mass}</span></span>}
+            </td>
         );
     }
 }
@@ -103,7 +105,7 @@ class Ptable extends Component {
             );
         }
 
-        return <div className='group' key={num}>{list}</div>;
+        return <tr className='group' key={8 + num}>{list}</tr>;
     }
 
     renderGroup = (index, width) => {
@@ -150,7 +152,7 @@ class Ptable extends Component {
             }
         }
 
-        return (<div className='group' key={index}>{list}</div>);
+        return (<tr className='group' key={index}>{list}</tr>);
     }
 
     render() {
@@ -166,14 +168,17 @@ class Ptable extends Component {
                 list.push(this.renderGroup(i, width));
             }
             list.push(
-                <div className='special-groups' key={8}>
-                    {this.renderSpecialGroup(0)}
-                    {this.renderSpecialGroup(1)}
-                </div>
+                <tr className='spacing' key={7} />,
+                this.renderSpecialGroup(0),
+                this.renderSpecialGroup(1)
             );
         }
 
-        return <div className='ptable'>{list}</div>;
+        return (
+            <table className={'ptable' + (this.state.show ? ' show ' + this.state.show : '')}>
+                <tbody>{list}</tbody>
+            </table>
+        );
     }
 }
 
@@ -199,7 +204,6 @@ class ElementCard extends Component {
     constructor(props) {
         super(props);
         const undef = !!props.elm.isDefault;
-        console.log(props.elm);
         this.state = {
             dismount: this.props.inspectorDismount,
             loaded: undef,
@@ -410,6 +414,33 @@ class Inspector extends Component {
     }
 }
 
+class TableOptions extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            dropdown: false
+        };
+    }
+
+    handleClick = () => {
+        this.setState({
+            dropdown: !this.state.dropdown
+        });
+    }
+
+    render() {
+        return (
+            <div className='tableoptions'>
+                <div className='btn' onClick={this.handleClick}>
+                    <i className="fas fa-cog"></i>
+                </div>
+                {this.state.dropdown && <i className="fas fa-cog"></i>}
+            </div>
+        );
+    }
+}
+
 export default class PTable extends Component {
     constructor(props) {
         super(props);
@@ -442,7 +473,7 @@ export default class PTable extends Component {
 
         return (
             <>
-                <Header />
+                <Header right={<TableOptions />} />
                 <div className='ptabapp'>
                     <div className={this.state.blur ? 'content blur' : 'content'}>
                         <Center>

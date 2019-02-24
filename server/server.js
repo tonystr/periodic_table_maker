@@ -98,7 +98,14 @@ con.connect(err => {
 
                         case 'table_elements':
                             con.query(
-                                `SELECT atom_number, symbol FROM element WHERE table_id=${data.table}`,
+                                `SELECT e.atom_number, e.symbol, d.atomic_mass, d.electronegativity, t.name AS type
+                                FROM element e
+                                JOIN default_element d
+                                JOIN type t
+                                WHERE e.atom_number=d.atom_number
+                                AND e.table_id=${data.table}
+                                AND d.type_id=t.type_id
+                                `,
                                 (err, res) => {
 
                                 if (err) return console.error(err);

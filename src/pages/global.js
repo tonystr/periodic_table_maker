@@ -25,8 +25,16 @@ class UserInfo extends Component {
                 'Are you sure?',
                 'Do you really wish to delete this account?',
                 'Deleting...'
-            ]
+            ],
+            dismount: evt => {
+                if (evt.target.classList.contains('usercontrolls') || findAncestor(evt.target, 'usercontrolls')) return;
+
+                this.props.onDismount();
+                document.removeEventListener('click', this.state.dismount);
+            }
         };
+
+        document.addEventListener('click', this.state.dismount);
     }
 
     handleLogoutClick = () => {
@@ -55,11 +63,9 @@ class UserInfo extends Component {
         if (this.state.redirect) return <Redirect to={this.state.redirect} />
         return (
             <div className='usercontrolls'>
-                <div className='content'>
-                    <div onClick={this.handleLogoutClick}>Log out</div>
-                    <div onClick={this.handleDeleteClick}>
-                        {this.state.deleteMessages[this.state.deleteCounter]}
-                    </div>
+                <div onClick={this.handleLogoutClick}>Log out</div>
+                <div onClick={this.handleDeleteClick}>
+                    {this.state.deleteMessages[this.state.deleteCounter]}
                 </div>
             </div>
         );
@@ -70,9 +76,19 @@ class Header extends Component {
     constructor(props) {
         super(props);
 
-        let pagename = '';
+        this.state = {
+            username: '',
+            pagename: '',
+            userDropdown: false
+        };
+    }
 
-        console.log('window.location.pathname:', window.location.pathname);
+    componentDidMount = () => {
+        Author.checkUsername(name => {
+            if (name) this.setState({ username: name });
+        });
+
+        let pagename = '';
 
         switch (window.location.pathname.replace(/^\//i, '')) {
             case 'login': pagename = 'Log In'; break;
@@ -95,33 +111,54 @@ class Header extends Component {
             default: pagename = ''; break;
         }
 
-        this.state = {
-            username: '',
-            pagename: pagename,
-            expand: false
-        };
+        if (pagename) this.setState({ pagename: pagename });
+    }
 
-        Author.checkUsername(name => {
-            if (name) this.setState({ username: name });
+    componentWillUnmount = () => {
+        this.setState = () => {
+            return;
+        };
+    }
+
+    handleUserClick = () => {
+        this.setState({
+            userDropdown: !this.state.userDropdown
+        });
+    }
+
+    userInfoDismount = () => {
+        this.setState({
+            userDropdown: false
         });
     }
 
     render() {
         return (
             <header>
-                <Link to='dashboard' className='dash'> Periodic Table Builder </Link>
-                <div className='center'>
+                <section className='left'>
+                    <Link to='dashboard' className='dash'> Periodic Table Builder  </Link>
+                    {this.props.left}
+                </section>
+
+                <section className='center'>
                     <div className='pagename'>{this.state.pagename}</div>
-                </div>
-                {this.state.username && (
-                    <div
-                        className='user'
-                        onClick={() => this.setState({ expand: true })}
-                    >
-                        {this.state.username}
-                        <UserInfo />
-                    </div>
-                )}
+                    {this.props.center}
+                </section>
+
+                <section className='right'>
+                    {this.props.right}
+                    {this.state.username && (
+                        <>
+                            <div
+                                className='user'
+                                onClick={this.handleUserClick}
+                            >
+                                {this.state.username}
+                            </div>
+                            {this.state.userDropdown && <UserInfo onDismount={this.userInfoDismount} />}
+                        </>
+                    )}
+                </section>
             </header>
         );
     }
@@ -145,7 +182,6 @@ class InputCheckbox extends Component {
             checked: checkbox && !checkbox.classList.contains('checked')
         });
         this.state.onChange(this.state.checked);
-        console.log('set checked to:', this.state.checked);
     }
 
     render() {
@@ -208,10 +244,7 @@ async function checkUsername(callback) {
             Author.username = (res && res[0] && res[0].name) || '';
             callback(Author.username);
         });
-    } else setTimeout(
-        () => callback(Author.username),
-        40,
-    );
+    } else callback(Author.username);
 }
 
 function authorLogout() {
@@ -219,7 +252,6 @@ function authorLogout() {
     Author.auth = 0;
     Author.username = '';
     Author.password = '';
-    console.log('logged out, auth is now:', Author.checkAuth());
 }
 
 function authorDelete(callback) {

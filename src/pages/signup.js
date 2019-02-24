@@ -39,7 +39,6 @@ export default class Login extends Component {
             password: this.state.password
         }, res => {
             let resAuth = (res && res.length && res[0].author_id) || null;
-            console.log('callback from signup:', res);
             if (resAuth != null) {
                 Author.authenticate({
                     username: this.state.username,
