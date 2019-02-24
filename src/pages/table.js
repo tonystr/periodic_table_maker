@@ -190,6 +190,7 @@ function ElementInput(props) {
             onChange={props.onChange}
             onKeyPress={props.onKeyPress}
             maxLength={props.maxLength || 45}
+            readOnly={props.readOnly}
         />
     );
 }
@@ -198,6 +199,7 @@ class ElementCard extends Component {
     constructor(props) {
         super(props);
         const undef = !!props.elm.isDefault;
+        console.log(props.elm);
         this.state = {
             dismount: this.props.inspectorDismount,
             loaded: undef,
@@ -206,10 +208,10 @@ class ElementCard extends Component {
             changed: false,
             elm: {
                 symbol: undef ? '' : null,
-                anom: props.elm.atom_number,
-                name: undef ? '' : null,
-                amass: null,
-                eneg: null
+                anom:   props.elm.atom_number,
+                name:   undef ? '' : null,
+                mass:   null,
+                elneg:  null
             },
             tableID: props.tableID
         }
@@ -219,6 +221,7 @@ class ElementCard extends Component {
     inputOnChange = (e) => {
         let elm = this.state.elm;
         elm[e.target.name] = e.target.value;
+        if (!this.state.changed) this.props.onChange();
         this.setState({ elm: elm, changed: true });
     }
 
@@ -263,7 +266,9 @@ class ElementCard extends Component {
                     elm: {
                         symbol: elm.symbol,
                         anom: anom,
-                        name: elm.name
+                        name: elm.name,
+                        mass: elm.atomic_mass,
+                        elneg: elm.electronegativity
                     }
                 });
             } else {
@@ -295,6 +300,7 @@ class ElementCard extends Component {
             return this.handleDismount();
         }
 
+        if (!this.state.changed) this.props.onChange();
         apiFetch({
             method: 'DELETE',
             reqtype: 'element',
@@ -320,15 +326,21 @@ class ElementCard extends Component {
                         <XButton onClick={this.handleDismount} />
                         <div className='data-input'>
                             <ul>
-                                <li>Symbol:</li>
-                                <li>Atomic Number:</li>
-                                <li>Name:</li>
+                                <li>Symbol</li>
+                                <li>Atomic Number</li>
+                                <li>Name</li>
+                                <br />
+                                {this.state.elm.mass  && <li>Atomic Mass</li>}
+                                {this.state.elm.elneg && <li>Electronegativity</li>}
                             </ul>
                             {this.state.loaded && (
                                 <form className='datalist' method='POST'>
                                     <ElementInput name='symbol' elm={this.state.elm} onChange={this.inputOnChange} className='elm-symbol' maxLength={4} />
                                     <ElementInput name='anom'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-anom' />
                                     <ElementInput name='name'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-name' onKeyPress={this.handleKeyPress} />
+                                    <br />
+                                    {this.state.elm.mass  && <ElementInput name='mass'  readOnly={true} elm={this.state.elm} onChange={null} className='elm-mass'  onKeyPress={null} />}
+                                    {this.state.elm.elneg && <ElementInput name='elneg' readOnly={true} elm={this.state.elm} onChange={null} className='elm-elneg' onKeyPress={null} />}
                                 </form>
                             )}
                         </div>
@@ -356,7 +368,10 @@ class ElementCard extends Component {
 class Inspector extends Component {
     constructor(props) {
         super(props);
-        this.state = { dismounting: false };
+        this.state = {
+            changed: false,
+            dismounting: false
+        };
         this.props.blur(true);
     }
 
@@ -366,8 +381,14 @@ class Inspector extends Component {
         this.refs.card.dismount();
         this.props.blur(false);
         setTimeout(() => {
-            this.props.onDismount();
+            this.props.onDismount(this.state.changed);
         }, 200);
+    }
+
+    handleChange = () => {
+        this.setState({
+            changed: true
+        })
     }
 
     render() {
@@ -379,6 +400,7 @@ class Inspector extends Component {
                 <ElementCard
                     dismounting={this.state.dismounting}
                     inspectorDismount={this.dismount}
+                    onChange={this.handleChange}
                     elm={this.props.elm}
                     ref='card'
                     tableID={this.props.tableID}
@@ -396,7 +418,7 @@ export default class PTable extends Component {
         let tableCookie = params.get('t');
 
         this.state = {
-            inspect: false,
+            inspect: null,
             blur: false,
             tableID: (tableCookie && Number(tableCookie)) || -1
         };
@@ -410,9 +432,9 @@ export default class PTable extends Component {
         this.setState({ blur: blur });
     }
 
-    onInspectEscape = () => {
-        this.setState({ inspect: false });
-        this.refs.table.state.reload();
+    onInspectEscape = changed => {
+        this.setState({ inspect: null });
+        if (changed) this.refs.table.state.reload();
     }
 
     render() {

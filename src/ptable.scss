@@ -7,12 +7,21 @@ $c_green: #45a372;
 $c_red: #F1414b;
 $c_txtwhite: #927277;
 
-$fade_time: .24s;
+$fade_time: .28s;
 
 $golden_ratio: 1.618;
 
+/* @import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono'); */
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+
 @mixin background-color-alpha($color, $alpha) {
   background-color: rgba(red($color), green($color), blue($color), $alpha);
+}
+
+@mixin font-default() {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
 }
 
 @mixin noselect() {
@@ -49,9 +58,7 @@ $golden_ratio: 1.618;
 body {
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+    @include font-default;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
@@ -100,6 +107,7 @@ header {
             right: 0;
             width: 8rem;
             padding-top: 2rem;
+            @include noselect;
 
             .content {
 
@@ -155,6 +163,12 @@ input {
 
 input:hover{
     border-color: $c_green;
+}
+
+input[readonly] {
+
+    background: transparent;
+    border-color: $c_gondola;
 }
 
 .checkbox {
@@ -384,6 +398,7 @@ a:hover {
 .ptable {
 
     margin: auto;
+    font-family: 'Josefin Sans', sans-serif;
 
     .group {
         display:flex;
@@ -401,14 +416,14 @@ a:hover {
         animation: fadein $fade_time * .3;
         width: 4.3vw;
         height: $elmh;
-        font-size: 2.2vw;
+        font-size: 2vw;
         padding: $elmp;
-        border: 1px solid $c_gondola;
+        border: 2px solid $c_gondola;
         background-color:$c_coca;
-        margin: -1px -1px 0 0;
-        display:inline-block;
-        text-align:center;
-        transition:.16s transform;
+        margin: -2px -2px 0 0;
+        display: inline-block;
+        text-align: center;
+        transition: .16s transform;
 
         @include noselect;
     }
@@ -454,10 +469,11 @@ a:hover {
     }
 
     .element:not(.slidedown).undef:hover::after{
-        content:"+";
+        @include font-default;
+        content: '+';
         position: absolute;
-        top:-.8rem;
-        right:-.8rem;
+        top: -.8rem;
+        right: -.8rem;
         background-color: $c_coca;
         border: 2px solid $c_green;
 
@@ -513,11 +529,21 @@ a:hover {
         display:flex;
         flex-direction: row;
         font-size:1.4rem;
-        margin-top:2rem;
+        margin-top:2.1rem;
 
         form, ul{
-            width:50%;
             margin:0;
+            width: 50%;
+        }
+
+        ul {
+            padding-left: 0;
+            list-style: none;
+            text-align: center;
+        }
+
+        li {
+            margin-top: 1px;
         }
 
         input, li {
@@ -536,6 +562,7 @@ a:hover {
         display:inline-block;
         margin: 2rem 0rem;
         width:calc(100% - 4rem);
+        cursor: text;
     }
 
     .card {
@@ -549,6 +576,7 @@ a:hover {
         width: $w;
         height: $h;
         box-shadow: 0 2px 12px rgba(0,0,0,.3);
+        border-radius: 6px;
 
         position:relative;
 
@@ -559,6 +587,8 @@ a:hover {
             bottom: $pad;
             right: $pad;
             left: $pad;
+
+            padding-top: .8rem;
 
             .button {
                 @include noselect;
@@ -574,8 +604,8 @@ a:hover {
         }
 
         .button-x {
-            top: .5rem;
-            right: .5rem;
+            top: $pad;
+            right: $pad;
         }
     }
 }

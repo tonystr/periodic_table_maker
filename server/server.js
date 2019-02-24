@@ -81,7 +81,12 @@ con.connect(err => {
                                 servRes.send({error: 'proper data not set'});
                             } else {
                                 con.query(
-                                    `SELECT * FROM element WHERE table_id=${data.table} AND atom_number=${data.anom}`,
+                                    `SELECT e.element_id, e.name, e.symbol, e.atom_number, e.table_id,
+                                    d.name AS def_name, d.symbol AS def_symbol, d.atomic_mass, d.electronegativity
+                                    FROM element e, default_element d
+                                    WHERE e.table_id=${data.table}
+                                    AND e.atom_number=d.atom_number
+                                    AND e.atom_number=${data.anom}`,
                                     (err, res) => {
 
                                     if (err) return console.error(err);
