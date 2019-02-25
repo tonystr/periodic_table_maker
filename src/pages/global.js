@@ -54,16 +54,24 @@ class UserInfo extends Component {
                 'Are you sure?',
                 'Do you really wish to delete this account?',
                 'Deleting...'
-            ]
+            ],
+            selectingTheme: false,
+            themes: [{
+                name: 'Royal'
+            }, {
+                name: 'One Dark'
+            }, {
+                name: 'White'
+            }]
         };
     }
 
-    handleLogoutClick = () => {
+    clickLogout = () => {
         Author.logout();
         this.setState({ redirect: 'login' });
     }
 
-    handleDeleteClick = () => {
+    clickDelete = () => {
         if (this.state.deleteCounter >= this.state.deleteMessages.length - 2) {
             Author.delete(() => {
                 this.setState({ redirect: 'signup' });
@@ -80,14 +88,38 @@ class UserInfo extends Component {
         }
     }
 
+    clickTheme = evt => {
+        evt.stopPropagation();
+        evt.preventDefault();
+        evt.nativeEvent.stopImmediatePropagation();
+        this.setState({ selectingTheme: !this.state.selectingTheme });
+    }
+
+    renderThemeOptions = () => {
+        console.log('rendering theems options');
+        const list = [];
+        for (let i = 0; i < this.state.themes.length; i++) {
+            list.push(
+                <li key={i}>{this.state.themes[i].name}</li>
+            );
+        }
+        console.log(list);
+        return list;
+    }
+
     render() {
         if (this.state.redirect) return <Redirect to={this.state.redirect} />
         return (
             <Dropdown onDismount={this.props.onDismount} className='usercontrolls'>
-                <li onClick={this.handleLogoutClick}>Log out</li>
-                <li onClick={this.handleDeleteClick}>
-                    {this.state.deleteMessages[this.state.deleteCounter]}
-                </li>
+                {this.state.selectingTheme ?
+                    this.renderThemeOptions()
+                : (<>
+                    <li onClick={this.clickLogout}>Log out</li>
+                    <li onClick={this.clickTheme}>Change theme</li>
+                    <li onClick={this.clickDelete}>
+                        {this.state.deleteMessages[this.state.deleteCounter]}
+                    </li>
+                </>)}
             </Dropdown>
         );
     }

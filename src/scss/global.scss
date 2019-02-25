@@ -1,18 +1,18 @@
 
-$c_coca: #331F26;
-$c_gondola: #27161D;
-$c_gold: #ddc239;
-$c_gray: #4c2f36;
-$c_green: #45a372;
-$c_red: #F1414b;
-$c_txtwhite: #927a7e;
+$c_coca:     #331F26 !default;
+$c_gondola:  #27161D !default;
+$c_gold:     #ddc239 !default;
+$c_gray:     #4c2f36 !default;
+$c_green:    #45a372 !default;
+$c_red:      #F1414b !default;
+$c_txtwhite: #927a7e !default;
 
 $fade_time: .28s;
 
 $golden_ratio: 1.618;
 
 /* @import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono'); */
-@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+@import url('https://fonts.googleazpis.com/css?family=Josefin+Sans');
 
 @mixin background-color-alpha($color, $alpha) {
   background-color: rgba(red($color), green($color), blue($color), $alpha);
@@ -275,7 +275,7 @@ input[readonly] {
 
 a {
     color: $c_green;
-    outline:none;
+    outline: none;
     text-decoration: none;
 }
 
@@ -306,7 +306,7 @@ a:hover {
     list-style-type: none;
 
     li, .field {
-        padding: 0 1rem;
+        padding: .14rem 1rem;
     }
 
     li:hover, .field:hover {
@@ -475,9 +475,10 @@ a:hover {
             content: '';
             z-index: -1;
             width: 4.3vw;
-            padding: $elmp;
+            padding-left: $elmp;
+            padding-right: 1px;
             background-color: $c_coca;
-            transform: translateX(calc(#{-$border} - #{$elmp}));
+            transform: translateX(calc(#{-$border} - 1px));
             border: $border solid $c_gondola;
             height: 56%;
             bottom: 2px;
@@ -504,6 +505,10 @@ a:hover {
             color: $c_txtwhite;
             text-align: left;
             opacity: .74;
+
+            span {
+                background-color: transparent;
+            }
         }
 
         .elneg {
@@ -579,7 +584,6 @@ a:hover {
             z-index: 2;
 
             span {
-                background-color: $c_coca;
                 padding: 0 .3vw;
             }
         }
@@ -601,6 +605,10 @@ a:hover {
                     opacity: 1;
                     color: $c_gold;
                     bottom: calc(-2px - .5vw);
+
+                    span {
+                        background-color: $c_coca;
+                    }
                 }
 
                 .anum {
