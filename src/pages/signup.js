@@ -64,11 +64,13 @@ export default class Login extends Component {
                 <Center>
                     <div className='login'>
                         <div className='field'>
-                            <h1> Sign up </h1>
-                            <div>(do not use your normal passwords, this page is not secure) </div>
+                            <div>
+                                <h1> Sign up </h1>
+                                <div className='warning'>(do not use your normal passwords; this website is not secure) </div>
+                            </div>
                         </div>
                         <div className='field'>
-                            Username:
+                            <div>Username</div>
                             <
                                 input
                                 name='username'
@@ -77,7 +79,7 @@ export default class Login extends Component {
                             />
                         </div>
                         <div className='field'>
-                            Password:
+                            <div>Password</div>
                             <
                                 input
                                 name='password'

@@ -13,6 +13,35 @@ class Center extends Component {
     }
 }
 
+class Dropdown extends Component {
+    componentDidMount = () => {
+        document.addEventListener('click', this.dismount);
+    }
+
+    componentWillUnMount = () => {
+        document.removeEventListener('click', this.dismount);
+    }
+
+    dismount = evt => {
+        if (evt.target.classList.contains('dropdown') || findAncestor(evt.target, 'dropdown')) return;
+
+        if (!this.props.onDismount) return console.error('Dropdown onDismount not set');
+        this.props.onDismount();
+        document.removeEventListener('click', this.dismount);
+    }
+
+    render() {
+        return (
+            <ul
+                className={'dropdown' + (this.props.className ? ' ' + this.props.className : '')}
+                style={this.props.style}
+            >
+                {this.props.children}
+            </ul>
+        );
+    }
+}
+
 class UserInfo extends Component {
     constructor(props) {
         super(props);
@@ -25,16 +54,8 @@ class UserInfo extends Component {
                 'Are you sure?',
                 'Do you really wish to delete this account?',
                 'Deleting...'
-            ],
-            dismount: evt => {
-                if (evt.target.classList.contains('usercontrolls') || findAncestor(evt.target, 'usercontrolls')) return;
-
-                this.props.onDismount();
-                document.removeEventListener('click', this.state.dismount);
-            }
+            ]
         };
-
-        document.addEventListener('click', this.state.dismount);
     }
 
     handleLogoutClick = () => {
@@ -62,12 +83,12 @@ class UserInfo extends Component {
     render() {
         if (this.state.redirect) return <Redirect to={this.state.redirect} />
         return (
-            <div className='usercontrolls'>
-                <div onClick={this.handleLogoutClick}>Log out</div>
-                <div onClick={this.handleDeleteClick}>
+            <Dropdown onDismount={this.props.onDismount} className='usercontrolls'>
+                <li onClick={this.handleLogoutClick}>Log out</li>
+                <li onClick={this.handleDeleteClick}>
                     {this.state.deleteMessages[this.state.deleteCounter]}
-                </div>
-            </div>
+                </li>
+            </Dropdown>
         );
     }
 }
@@ -91,8 +112,8 @@ class Header extends Component {
         let pagename = '';
 
         switch (window.location.pathname.replace(/^\//i, '')) {
-            case 'login': pagename = 'Log In'; break;
-            case 'signup': pagename = 'Sign Up'; break;
+            case 'login': pagename = 'Log in'; break;
+            case 'signup': pagename = 'Sign up'; break;
             case 'dashboard': pagename = 'Dashboard'; break;
             case 'table':
                 const match = window.location.search.match(/t=(\d+)/i);
@@ -115,21 +136,15 @@ class Header extends Component {
     }
 
     componentWillUnmount = () => {
-        this.setState = () => {
-            return;
-        };
+        this.setState = () => { return; };
     }
 
     handleUserClick = () => {
-        this.setState({
-            userDropdown: !this.state.userDropdown
-        });
+        this.setState({ userDropdown: !this.state.userDropdown });
     }
 
     userInfoDismount = () => {
-        this.setState({
-            userDropdown: false
-        });
+        this.setState({ userDropdown: false });
     }
 
     render() {
@@ -276,4 +291,4 @@ const Author = {
     delete: authorDelete
 }
 
-export { Center, apiFetch, Author, Header, InputCheckbox, findAncestor };
+export { Center, apiFetch, Author, Header, InputCheckbox, Dropdown, findAncestor };

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Author, apiFetch, Center, Header, InputCheckbox, findAncestor } from './global.js';
+import { Author, apiFetch, Center, Header, InputCheckbox, findAncestor, Dropdown as DropdownDefault } from './global.js';
 import { Redirect, Link } from 'react-router-dom'
 
 class Welcome extends Component {
@@ -19,19 +19,17 @@ class Dropdown extends Component {
         this.state = {
             deleteClicks: 0,
             deletemsgs: [
-                'delete',
-                'are you sure?',
-                'do you really want to delete this table?',
-                'fine.'
+                'Delete',
+                'Are you sure?',
+                'Do you really want to delete this table?',
+                'Fine.'
             ]
         };
     }
 
     handleDeleteClick = () => {
         if (this.state.deleteClicks >= 2) this.props.delete();
-        this.setState({
-            deleteClicks: this.state.deleteClicks + 1
-        });
+        this.setState({ deleteClicks: this.state.deleteClicks + 1 });
     }
 
     handleEditClick = evt => {
@@ -39,23 +37,31 @@ class Dropdown extends Component {
         this.props.dismount();
     }
 
+    handleRestoreClick = evt => {
+        this.props.table.new = true;
+        this.props.table.changed = true;
+        this.props.editTable(this.props.table);
+        this.props.dismount();
+    }
+
     render() {
         return (
-            <div
-                className='dropdown'
+            <DropdownDefault
+                onDismount={this.props.dismount}
                 style={{
+                    position: 'absolute',
                     left: this.props.x + 'px',
                     top:  this.props.y + 'px'
                 }}
             >
-                <div
-                    className='field'
-                    onClick={this.handleDeleteClick}
-                >
+                <li onClick={this.handleDeleteClick}>
                     {this.state.deletemsgs[this.state.deleteClicks]}
-                </div>
-                <div className='field' onClick={this.handleEditClick}>edit</div>
-            </div>
+                </li>
+                {this.state.deleteClicks < this.state.deletemsgs.length - 1 ?
+                    <li onClick={this.handleEditClick}>Edit</li> :
+                    <li onClick={this.handleRestoreClick}>Restore</li>
+                }
+            </DropdownDefault>
         );
     }
 }
@@ -145,7 +151,7 @@ class TableCreator extends Component {
         super(props);
         this.state = {
             dismounting: false,
-            changed: false,
+            changed: props.table.changed || false,
             table: props.table
         }
     }
@@ -307,20 +313,11 @@ export default class Dashboard extends Component {
     }
 
     createDropdown = drop => {
-        this.setState({
-            dropdown: drop
-        });
+        this.setState({ dropdown: drop });
     }
 
     destroyDropdown = () => {
         this.setState({ dropdown: null });
-    }
-
-    cancelDropdown = evt => {
-        if (this.state.dropdown &&
-            !evt.target.classList.contains('dropdown') &&
-            !findAncestor(evt.target, 'dropdown')
-        ) this.destroyDropdown();
     }
 
     render() {
@@ -329,7 +326,6 @@ export default class Dashboard extends Component {
         return (
             <div
                 className='dashapp'
-                onClick={this.cancelDropdown}
             >
                 <Header />
                 <div className={'dashboard' + (this.state.create ? ' blur' : '')}>

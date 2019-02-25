@@ -68,7 +68,7 @@ export default class Login extends Component {
                     <div className='login'>
                         <div className='field'><h1> Log in </h1></div>
                         <div className={'field' + (this.state.error ? ' error' : '')}>
-                            Username:
+                            <div>Username</div>
                             <input
                                 name='username'
                                 onKeyPress={this.handleKeyPress}
@@ -77,7 +77,7 @@ export default class Login extends Component {
                             />
                         </div>
                         <div className={'field' + (this.state.error ? ' error' : '')}>
-                            Password:
+                            <div>Password</div>
                             <input
                                 name='password'
                                 onKeyPress={this.handleKeyPress}

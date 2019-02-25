@@ -1,14 +1,23 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Center, apiFetch, Author, Header } from './global.js';
+import { Center, apiFetch, Author, Header, Dropdown } from './global.js';
 
 class Element extends Component {
     constructor(props) {
         super(props);
+
+        let elneg = String((props.elm && props.elm.electronegativity) || '--');
+        let mass  = String((props.elm && props.elm.atomic_mass) || '--');
+
+        if (elneg !== '--' && !~elneg.indexOf('.')) elneg += '.0';
+        if (mass  !== '--' && !~mass.indexOf('.'))  mass = `(${mass})`;
+
         this.state = {
             click: props.click || false,
             elm: props.elm || false,
-            isUndef: this.props.elm && this.props.elm.isDefault
+            isUndef: this.props.elm && props.elm.isDefault,
+            elneg: elneg,
+            mass: mass
         };
         this.handleClick = this.handleClick.bind(this);
     }
@@ -22,17 +31,17 @@ class Element extends Component {
             <td
                 symbol={this.state.elm ? this.state.elm.symbol : undefined}
                 className={
-                    'element' +
+                    (this.state.elm.slidedown ? 'slidedown' : 'element') +
                     (!this.state.elm ? ' hidden' : '') +
                     (this.state.click ? ' click' : '') +
-                    (this.state.isUndef ? ' undef' : '') +
-                    (this.state.elm.slidedown ? ' slidedown' : '')
+                    (this.state.isUndef ? ' undef' : '')
                 }
                 onClick={this.handleClick}
             >
                 <span className='anum'>{this.state.elm && !this.state.isUndef ? this.state.elm.atom_number : undefined}</span>
-                <span className='symbol'>{this.state.elm ? this.state.elm.symbol : undefined}</span>
-                {this.state.elm && !this.state.isUndef && <span className='mass'><span>{this.state.elm.atomic_mass}</span></span>}
+                <div className='symbol'>{this.state.elm ? this.state.elm.symbol : undefined}</div>
+                {this.state.elm && !this.state.isUndef && <span className='mass'><span>{this.state.mass}</span></span>}
+                {this.state.elm && !this.state.isUndef && <span className='elneg'><span>{this.state.elneg}</span></span>}
             </td>
         );
     }
@@ -175,7 +184,7 @@ class Ptable extends Component {
         }
 
         return (
-            <table className={'ptable' + (this.state.show ? ' show ' + this.state.show : '')}>
+            <table className={'ptable' + (this.props.show ? ' show ' + this.props.show : '')}>
                 <tbody>{list}</tbody>
             </table>
         );
@@ -419,14 +428,26 @@ class TableOptions extends Component {
         super(props);
 
         this.state = {
-            dropdown: false
+            dropdown: false,
+            toggleStates: ['Show ', 'Hide '],
+            options: props.options
         };
     }
 
     handleClick = () => {
-        this.setState({
-            dropdown: !this.state.dropdown
-        });
+        this.setState({ dropdown: !this.state.dropdown });
+    }
+
+    dropdownDismount = () => {
+        this.setState({ dropdown: false });
+    }
+
+    toggleOption = evt => {
+        const name = evt.target.getAttribute('name');
+        let options = this.state.options;
+        options[name] = !options[name];
+        this.setState({ options: options });
+        this.props.onChange(options);
     }
 
     render() {
@@ -435,7 +456,18 @@ class TableOptions extends Component {
                 <div className='btn' onClick={this.handleClick}>
                     <i className="fas fa-cog"></i>
                 </div>
-                {this.state.dropdown && <i className="fas fa-cog"></i>}
+                {this.state.dropdown && (
+                    <Dropdown onDismount={this.dropdownDismount} className='dropdown'>
+                        <li name='mass' onClick={this.toggleOption}>
+                            {this.state.toggleStates[Number(this.state.options.mass)]}
+                            atomic mass
+                        </li>
+                        <li name='elneg' onClick={this.toggleOption}>
+                            {this.state.toggleStates[Number(this.state.options.elneg)]}
+                            electronegativity
+                        </li>
+                    </Dropdown>
+                )}
             </div>
         );
     }
@@ -451,7 +483,11 @@ export default class PTable extends Component {
         this.state = {
             inspect: null,
             blur: false,
-            tableID: (tableCookie && Number(tableCookie)) || -1
+            tableID: (tableCookie && Number(tableCookie)) || -1,
+            options : {
+                elneg: false,
+                mass: false
+            }
         };
     }
 
@@ -468,12 +504,21 @@ export default class PTable extends Component {
         if (changed) this.refs.table.state.reload();
     }
 
+    tableOptionsChange = options => {
+        this.setState({ options: options });
+    }
+
     render() {
         if (!Author.checkAuth()) return <Redirect to='login' />;
 
         return (
             <>
-                <Header right={<TableOptions />} />
+                <Header right={
+                    <TableOptions
+                        onChange={this.tableOptionsChange}
+                        options={this.state.options}
+                    />
+                } />
                 <div className='ptabapp'>
                     <div className={this.state.blur ? 'content blur' : 'content'}>
                         <Center>
@@ -481,6 +526,10 @@ export default class PTable extends Component {
                                 tableID={this.state.tableID}
                                 ref='table'
                                 onInspect={this.onInspectElement}
+                                show={
+                                    (this.state.options.elneg ? 'elneg' : '') +
+                                    (this.state.options.mass  ? ' mass' : '')
+                                }
                             />
                         </Center>
                     </div>
