@@ -8,11 +8,6 @@ import Login      from './pages/login.js';
 import SignUp     from './pages/signup.js';
 import Dashboard  from './pages/dashboard.js';
 
-const link = document.createElement('link');
-    link.setAttribute('rel', 'stylesheet');
-    link.setAttribute('href', 'http://localhost:3000/themes/white.css');
-document.head.appendChild(link);
-
 ReactDOM.render(
     <Router>
         <div>

@@ -42,6 +42,17 @@ class Dropdown extends Component {
     }
 }
 
+class ColorPreview extends Component {
+    render() {
+        return (
+            <div className='colorpreview'>
+                <div style={{ backgroundColor: this.props.colors[0] }} className='main' />
+                <div style={{ backgroundColor: this.props.colors[1] }} className='secondary' />
+            </div>
+        );
+    }
+}
+
 class UserInfo extends Component {
     constructor(props) {
         super(props);
@@ -56,12 +67,23 @@ class UserInfo extends Component {
                 'Deleting...'
             ],
             selectingTheme: false,
+            selectedTheme: 0,
             themes: [{
-                name: 'Royal'
+                name: 'Royal',
+                filename: 'royal.css',
+                colorPreview: [ '#ddc239', '#331F26' ]
             }, {
-                name: 'One Dark'
+                name: 'One Dark',
+                filename: 'one_dark.css',
+                colorPreview: [ '#61dafb', '#282C34' ]
             }, {
-                name: 'White'
+                name: 'White',
+                filename: 'white.css',
+                colorPreview: [ '#4a5266', '#ffffff' ]
+            }, {
+                name: 'Black',
+                filename: 'black.css',
+                colorPreview: [ '#c3cfd2', '#06080a' ]
             }]
         };
     }
@@ -95,12 +117,32 @@ class UserInfo extends Component {
         this.setState({ selectingTheme: !this.state.selectingTheme });
     }
 
+    changeTheme = evt => {
+        const index = Number(evt.target.getAttribute('index'));
+        const link = document.querySelector('head>link.theme') ||
+            document.createElement('link');
+
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('class', 'theme');
+        link.setAttribute('href', `${process.env.PUBLIC_URL}/themes/${this.state.themes[index].filename}`);
+
+        this.setState({ selectedTheme: index });
+        document.head.appendChild(link);
+    }
+
     renderThemeOptions = () => {
-        console.log('rendering theems options');
         const list = [];
         for (let i = 0; i < this.state.themes.length; i++) {
             list.push(
-                <li key={i}>{this.state.themes[i].name}</li>
+                <li
+                    key={i}
+                    index={i}
+                    onClick={this.changeTheme}
+                    className={this.state.selectedTheme === i ? 'selected' : ''}
+                >
+                    {this.state.themes[i].name}
+                    <ColorPreview colors={this.state.themes[i].colorPreview} />
+                </li>
             );
         }
         console.log(list);
@@ -110,17 +152,25 @@ class UserInfo extends Component {
     render() {
         if (this.state.redirect) return <Redirect to={this.state.redirect} />
         return (
-            <Dropdown onDismount={this.props.onDismount} className='usercontrolls'>
-                {this.state.selectingTheme ?
-                    this.renderThemeOptions()
-                : (<>
+            this.state.selectingTheme ? (
+                <Dropdown
+                    onDismount={this.props.onDismount}
+                    className='usercontrolls choose'
+                >
+                    {this.renderThemeOptions()}
+                </Dropdown>
+            ) : (
+                <Dropdown
+                    onDismount={this.props.onDismount}
+                    className='usercontrolls'
+                >
                     <li onClick={this.clickLogout}>Log out</li>
                     <li onClick={this.clickTheme}>Change theme</li>
                     <li onClick={this.clickDelete}>
                         {this.state.deleteMessages[this.state.deleteCounter]}
                     </li>
-                </>)}
-            </Dropdown>
+                </Dropdown>
+            )
         );
     }
 }
