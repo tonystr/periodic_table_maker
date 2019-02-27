@@ -77,13 +77,21 @@ class UserInfo extends Component {
                 filename: 'one_dark.css',
                 colorPreview: [ '#61dafb', '#282C34' ]
             }, {
-                name: 'White',
-                filename: 'white.css',
-                colorPreview: [ '#4a5266', '#ffffff' ]
+                name: 'Dracula',
+                filename: 'dracula.css',
+                colorPreview: [ '#ff79c6', '#282a36' ]
             }, {
                 name: 'Black',
                 filename: 'black.css',
                 colorPreview: [ '#c3cfd2', '#06080a' ]
+            }, {
+                name: 'White',
+                filename: 'white.css',
+                colorPreview: [ '#4a5266', '#ffffff' ]
+            }, {
+                name: 'Beach',
+                filename: 'beach.css',
+                colorPreview: [ 'palevioletred', 'papayawhip' ]
             }]
         };
     }
