@@ -1,56 +1,52 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
-class Center extends Component {
-    render() {
-        return (
-            <div className='padjust'>
-                <div className='padding' />
-                {this.props.children}
-                <div className='padding' />
-            </div>
-        );
-    }
+function Center(props) {
+    return (
+        <div className='padjust'>
+            <div className='padding' />
+            {props.children}
+            <div className='padding' />
+        </div>
+    );
 }
 
-class Dropdown extends Component {
-    componentDidMount = () => {
-        document.addEventListener('click', this.dismount);
-    }
+function Dropdown(props) {
 
-    componentWillUnMount = () => {
-        document.removeEventListener('click', this.dismount);
-    }
+    useEffect(() => {
 
-    dismount = evt => {
+        document.addEventListener('click', dismount);
+
+        return () => {
+            document.removeEventListener('click', dismount);
+        }
+    });
+
+    const dismount = evt => {
         if (evt.target.classList.contains('dropdown') || findAncestor(evt.target, 'dropdown')) return;
 
-        if (!this.props.onDismount) return console.error('Dropdown onDismount not set');
-        this.props.onDismount();
-        document.removeEventListener('click', this.dismount);
+        if (!props.onDismount) return console.error('Dropdown onDismount not set');
+        props.onDismount();
+        document.removeEventListener('click', dismount);
     }
 
-    render() {
-        return (
-            <ul
-                className={'dropdown' + (this.props.className ? ' ' + this.props.className : '')}
-                style={this.props.style}
-            >
-                {this.props.children}
-            </ul>
-        );
-    }
+    return (
+        <ul
+            className={'dropdown' + (props.className ? ' ' + props.className : '')}
+            style={props.style}
+        >
+            {props.children}
+        </ul>
+    );
 }
 
-class ColorPreview extends Component {
-    render() {
-        return (
-            <div className='colorpreview'>
-                <div style={{ backgroundColor: this.props.colors[0] }} className='main' />
-                <div style={{ backgroundColor: this.props.colors[1] }} className='secondary' />
-            </div>
-        );
-    }
+function ColorPreview(props) {
+    return (
+        <div className='colorpreview'>
+            <div style={{ backgroundColor: props.colors[0] }} className='main' />
+            <div style={{ backgroundColor: props.colors[1] }} className='secondary' />
+        </div>
+    );
 }
 
 class UserInfo extends Component {
@@ -183,28 +179,25 @@ class UserInfo extends Component {
     }
 }
 
-class Header extends Component {
-    constructor(props) {
-        super(props);
+function Header(props) {
 
-        this.state = {
-            username: '',
-            pagename: '',
-            userDropdown: false
-        };
-    }
+    const [username, setUsername] = useState('');
+    const [pagename, setPagename] = useState('');
+    const [userDropdown, setUserDropdown] = useState(false);
 
-    componentDidMount = () => {
+    useEffect(() => {
         Author.checkUsername(name => {
-            if (name) this.setState({ username: name });
+            if (name) setUsername(name);
         });
+    });
 
-        let pagename = '';
+    useEffect(() => {
+        let pname = '';
 
         switch (window.location.pathname.replace(/^\//i, '')) {
-            case 'login': pagename = 'Log in'; break;
-            case 'signup': pagename = 'Sign up'; break;
-            case 'dashboard': pagename = 'Dashboard'; break;
+            case 'login': pname = 'Log in'; break;
+            case 'signup': pname = 'Sign up'; break;
+            case 'dashboard': pname = 'Dashboard'; break;
             case 'table':
                 const match = window.location.search.match(/t=(\d+)/i);
                 if (!match || !match[1]) break;
@@ -215,90 +208,80 @@ class Header extends Component {
                 }, res => {
                     const resName = (res && res[0] && res[0].name) || null;
                     if (resName) {
-                        this.setState({ pagename: resName });
+                        setPagename(resName);
                     }
                 });
                 break;
-            default: pagename = ''; break;
+            default: pname = ''; break;
         }
 
-        if (pagename) this.setState({ pagename: pagename });
+        if (pname) setPagename(pname);
+    }, [window.location.pathname]);
+
+    // componentWillUnmount = () => {
+    //     this.setState = () => { return; };
+    // }
+
+    const handleUserClick = () => {
+        setUserDropdown(!userDropdown);
     }
 
-    componentWillUnmount = () => {
-        this.setState = () => { return; };
+    const userInfoDismount = () => {
+        setUserDropdown(false);
     }
 
-    handleUserClick = () => {
-        this.setState({ userDropdown: !this.state.userDropdown });
-    }
+    return (
+        <header>
+            <section className='left'>
+                <Link to='dashboard' className='dash'> Periodic Table Builder  </Link>
+                {props.left}
+            </section>
 
-    userInfoDismount = () => {
-        this.setState({ userDropdown: false });
-    }
+            <section className='center'>
+                <div className='pagename'>{pagename}</div>
+                {props.center}
+            </section>
 
-    render() {
-        return (
-            <header>
-                <section className='left'>
-                    <Link to='dashboard' className='dash'> Periodic Table Builder  </Link>
-                    {this.props.left}
-                </section>
-
-                <section className='center'>
-                    <div className='pagename'>{this.state.pagename}</div>
-                    {this.props.center}
-                </section>
-
-                <section className='right'>
-                    {this.props.right}
-                    {this.state.username && (
-                        <>
-                            <div
-                                className='user'
-                                onClick={this.handleUserClick}
-                            >
-                                {this.state.username}
-                            </div>
-                            {this.state.userDropdown && <UserInfo onDismount={this.userInfoDismount} />}
-                        </>
-                    )}
-                </section>
-            </header>
-        );
-    }
+            <section className='right'>
+                {props.right}
+                {username && (
+                    <>
+                        <div
+                            className='user'
+                            onClick={handleUserClick}
+                        >
+                            {username}
+                        </div>
+                        {userDropdown && <UserInfo onDismount={userInfoDismount} />}
+                    </>
+                )}
+            </section>
+        </header>
+    );
 }
 
-class InputCheckbox extends Component {
-    constructor(props) {
-        super(props);
+function InputCheckbox(props) {
 
-        this.state = {
-            checked: props.checked || false,
-            onChange: props.onChange
-        };
-    }
+    const [checked, setChecked] = useState(props.checked || false);
 
-    handleClick = evt => {
-        let checkbox = evt.target.classList.contains('checkbox') ?
+    const handleClick = evt => {
+        const checkbox = evt.target.classList.contains('checkbox') ?
             evt.target :
             findAncestor(evt.target, 'checkbox');
-        this.setState({
-            checked: checkbox && !checkbox.classList.contains('checked')
-        });
-        this.state.onChange(this.state.checked);
+
+        const chk = checkbox && !checkbox.classList.contains('checked');
+        setChecked(chk);
+        props.onChange(chk);
     }
 
-    render() {
-        return (
-            <div
-                className={'checkbox' + (this.state.checked ? ' checked' : '')}
-                onClick={this.handleClick}
-            >
-                <i className="fa fa-check" aria-hidden="true"></i>
-            </div>
-        );
-    }
+    return (
+        <div
+            className={'checkbox' + (checked ? ' checked' : '')}
+            onClick={handleClick}
+        >
+            <i className="fa fa-check" aria-hidden="true"></i>
+        </div>
+    );
 }
 
 function findAncestor(el, cls) {
