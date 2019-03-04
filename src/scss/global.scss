@@ -600,8 +600,13 @@ a:hover {
         display: inline-block;
         transition: $trans transform;
         position: relative;
-
         @include noselect;
+
+        &.hidden {
+            visibility: hidden;
+            opacity: 0;
+            border-color: transparent;
+        }
 
         .symbol {
             display: block;
@@ -669,11 +674,11 @@ a:hover {
                 }
             }
 
-            &.undef:hover{
+            &.undef:hover {
                 color: $c_green;
                 border-color: $c_green;
 
-                &::after{
+                &::after {
                     @include font-default;
                     content: '+';
                     position: absolute;
@@ -699,14 +704,14 @@ a:hover {
         }
     }
 
-    .element.click {
-        background-color: $c_gondola;
-    }
+    &.read-only .element:not(.slidedown).undef:hover {
+        color: $c_txtwhite;
+        border-color: $c_txtwhite;
 
-    .element.hidden {
-        visibility: hidden;
-        opacity: 0;
-        border-color: transparent;
+        &::after {
+            display: none;
+            opacity: 0;
+        }
     }
 }
 

@@ -96,6 +96,10 @@ class Ptable extends Component {
         });
     }
 
+    handleInspect = evt => {
+        this.props.onInspect(evt);
+    }
+
     renderSpecialGroup = (num, width) => {
         const diff = 32;
         const start = 57 + num * diff;
@@ -117,7 +121,7 @@ class Ptable extends Component {
                         Object.assign({}, def, { atom_number: anum, symbol: anum });
             list.push(
                 <Element
-                    onSelect={this.props.onInspect}
+                    onSelect={this.handleInspect}
                     key={anum}
                     elm={!elm.hidden && elm}
                 />
@@ -163,7 +167,7 @@ class Ptable extends Component {
 
                 list.push(
                     <Element
-                        onSelect={this.props.onInspect}
+                        onSelect={this.handleInspect}
                         key={key}
                         elm={!elm.hidden && elm}
                     />
@@ -195,7 +199,11 @@ class Ptable extends Component {
         }
 
         return (
-            <table className={'ptable' + (this.props.show ? ' show ' + this.props.show : '')}>
+            <table className={
+                'ptable' +
+                (this.props.show ? ' show ' + this.props.show : '') +
+                (this.state.table && this.state.table.author_id !== Author.checkAuth() ? ' read-only' : '')
+            }>
                 <tbody>{list}</tbody>
             </table>
         );
@@ -359,29 +367,31 @@ class ElementCard extends Component {
                             </ul>
                             {this.state.loaded && (
                                 <form className='datalist' method='POST'>
-                                    <ElementInput name='symbol' elm={this.state.elm} onChange={this.inputOnChange} className='elm-symbol' maxLength={4} />
-                                    <ElementInput name='anom'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-anom' />
-                                    <ElementInput name='name'   elm={this.state.elm} onChange={this.inputOnChange} className='elm-name' onKeyPress={this.handleKeyPress} />
+                                    <ElementInput name='symbol' readOnly={this.props.readOnly} elm={this.state.elm} onChange={this.inputOnChange} className='elm-symbol' maxLength={4} />
+                                    <ElementInput name='anom'   readOnly={this.props.readOnly} elm={this.state.elm} onChange={this.inputOnChange} className='elm-anom' />
+                                    <ElementInput name='name'   readOnly={this.props.readOnly} elm={this.state.elm} onChange={this.inputOnChange} className='elm-name' onKeyPress={this.handleKeyPress} />
                                     <br />
                                     {this.state.elm.mass  && <ElementInput name='mass'  readOnly={true} elm={this.state.elm} onChange={null} className='elm-mass'  onKeyPress={null} />}
                                     {this.state.elm.elneg && <ElementInput name='elneg' readOnly={true} elm={this.state.elm} onChange={null} className='elm-elneg' onKeyPress={null} />}
                                 </form>
                             )}
                         </div>
-                        <div className='bottom-bar'>
-                            <div
-                                className={'button delete' + (this.state.method !== 'ADD' || this.state.changed ? '' : ' hidden')}
-                                onClick={this.delete}
-                            >
-                                {this.state.method === 'ADD' ? 'Cancel' : 'Delete'}
+                        {!this.props.readOnly && (
+                            <div className='bottom-bar'>
+                                <div
+                                    className={'button delete' + (this.state.method !== 'ADD' || this.state.changed ? '' : ' hidden')}
+                                    onClick={this.delete}
+                                >
+                                    {this.state.method === 'ADD' ? 'Cancel' : 'Delete'}
+                                </div>
+                                <div
+                                    className={'button add' + (this.state.changed ? '' : ' hidden')}
+                                    onClick={this.handleDismount}
+                                >
+                                    {this.state.method === 'ADD' ? 'Add' : 'Update'}
+                                </div>
                             </div>
-                            <div
-                                className={'button add' + (this.state.changed ? '' : ' hidden')}
-                                onClick={this.handleDismount}
-                            >
-                                {this.state.method === 'ADD' ? 'Add' : 'Update'}
-                            </div>
-                        </div>
+                        )}
                     </div>
                 </div>
             </Center>
@@ -428,6 +438,7 @@ class Inspector extends Component {
                     elm={this.props.elm}
                     ref='card'
                     tableID={this.props.tableID}
+                    readOnly={this.props.readOnly}
                 />
             </div>
         );
@@ -549,6 +560,7 @@ export default class PTable extends Component {
                         blur={this.onBlur}
                         onDismount={this.onInspectEscape}
                         tableID={this.state.tableID}
+                        readOnly={this.refs.table && this.refs.table.state.table.author_id !== Author.checkAuth()}
                     />}
                 </div>
             </>

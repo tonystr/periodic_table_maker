@@ -63,32 +63,7 @@ class UserInfo extends Component {
                 'Deleting...'
             ],
             selectingTheme: false,
-            selectedTheme: 0,
-            themes: [{
-                name: 'Royal',
-                filename: 'royal.css',
-                colorPreview: [ '#ddc239', '#331F26' ]
-            }, {
-                name: 'One Dark',
-                filename: 'one_dark.css',
-                colorPreview: [ '#61dafb', '#282C34' ]
-            }, {
-                name: 'Dracula',
-                filename: 'dracula.css',
-                colorPreview: [ '#ff79c6', '#282a36' ]
-            }, {
-                name: 'Black',
-                filename: 'black.css',
-                colorPreview: [ '#c3cfd2', '#06080a' ]
-            }, {
-                name: 'White',
-                filename: 'white.css',
-                colorPreview: [ '#4a5266', '#ffffff' ]
-            }, {
-                name: 'Beach',
-                filename: 'beach.css',
-                colorPreview: [ 'palevioletred', 'papayawhip' ]
-            }]
+            selectedTheme: Author.checkTheme()
         };
     }
 
@@ -121,31 +96,24 @@ class UserInfo extends Component {
         this.setState({ selectingTheme: !this.state.selectingTheme });
     }
 
-    changeTheme = evt => {
-        const index = Number(evt.target.getAttribute('index'));
-        const link = document.querySelector('head>link.theme') ||
-            document.createElement('link');
-
-        link.setAttribute('rel', 'stylesheet');
-        link.setAttribute('class', 'theme');
-        link.setAttribute('href', `${process.env.PUBLIC_URL}/themes/${this.state.themes[index].filename}`);
-
+    clickThemeOption = evt => {
+        const index = evt.target.getAttribute('index');
         this.setState({ selectedTheme: index });
-        document.head.appendChild(link);
+        this.props.changeTheme(Number(index));
     }
 
     renderThemeOptions = () => {
         const list = [];
-        for (let i = 0; i < this.state.themes.length; i++) {
+        for (let i = 0; i < this.props.themes.length; i++) {
             list.push(
                 <li
                     key={i}
                     index={i}
-                    onClick={this.changeTheme}
+                    onClick={this.clickThemeOption}
                     className={this.state.selectedTheme === i ? 'selected' : ''}
                 >
-                    {this.state.themes[i].name}
-                    <ColorPreview colors={this.state.themes[i].colorPreview} />
+                    {this.props.themes[i].name}
+                    <ColorPreview colors={this.props.themes[i].colorPreview} />
                 </li>
             );
         }
@@ -185,11 +153,41 @@ function Header(props) {
     const [pagename, setPagename] = useState('');
     const [userDropdown, setUserDropdown] = useState(false);
 
+    const themes = [{
+        name: 'Royal',
+        filename: 'royal.css',
+        colorPreview: [ '#ddc239', '#331F26' ]
+    }, {
+        name: 'One Dark',
+        filename: 'one_dark.css',
+        colorPreview: [ '#61dafb', '#282C34' ]
+    }, {
+        name: 'Dracula',
+        filename: 'dracula.css',
+        colorPreview: [ '#ff79c6', '#282a36' ]
+    }, {
+        name: 'Black',
+        filename: 'black.css',
+        colorPreview: [ '#c3cfd2', '#06080a' ]
+    }, {
+        name: 'White',
+        filename: 'white.css',
+        colorPreview: [ '#4a5266', '#ffffff' ]
+    }, {
+        name: 'Beach',
+        filename: 'beach.css',
+        colorPreview: [ 'palevioletred', 'papayawhip' ]
+    }];
+
     useEffect(() => {
         Author.checkUsername(name => {
             if (name) setUsername(name);
         });
     });
+
+    useEffect(() => {
+        changeTheme(Author.checkTheme());
+    }, []);
 
     useEffect(() => {
         let pname = '';
@@ -209,7 +207,7 @@ function Header(props) {
                     if (res && res[0]) {
                         setPagename(
                             res[0].name +
-                            (res[0].public ? ' (only read-access)' : '')
+                            (res[0].author_id !== Author.checkAuth() ? ' [read-only]' : '')
                         );
                     }
                 });
@@ -220,16 +218,25 @@ function Header(props) {
         if (pname) setPagename(pname);
     }, [window.location.pathname]);
 
-    // componentWillUnmount = () => {
-    //     this.setState = () => { return; };
-    // }
-
     const handleUserClick = () => {
         setUserDropdown(!userDropdown);
     }
 
     const userInfoDismount = () => {
         setUserDropdown(false);
+    }
+
+    const changeTheme = index => {
+        const link = document.querySelector('head>link.theme') ||
+            document.createElement('link');
+
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('class', 'theme');
+        link.setAttribute('href', `${process.env.PUBLIC_URL}/themes/${themes[index].filename}`);
+
+        Author.setTheme(index);
+        // this.setState({ selectedTheme: index });
+        document.head.appendChild(link);
     }
 
     return (
@@ -254,7 +261,13 @@ function Header(props) {
                         >
                             {username}
                         </div>
-                        {userDropdown && <UserInfo onDismount={userInfoDismount} />}
+                        {userDropdown && (
+                            <UserInfo
+                                changeTheme={changeTheme}
+                                onDismount={userInfoDismount}
+                                themes={themes}
+                            />
+                        )}
                     </>
                 )}
             </section>
@@ -355,12 +368,33 @@ function authorDelete(callback) {
     });
 }
 
+function checkTheme() {
+    if (!Author.themeIndex) {
+        const match = document.cookie.match(/theme\s*=\s*(\d+)/i);
+        if (match) {
+            Author.themeIndex = Number(match[1]);
+        }
+    }
+
+    return Author.themeIndex;
+}
+
+function setTheme(themeIndex) {
+    Author.themeIndex = themeIndex;
+    let date = new Date();
+    date.setDate(date.getDate() + 7);
+    document.cookie = `theme=${themeIndex}; expires=${date}; path=/`;
+}
+
 const Author = {
     username: '',
     password: '',
     auth: 0,
+    themeIndex: 0,
     authenticate: authenticate,
+    setTheme: setTheme,
     checkAuth: checkAuth,
+    checkTheme: checkTheme,
     checkUsername: checkUsername,
     logout: authorLogout,
     delete: authorDelete
