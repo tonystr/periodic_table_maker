@@ -97,21 +97,44 @@ con.connect(err => {
                             break;
 
                         case 'table_elements':
-                            con.query(
-                                `SELECT e.atom_number, e.symbol, d.atomic_mass, d.electronegativity, t.name AS type
-                                FROM element e
-                                JOIN default_element d
-                                JOIN type t
-                                WHERE e.atom_number=d.atom_number
-                                AND e.table_id=${data.table}
-                                AND d.type_id=t.type_id
-                                `,
-                                (err, res) => {
 
-                                if (err) return console.error(err);
-                                console.log('responding with:', res);
-                                servRes.send(res);
-                            });
+                            con.query(
+                                `SELECT * FROM \`table\` WHERE table_id=${data.table}`,
+                                (err, res) => {
+                                    if (err) return console.error(err);
+
+                                    const table = res[0];
+
+                                    if (!table || !(table.public || table.author_id === data.authorID)) {
+                                        res = {
+                                            error: 'You do not have permission to view/edit this table. Try logging in'
+                                        };
+                                        console.log('responding with:', res);
+                                        servRes.send(res);
+                                    } else {
+                                        con.query(
+                                            `SELECT e.atom_number, e.symbol, d.atomic_mass, d.electronegativity, d.type_id
+                                            FROM element e
+                                            JOIN default_element d
+                                            JOIN \`table\` t
+                                            WHERE e.atom_number=d.atom_number
+                                            AND e.table_id=${data.table}
+                                            AND (t.author_id=${data.authorID} OR t.public=1)
+                                            `,
+                                            (err, res) => {
+                                                if (err) return console.error(err);
+                                                res = {
+                                                    error: null,
+                                                    table: table,
+                                                    elements: res
+                                                };
+                                                console.log('responding with:', res);
+                                                servRes.send(res);
+                                            }
+                                        );
+                                    }
+                                }
+                            );
                             break;
 
                         case 'tables':

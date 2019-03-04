@@ -53,6 +53,8 @@ class Ptable extends Component {
 
         this.state = {
             loaded: false,
+            redirect: null,
+            table: {},
             elements: [],
             width: 18,
             tableID: props.tableID,
@@ -77,12 +79,20 @@ class Ptable extends Component {
         apiFetch({
             method: 'GET',
             reqtype: 'table_elements',
-            table: this.state.tableID
+            table: this.state.tableID,
+            authorID: Author.checkAuth()
         }, res => {
-            this.setState({
-                loaded: true,
-                elements: res
-            });
+            if (res.error) {
+                this.setState({
+                    redirect: 'dashboard'
+                });
+            } else {
+                this.setState({
+                    loaded: true,
+                    table: res.table,
+                    elements: res.elements
+                });
+            }
         });
     }
 
@@ -166,6 +176,7 @@ class Ptable extends Component {
 
     render() {
 
+        if (this.state.redirect) return <Redirect to={this.state.redirect} />;
         if (!this.state.tableID) return <Redirect to='dashboard' />;
 
         const width = 18;

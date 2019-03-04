@@ -206,9 +206,11 @@ function Header(props) {
                     reqtype: 'table',
                     tableID: match[1]
                 }, res => {
-                    const resName = (res && res[0] && res[0].name) || null;
-                    if (resName) {
-                        setPagename(resName);
+                    if (res && res[0]) {
+                        setPagename(
+                            res[0].name +
+                            (res[0].public ? ' (only read-access)' : '')
+                        );
                     }
                 });
                 break;

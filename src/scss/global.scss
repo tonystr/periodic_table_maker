@@ -641,7 +641,7 @@ a:hover {
 
             &:hover {
                 z-index: 4;
-                cursor: none;
+                cursor: pointer;
                 border-radius: 3px/3px;
                 transform: scale(1.2);
                 border-color: $c_gold;

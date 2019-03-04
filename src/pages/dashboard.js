@@ -173,12 +173,14 @@ class TableCreator extends Component {
 
     handleInputPublic = checked => {
         let obj = { changed: true, table: this.state.table };
-        obj.table.public = !checked;
+        obj.table.public = checked;
         this.setState(obj);
     }
 
     createTable = () => {
         if (!this.state.table.name) return console.log('can\'t create table without a name');
+
+        console.log('table is public: ' + this.state.table.public);
 
         if (this.state.table.new) {
             apiFetch({
