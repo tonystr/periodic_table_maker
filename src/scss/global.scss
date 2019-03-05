@@ -312,6 +312,10 @@ a:hover {
     }
 }
 
+.welcome {
+    color: $c_txtwhite;
+}
+
 .dropdown {
     position: absolute;
     z-index: 700;
@@ -326,6 +330,10 @@ a:hover {
 
     &.choose {
         padding-left: 1rem;
+    }
+
+    a, a:hover {
+        color: $c_gold;
     }
 
     li, .field {
@@ -366,25 +374,35 @@ a:hover {
 
 .dashboard {
     width: 70%;
-    padding: 0 15%;
-
-    .tablesection {
-    }
+    margin: 0 auto;
+    border-bottom: 1px solid $c_gondola;
 
     .table {
         position: relative;
         padding: .5rem 1rem;
         padding-bottom: 1rem;
         border: 1px solid $c_gondola;
-        border-bottom:none;
+        border-bottom: none;
         transition: .06s all;
 
         color: $c_gold;
 
         .name {
+            display: inline-block;
             font-size: 1.4rem;
             font-weight: bold;
             padding-bottom: .2rem;
+        }
+
+        .author {
+            font-size: 1.4rem;
+            display: inline-block;
+            color: $c_txtwhite;
+            margin-left: 1rem;
+        }
+
+        .note {
+            color: $c_txtwhite;
         }
 
         .options {
@@ -414,7 +432,6 @@ a:hover {
 
     .table.last {
         padding: .5rem 1rem;
-        border-bottom: 1px solid $c_gondola;
 
         .name {
             color: $c_green;
@@ -429,19 +446,19 @@ a:hover {
     }
 }
 
+.warning {
+    border: 2px solid $c_gondola;
+    color: $c_txtwhite;
+    font-size: 1.1rem;
+    padding: .6rem;
+    padding-top: .34rem;
+    border-radius: .4rem;
+}
+
 .login {
 
     min-width: 380px;
     font-size: 1.4rem;
-
-    .warning {
-        border: 2px solid $c_gondola;
-        color: $c_txtwhite;
-        font-size: 1.1rem;
-        padding: .6rem;
-        padding-top: .34rem;
-        border-radius: .4rem;
-    }
 
     .field {
 
@@ -856,4 +873,17 @@ $btx_pad: .1rem;
 
     bottom: -54%;
     left: -31%;
+}
+
+.table-error {
+    width: 80%;
+    margin: 3rem auto;
+    font-size: 1.2rem;
+    color: $c_gold;
+
+    .ohno {
+        margin-bottom: 1rem;
+        font-size: 3rem;
+        font-weight: bold;
+    }
 }

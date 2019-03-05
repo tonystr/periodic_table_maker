@@ -224,6 +224,9 @@ a:hover {
     width: 100%;
     height: 50%; }
 
+.welcome {
+  color: #9DA5B4; }
+
 .dropdown {
   position: absolute;
   z-index: 700;
@@ -244,6 +247,8 @@ a:hover {
   list-style-type: none; }
   .dropdown.choose {
     padding-left: 1rem; }
+  .dropdown a, .dropdown a:hover {
+    color: #c3cfd2; }
   .dropdown li, .dropdown .field {
     padding: .14rem 1rem; }
     .dropdown li:hover, .dropdown .field:hover {
@@ -270,7 +275,8 @@ a:hover {
 
 .dashboard {
   width: 70%;
-  padding: 0 15%; }
+  margin: 0 auto;
+  border-bottom: 1px solid #101415; }
   .dashboard .table {
     position: relative;
     padding: .5rem 1rem;
@@ -280,9 +286,17 @@ a:hover {
     transition: .06s all;
     color: #c3cfd2; }
     .dashboard .table .name {
+      display: inline-block;
       font-size: 1.4rem;
       font-weight: bold;
       padding-bottom: .2rem; }
+    .dashboard .table .author {
+      font-size: 1.4rem;
+      display: inline-block;
+      color: #9DA5B4;
+      margin-left: 1rem; }
+    .dashboard .table .note {
+      color: #9DA5B4; }
     .dashboard .table .options {
       position: absolute;
       right: .8rem;
@@ -302,8 +316,7 @@ a:hover {
     .dashboard .table .options:hover {
       color: #20cf30; }
   .dashboard .table.last {
-    padding: .5rem 1rem;
-    border-bottom: 1px solid #101415; }
+    padding: .5rem 1rem; }
     .dashboard .table.last .name {
       color: #20cf30;
       font-weight: normal;
@@ -319,16 +332,17 @@ a:hover {
     background-color: #474F5E;
     cursor: pointer; }
 
+.warning {
+  border: 2px solid #101415;
+  color: #9DA5B4;
+  font-size: 1.1rem;
+  padding: .6rem;
+  padding-top: .34rem;
+  border-radius: .4rem; }
+
 .login {
   min-width: 380px;
   font-size: 1.4rem; }
-  .login .warning {
-    border: 2px solid #101415;
-    color: #9DA5B4;
-    font-size: 1.1rem;
-    padding: .6rem;
-    padding-top: .34rem;
-    border-radius: .4rem; }
   .login .field {
     margin-top: 1.4rem;
     position: relative;
@@ -615,3 +629,13 @@ a:hover {
   padding: 0.16rem;
   bottom: -54%;
   left: -31%; }
+
+.table-error {
+  width: 80%;
+  margin: 3rem auto;
+  font-size: 1.2rem;
+  color: #c3cfd2; }
+  .table-error .ohno {
+    margin-bottom: 1rem;
+    font-size: 3rem;
+    font-weight: bold; }

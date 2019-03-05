@@ -148,15 +148,30 @@ con.connect(err => {
                             });
                             break;
 
+                        case 'public_tables':
+                            con.query(
+                                `SELECT t.table_id, t.name, t.note, a.name AS author_name
+                                FROM \`table\` t
+                                JOIN author a
+                                WHERE t.author_id=a.author_id
+                                AND public=1`,
+                                (err, res) => {
+                                    if (err) return console.error(err);
+                                    console.log('responding with:', res);
+                                    servRes.send(res);
+                                }
+                            );
+                            break;
+
                         case 'table':
                             con.query(
                                 `SELECT * FROM \`table\` WHERE table_id=${data.tableID}`,
                                 (err, res) => {
-
-                                if (err) return console.error(err);
-                                console.log('responding with:', res);
-                                servRes.send(res);
-                            });
+                                    if (err) return console.error(err);
+                                    console.log('responding with:', res);
+                                    servRes.send(res);
+                                }
+                            );
                             break;
 
                         case 'username':
@@ -164,11 +179,11 @@ con.connect(err => {
                             con.query(
                                 `SELECT name FROM author WHERE author_id=${data.authorID}`,
                                 (err, res) => {
-
-                                if (err) return console.error(err);
-                                console.log('responding with:', res);
-                                servRes.send(res);
-                            });
+                                    if (err) return console.error(err);
+                                    console.log('responding with:', res);
+                                    servRes.send(res);
+                                }
+                            );
                             break;
                     }
                     break;
@@ -186,11 +201,11 @@ con.connect(err => {
                                 name="${data.name}", symbol="${data.symbol}"
                                 WHERE table_id=${data.table} AND atom_number=${data.anom}`,
                                 (err, res) => {
-
-                                if (err) return console.error(err);
-                                console.log('responding with:', res);
-                                servRes.send(res);
-                            });
+                                    if (err) return console.error(err);
+                                    console.log('responding with:', res);
+                                    servRes.send(res);
+                                }
+                            );
                             break;
 
                         case 'table':
@@ -199,11 +214,11 @@ con.connect(err => {
                                 name="${data.name}", note="${data.note}", public=${data.public ? 1 : 0}
                                 WHERE table_id=${data.tableID}`,
                                 (err, res) => {
-
-                                if (err) return console.error(err);
-                                console.log('responding with:', res);
-                                servRes.send(res);
-                            });
+                                    if (err) return console.error(err);
+                                    console.log('responding with:', res);
+                                    servRes.send(res);
+                                }
+                            );
                             break;
                     }
                     break;
@@ -220,21 +235,21 @@ con.connect(err => {
                             `INSERT INTO element (name, symbol, atom_number, table_id)
                             VALUES ("${data.name}", "${data.symbol}", ${data.anom}, ${data.table})`,
                             (err, res) => {
-
-                            if (err) return console.error(err);
-                            console.log('responding with:', res);
-                            servRes.send(res);
-                        });
+                                if (err) return console.error(err);
+                                console.log('responding with:', res);
+                                servRes.send(res);
+                            }
+                        );
                     } else if (data.reqtype === 'table') {
                         con.query(
                             `INSERT INTO \`table\` (name, author_id, note, public)
                             VALUES ("${data.name}", ${data.authorID}, "${data.note}", ${data.public ? 1 : 0})`,
                             (err, res) => {
-
-                            if (err) return console.error(err);
-                            console.log('responding with:', res);
-                            servRes.send(res);
-                        });
+                                if (err) return console.error(err);
+                                console.log('responding with:', res);
+                                servRes.send(res);
+                            }
+                        );
                     }
                     //servRes.send('something');
                     break;

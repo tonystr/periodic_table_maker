@@ -83,9 +83,7 @@ class Ptable extends Component {
             authorID: Author.checkAuth()
         }, res => {
             if (res.error) {
-                this.setState({
-                    redirect: 'dashboard'
-                });
+                this.setState({ redirect: 'tablemissing' });
             } else {
                 this.setState({
                     loaded: true,
@@ -181,7 +179,7 @@ class Ptable extends Component {
     render() {
 
         if (this.state.redirect) return <Redirect to={this.state.redirect} />;
-        if (!this.state.tableID) return <Redirect to='dashboard' />;
+        if (!this.state.tableID) return <Redirect to='tablemissing' />;
 
         const width = 18;
         const height = 7;

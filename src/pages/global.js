@@ -97,9 +97,9 @@ class UserInfo extends Component {
     }
 
     clickThemeOption = evt => {
-        const index = evt.target.getAttribute('index');
+        const index = Number(evt.target.getAttribute('index'));
         this.setState({ selectedTheme: index });
-        this.props.changeTheme(Number(index));
+        this.props.changeTheme(index);
     }
 
     renderThemeOptions = () => {
@@ -136,8 +136,9 @@ class UserInfo extends Component {
                     onDismount={this.props.onDismount}
                     className='usercontrolls'
                 >
-                    <li onClick={this.clickLogout}>Log out</li>
+                    <Link to='dashboard'><li>Dashboard</li></Link>
                     <li onClick={this.clickTheme}>Change theme</li>
+                    <li onClick={this.clickLogout}>Log out</li>
                     <li onClick={this.clickDelete}>
                         {this.state.deleteMessages[this.state.deleteCounter]}
                     </li>
@@ -193,9 +194,11 @@ function Header(props) {
         let pname = '';
 
         switch (window.location.pathname.replace(/^\//i, '')) {
+            case 'home': case '': pname = 'Home'; break;
             case 'login': pname = 'Log in'; break;
             case 'signup': pname = 'Sign up'; break;
             case 'dashboard': pname = 'Dashboard'; break;
+            case 'tablemissing': pname = 'Table not found'; break;
             case 'table':
                 const match = window.location.search.match(/t=(\d+)/i);
                 if (!match || !match[1]) break;
@@ -242,7 +245,7 @@ function Header(props) {
     return (
         <header>
             <section className='left'>
-                <Link to='dashboard' className='dash'> Periodic Table Builder  </Link>
+                <Link to='/' className='dash'><i className="fas fa-home"></i> Periodic Table Builder  </Link>
                 {props.left}
             </section>
 
@@ -305,7 +308,7 @@ function findAncestor(el, cls) {
 }
 
 async function apiFetch(data, callBack) {
-    await fetch('http://localhost:5487', {
+    await fetch(`http://${window.location.hostname}:5487`, {
         headers: {
             accepts: 'application/json',
             data: JSON.stringify(data)
