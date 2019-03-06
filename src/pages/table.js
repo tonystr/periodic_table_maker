@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Center, apiFetch, Author, Header, Dropdown } from './global.js';
 
@@ -19,7 +19,6 @@ class Element extends Component {
             elneg: elneg,
             mass: mass
         };
-        this.handleClick = this.handleClick.bind(this);
     }
 
     handleClick = () => {
@@ -27,6 +26,20 @@ class Element extends Component {
     }
 
     render() {
+
+        //const typeColors = [
+        //    '#F2615A',
+        //    '#FAAD59',
+        //    '#F0ED58',
+        //    '#7FC973',
+        //    '#79D1DC',
+        //    '#7984C0',
+        //    '#8A80BB',
+        //    '#B47EB5',
+        //    '#E972B2',
+        //    '#D281B8'
+        //];
+
         return (
             <td
                 symbol={this.state.elm ? this.state.elm.symbol : undefined}
@@ -34,7 +47,8 @@ class Element extends Component {
                     (this.state.elm.slidedown ? 'slidedown' : 'element') +
                     (!this.state.elm ? ' hidden' : '') +
                     (this.state.click ? ' click' : '') +
-                    (this.state.isUndef ? ' undef' : '')
+                    (this.state.isUndef ? ' undef' : '') +
+                    (this.state.elm.type_id ? ' type-' + this.state.elm.type_id : ' type-11')
                 }
                 onClick={this.handleClick}
             >
@@ -443,54 +457,44 @@ class Inspector extends Component {
     }
 }
 
-class TableOptions extends Component {
-    constructor(props) {
-        super(props);
+function TableOptions(props) {
+    const [dropdown, setDropdown] = useState(false);
+    const [options, setOptions] = useState(props.options);
+    const toggleStates = ['Show ', 'Hide '];
 
-        this.state = {
-            dropdown: false,
-            toggleStates: ['Show ', 'Hide '],
-            options: props.options
-        };
-    }
-
-    handleClick = () => {
-        this.setState({ dropdown: !this.state.dropdown });
-    }
-
-    dropdownDismount = () => {
-        this.setState({ dropdown: false });
-    }
-
-    toggleOption = evt => {
+    const toggleOption = evt => {
         const name = evt.target.getAttribute('name');
-        let options = this.state.options;
-        options[name] = !options[name];
-        this.setState({ options: options });
-        this.props.onChange(options);
+        let opts = options;
+        opts[name] = !opts[name];
+        setOptions(opts);
+        props.onChange(options);
     }
 
-    render() {
-        return (
-            <div className='tableoptions'>
-                <div className='btn' onClick={this.handleClick}>
-                    <i className="fas fa-cog"></i>
-                </div>
-                {this.state.dropdown && (
-                    <Dropdown onDismount={this.dropdownDismount} className='dropdown'>
-                        <li name='mass' onClick={this.toggleOption}>
-                            {this.state.toggleStates[Number(this.state.options.mass)]}
-                            atomic mass
-                        </li>
-                        <li name='elneg' onClick={this.toggleOption}>
-                            {this.state.toggleStates[Number(this.state.options.elneg)]}
-                            electronegativity
-                        </li>
-                    </Dropdown>
-                )}
+    return (
+        <div className='tableoptions'>
+            <div className='btn' onClick={() => setDropdown(!dropdown)}>
+                <i className="fas fa-cog"></i>
             </div>
-        );
-    }
+            {dropdown && (
+                <Dropdown onDismount={() => setDropdown(false)} className='dropdown'>
+                    <li name='mass' onClick={toggleOption}>
+                        {toggleStates[Number(options.mass)]}
+                        atomic mass
+                    </li>
+                    <li name='elneg' onClick={toggleOption}>
+                        {toggleStates[Number(options.elneg)]}
+                        electronegativity
+                    </li>
+                    <li name='typeColors' onClick={toggleOption}>
+                        {toggleStates[Number(options.typeColors)]}
+                        type colors
+                    </li>
+
+
+                </Dropdown>
+            )}
+        </div>
+    );
 }
 
 export default class PTable extends Component {
@@ -506,7 +510,8 @@ export default class PTable extends Component {
             tableID: (tableCookie && Number(tableCookie)) || -1,
             options : {
                 elneg: false,
-                mass: false
+                mass: false,
+                typeColors: false
             }
         };
     }
@@ -548,7 +553,8 @@ export default class PTable extends Component {
                                 onInspect={this.onInspectElement}
                                 show={
                                     (this.state.options.elneg ? 'elneg' : '') +
-                                    (this.state.options.mass  ? ' mass' : '')
+                                    (this.state.options.mass  ? ' mass' : '') +
+                                    (this.state.options.typeColors ? ' tcolors' : '')
                                 }
                             />
                         </Center>

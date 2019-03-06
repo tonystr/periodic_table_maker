@@ -433,6 +433,28 @@ a:hover {
     opacity: .74;
     color: #9DA5B4;
     bottom: 0; }
+  .ptable.show.tcolors .element.type-1 {
+    color: #F2615A; }
+  .ptable.show.tcolors .element.type-2 {
+    color: #FAAD59; }
+  .ptable.show.tcolors .element.type-3 {
+    color: #F0ED58; }
+  .ptable.show.tcolors .element.type-4 {
+    color: #7FC973; }
+  .ptable.show.tcolors .element.type-5 {
+    color: #79D1DC; }
+  .ptable.show.tcolors .element.type-6 {
+    color: #7984C0; }
+  .ptable.show.tcolors .element.type-7 {
+    color: #8A80BB; }
+  .ptable.show.tcolors .element.type-8 {
+    color: #B47EB5; }
+  .ptable.show.tcolors .element.type-9 {
+    color: #E972B2; }
+  .ptable.show.tcolors .element.type-10 {
+    color: #D281B8; }
+  .ptable.show.tcolors .element.type-11 {
+    color: #9DA5B4; }
   .ptable .element {
     animation: fadein 0.084s;
     width: 4.3vw;

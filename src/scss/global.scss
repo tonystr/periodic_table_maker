@@ -608,6 +608,14 @@ a:hover {
         bottom: 0;
     }
 
+    $tcolors: #F2615A #FAAD59 #F0ED58 #7FC973 #79D1DC #7984C0 #8A80BB #B47EB5 #E972B2 #D281B8 #9DA5B4;
+
+    @for $i from 1 through 11 {
+        &.show.tcolors .element.type-#{$i} {
+            color: nth($tcolors, $i)
+        }
+    }
+
     .element {
         animation: fadein $fade_time * .3;
         width: 4.3vw;
