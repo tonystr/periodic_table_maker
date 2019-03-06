@@ -1,7 +1,7 @@
 
 const mysql = require('mysql');
 const fs = require('fs');
-const data = JSON.parse(fs.readFileSync('./defaultElements.json').toString());
+const data = JSON.parse(fs.readFileSync('../data/default_elements.json').toString());
 
 console.log('laoded data:', data);
 
