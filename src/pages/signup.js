@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Center, apiFetch, Author, Header } from './global.js';
+import { Center, apiFetch, Author, Header } from './../global.js';
 import { Link, Redirect } from 'react-router-dom';
 
 export default class Login extends Component {

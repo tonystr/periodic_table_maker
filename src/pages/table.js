@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Center, apiFetch, Author, Header, Dropdown } from './global.js';
+import { Center, apiFetch, Author, Header, Dropdown } from './../global.js';
 
 class Element extends Component {
     constructor(props) {

@@ -6,6 +6,7 @@ $c_gray:     #4c2f36 !default;
 $c_green:    #45a372 !default;
 $c_red:      #F1414b !default;
 $c_txtwhite: #927a7e !default;
+$tcolors: #F2615A #FAAD59 #F0ED58 #7FC973 #79D1DC #7984C0 #8A80BB #B47EB5 #E972B2 #D281B8 #9DA5B4;
 
 $fade_time: .28s;
 
@@ -607,8 +608,6 @@ a:hover {
         color:  $c_txtwhite;
         bottom: 0;
     }
-
-    $tcolors: #F2615A #FAAD59 #F0ED58 #7FC973 #79D1DC #7984C0 #8A80BB #B47EB5 #E972B2 #D281B8 #9DA5B4;
 
     @for $i from 1 through 11 {
         &.show.tcolors .element.type-#{$i} {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Author, apiFetch, Center, Header, InputCheckbox, findAncestor, Dropdown as DropdownDefault } from './global.js';
+import { Author, apiFetch, Center, Header, InputCheckbox, findAncestor, Dropdown as DropdownDefault } from './../global.js';
 import { Redirect, Link } from 'react-router-dom'
 
 class Welcome extends Component {

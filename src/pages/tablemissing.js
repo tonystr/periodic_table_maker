@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Header } from './global.js';
+import { Header } from './../global.js';
 
 export default function TableMissing(props) {
     return (
