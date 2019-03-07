@@ -74,6 +74,7 @@ code {
 header {
     background-color: $c_gondola;
     padding: .8rem 2rem;
+    -webkit-app-region: drag;
 
     box-shadow: 0 1px 6px rgba(0, 0, 0, .34);
 
@@ -91,9 +92,11 @@ header {
             margin-top: .3rem;
             left: 50%;
             transform: translateX(-50%);
+            -webkit-app-region: no-drag;
         }
 
         .btn {
+            -webkit-app-region: no-drag;
             border: 2px solid transparent;
             background-color: $c_coca;
             color: $c_txtwhite;
@@ -127,7 +130,12 @@ header {
         flex-shrink: 0;
     }
 
+    a {
+        -webkit-app-region: no-drag;
+    }
+
     .user {
+        -webkit-app-region: no-drag;
         height: 1.3rem;
         float: right;
         position: relative;
