@@ -1,0 +1,808 @@
+[{
+    "anum": 1,
+    "type": "Nonmetal",
+    "symbol": "H",
+    "name": "Hydrogen",
+    "mass": "1.008",
+    "elneg": 2.1
+}, {
+    "anum": 2,
+    "type": "Noble",
+    "symbol": "He",
+    "name": "Helium",
+    "mass": "4.0026"
+}, {
+    "anum": 3,
+    "type": "Alkali",
+    "symbol": "Li",
+    "name": "Lithium",
+    "mass": "6.94",
+    "elneg": 1
+}, {
+    "anum": 4,
+    "type": "Alkali",
+    "symbol": "Be",
+    "name": "Beryllium",
+    "mass": "9.0122",
+    "elneg": 1.5
+}, {
+    "anum": 5,
+    "type": "Metalloid",
+    "symbol": "B",
+    "name": "Boron",
+    "mass": "10.81",
+    "elneg": 2
+}, {
+    "anum": 6,
+    "type": "Nonmetal",
+    "symbol": "C",
+    "name": "Carbon",
+    "mass": "12.011",
+    "elneg": 2.5
+}, {
+    "anum": 7,
+    "type": "Nonmetal",
+    "symbol": "N",
+    "name": "Nitrogen",
+    "mass": "14.007",
+    "elneg": 3
+}, {
+    "anum": 8,
+    "type": "Nonmetal",
+    "symbol": "O",
+    "name": "Oxygen",
+    "mass": "15.999",
+    "elneg": 3.5
+}, {
+    "anum": 9,
+    "type": "Nonmetal",
+    "symbol": "F",
+    "name": "Fluorine",
+    "mass": "18.998",
+    "elneg": 4
+}, {
+    "anum": 10,
+    "type": "Noble",
+    "symbol": "Ne",
+    "name": "Neon",
+    "mass": "20.180"
+}, {
+    "anum": 11,
+    "type": "Alkali",
+    "symbol": "Na",
+    "name": "Sodium",
+    "mass": "22.990",
+    "elneg": 0.9
+}, {
+    "anum": 12,
+    "type": "Alkali",
+    "symbol": "Mg",
+    "name": "Magnesium",
+    "mass": "24.305",
+    "elneg": 1.2
+}, {
+    "anum": 13,
+    "type": "Poor",
+    "symbol": "Al",
+    "name": "Aluminium",
+    "mass": "26.982",
+    "elneg": 1.5
+}, {
+    "anum": 14,
+    "type": "Metalloid",
+    "symbol": "Si",
+    "name": "Silicon",
+    "mass": "28.085",
+    "elneg": 1.8
+}, {
+    "anum": 15,
+    "type": "Nonmetal",
+    "symbol": "P",
+    "name": "Phosphorus",
+    "mass": "30.974",
+    "elneg": 2.1
+}, {
+    "anum": 16,
+    "type": "Nonmetal",
+    "symbol": "S",
+    "name": "Sulfur",
+    "mass": "32.06",
+    "elneg": 2.5
+}, {
+    "anum": 17,
+    "type": "Nonmetal",
+    "symbol": "Cl",
+    "name": "Chlorine",
+    "mass": "35.45",
+    "elneg": 3
+}, {
+    "anum": 18,
+    "type": "Noble",
+    "symbol": "Ar",
+    "name": "Argon",
+    "mass": "39.948"
+}, {
+    "anum": 19,
+    "type": "Alkali",
+    "symbol": "K",
+    "name": "Potassium",
+    "mass": "39.098",
+    "elneg": 0.8
+}, {
+    "anum": 20,
+    "type": "Alkali",
+    "symbol": "Ca",
+    "name": "Calcium",
+    "mass": "40.078",
+    "elneg": 1
+}, {
+    "anum": 21,
+    "type": "Transition",
+    "symbol": "Sc",
+    "name": "Scandium",
+    "mass": "44.956",
+    "elneg": 1.3
+}, {
+    "anum": 22,
+    "type": "Transition",
+    "symbol": "Ti",
+    "name": "Titanium",
+    "mass": "47.867",
+    "elneg": 1.5
+}, {
+    "anum": 23,
+    "type": "Transition",
+    "symbol": "V",
+    "name": "Vanadium",
+    "mass": "50.942",
+    "elneg": 1.6
+}, {
+    "anum": 24,
+    "type": "Transition",
+    "symbol": "Cr",
+    "name": "Chromium",
+    "mass": "51.996",
+    "elneg": 1.6
+}, {
+    "anum": 25,
+    "type": "Transition",
+    "symbol": "Mn",
+    "name": "Manganese",
+    "mass": "54.938",
+    "elneg": 1.5
+}, {
+    "anum": 26,
+    "type": "Transition",
+    "symbol": "Fe",
+    "name": "Iron",
+    "mass": "55.845",
+    "elneg": 1.8
+}, {
+    "anum": 27,
+    "type": "Transition",
+    "symbol": "Co",
+    "name": "Cobalt",
+    "mass": "58.933",
+    "elneg": 1.9
+}, {
+    "anum": 28,
+    "type": "Transition",
+    "symbol": "Ni",
+    "name": "Nickel",
+    "mass": "58.693",
+    "elneg": 1.9
+}, {
+    "anum": 29,
+    "type": "Transition",
+    "symbol": "Cu",
+    "name": "Copper",
+    "mass": "63.546",
+    "elneg": 1.9
+}, {
+    "anum": 30,
+    "type": "Transition",
+    "symbol": "Zn",
+    "name": "Zinc",
+    "mass": "65.38",
+    "elneg": 1.6
+}, {
+    "anum": 31,
+    "type": "Poor",
+    "symbol": "Ga",
+    "name": "Gallium",
+    "mass": "69.723",
+    "elneg": 1.6
+}, {
+    "anum": 32,
+    "type": "Metalloid",
+    "symbol": "Ge",
+    "name": "Germanium",
+    "mass": "72.630",
+    "elneg": 1.8
+}, {
+    "anum": 33,
+    "type": "Metalloid",
+    "symbol": "As",
+    "name": "Arsenic",
+    "mass": "74.922",
+    "elneg": 2
+}, {
+    "anum": 34,
+    "type": "Nonmetal",
+    "symbol": "Se",
+    "name": "Selenium",
+    "mass": "78.971",
+    "elneg": 2.4
+}, {
+    "anum": 35,
+    "type": "Nonmetal",
+    "symbol": "Br",
+    "name": "Bromine",
+    "mass": "79.904",
+    "elneg": 2.8
+}, {
+    "anum": 36,
+    "type": "Noble",
+    "symbol": "Kr",
+    "name": "Krypton",
+    "mass": "83.798",
+    "elneg": 3
+}, {
+    "anum": 37,
+    "type": "Alkali",
+    "symbol": "Rb",
+    "name": "Rubidium",
+    "mass": "85.468",
+    "elneg": 0.8
+}, {
+    "anum": 38,
+    "type": "Alkali",
+    "symbol": "Sr",
+    "name": "Strontium",
+    "mass": "87.62",
+    "elneg": 1
+}, {
+    "anum": 39,
+    "type": "Transition",
+    "symbol": "Y",
+    "name": "Yttrium",
+    "mass": "88.906",
+    "elneg": 1.2
+}, {
+    "anum": 40,
+    "type": "Transition",
+    "symbol": "Zr",
+    "name": "Zirconium",
+    "mass": "91.224",
+    "elneg": 1.4
+}, {
+    "anum": 41,
+    "type": "Transition",
+    "symbol": "Nb",
+    "name": "Niobium",
+    "mass": "92.906",
+    "elneg": 1.6
+}, {
+    "anum": 42,
+    "type": "Transition",
+    "symbol": "Mo",
+    "name": "Molybdenum",
+    "mass": "95.95",
+    "elneg": 1.8
+}, {
+    "anum": 43,
+    "type": "Transition",
+    "symbol": "Tc",
+    "name": "Technetium",
+    "mass": "(98)",
+    "elneg": 1.9
+}, {
+    "anum": 44,
+    "type": "Transition",
+    "symbol": "Ru",
+    "name": "Ruthenium",
+    "mass": "101.07",
+    "elneg": 2.2
+}, {
+    "anum": 45,
+    "type": "Transition",
+    "symbol": "Rh",
+    "name": "Rhodium",
+    "mass": "102.91",
+    "elneg": 2.2
+}, {
+    "anum": 46,
+    "type": "Transition",
+    "symbol": "Pd",
+    "name": "Palladium",
+    "mass": "106.42",
+    "elneg": 2.2
+}, {
+    "anum": 47,
+    "type": "Transition",
+    "symbol": "Ag",
+    "name": "Silver",
+    "mass": "107.87",
+    "elneg": 1.9
+}, {
+    "anum": 48,
+    "type": "Transition",
+    "symbol": "Cd",
+    "name": "Cadmium",
+    "mass": "112.41",
+    "elneg": 1.7
+}, {
+    "anum": 49,
+    "type": "Poor",
+    "symbol": "In",
+    "name": "Indium",
+    "mass": "114.82",
+    "elneg": 1.7
+}, {
+    "anum": 50,
+    "type": "Poor",
+    "symbol": "Sn",
+    "name": "Tin",
+    "mass": "118.71",
+    "elneg": 1.8
+}, {
+    "anum": 51,
+    "type": "Metalloid",
+    "symbol": "Sb",
+    "name": "Antimony",
+    "mass": "121.76",
+    "elneg": 1.9
+}, {
+    "anum": 52,
+    "type": "Metalloid",
+    "symbol": "Te",
+    "name": "Tellurium",
+    "mass": "127.60",
+    "elneg": 2.1
+}, {
+    "anum": 53,
+    "type": "Nonmetal",
+    "symbol": "I",
+    "name": "Iodine",
+    "mass": "126.90",
+    "elneg": 2.5
+}, {
+    "anum": 54,
+    "type": "Noble",
+    "symbol": "Xe",
+    "name": "Xenon",
+    "mass": "131.29",
+    "elneg": 2.6
+}, {
+    "anum": 55,
+    "type": "Alkali",
+    "symbol": "Cs",
+    "name": "Caesium",
+    "mass": "132.91",
+    "elneg": 0.7
+}, {
+    "anum": 56,
+    "type": "Alkali",
+    "symbol": "Ba",
+    "name": "Barium",
+    "mass": "137.33",
+    "elneg": 0.9
+}, {
+    "anum": 57,
+    "type": "Lanthanoid",
+    "symbol": "La",
+    "name": "Lanthanum",
+    "mass": "138.91",
+    "elneg": 1.1
+}, {
+    "anum": 58,
+    "type": "Lanthanoid",
+    "symbol": "Ce",
+    "name": "Cerium",
+    "mass": "140.12",
+    "elneg": 1.1
+}, {
+    "anum": 59,
+    "type": "Lanthanoid",
+    "symbol": "Pr",
+    "name": "Praseodymium",
+    "mass": "140.91",
+    "elneg": 1.1
+}, {
+    "anum": 60,
+    "type": "Lanthanoid",
+    "symbol": "Nd",
+    "name": "Neodymium",
+    "mass": "144.24",
+    "elneg": 1.1
+}, {
+    "anum": 61,
+    "type": "Lanthanoid",
+    "symbol": "Pm",
+    "name": "Promethium",
+    "mass": "(145)",
+    "elneg": 1.2
+}, {
+    "anum": 62,
+    "type": "Lanthanoid",
+    "symbol": "Sm",
+    "name": "Samarium",
+    "mass": "150.36",
+    "elneg": 1.2
+}, {
+    "anum": 63,
+    "type": "Lanthanoid",
+    "symbol": "Eu",
+    "name": "Europium",
+    "mass": "151.96",
+    "elneg": 1.1
+}, {
+    "anum": 64,
+    "type": "Lanthanoid",
+    "symbol": "Gd",
+    "name": "Gadolinium",
+    "mass": "157.25",
+    "elneg": 1.2
+}, {
+    "anum": 65,
+    "type": "Lanthanoid",
+    "symbol": "Tb",
+    "name": "Terbium",
+    "mass": "158.93",
+    "elneg": 1.2
+}, {
+    "anum": 66,
+    "type": "Lanthanoid",
+    "symbol": "Dy",
+    "name": "Dysprosium",
+    "mass": "162.50",
+    "elneg": 1.2
+}, {
+    "anum": 67,
+    "type": "Lanthanoid",
+    "symbol": "Ho",
+    "name": "Holmium",
+    "mass": "164.93",
+    "elneg": 1.2
+}, {
+    "anum": 68,
+    "type": "Lanthanoid",
+    "symbol": "Er",
+    "name": "Erbium",
+    "mass": "167.26",
+    "elneg": 1.2
+}, {
+    "anum": 69,
+    "type": "Lanthanoid",
+    "symbol": "Tm",
+    "name": "Thulium",
+    "mass": "168.93",
+    "elneg": 1.2
+}, {
+    "anum": 70,
+    "type": "Lanthanoid",
+    "symbol": "Yb",
+    "name": "Ytterbium",
+    "mass": "173.05",
+    "elneg": 1.2
+}, {
+    "anum": 71,
+    "type": "Lanthanoid",
+    "symbol": "Lu",
+    "name": "Lutetium",
+    "mass": "174.97",
+    "elneg": 1.3
+}, {
+    "anum": 72,
+    "type": "Transition",
+    "symbol": "Hf",
+    "name": "Hafnium",
+    "mass": "178.49",
+    "elneg": 1.3
+}, {
+    "anum": 73,
+    "type": "Transition",
+    "symbol": "Ta",
+    "name": "Tantalum",
+    "mass": "180.95",
+    "elneg": 1.5
+}, {
+    "anum": 74,
+    "type": "Transition",
+    "symbol": "W",
+    "name": "Tungsten",
+    "mass": "183.84",
+    "elneg": 1.7
+}, {
+    "anum": 75,
+    "type": "Transition",
+    "symbol": "Re",
+    "name": "Rhenium",
+    "mass": "186.21",
+    "elneg": 1.9
+}, {
+    "anum": 76,
+    "type": "Transition",
+    "symbol": "Os",
+    "name": "Osmium",
+    "mass": "190.23",
+    "elneg": 2.2
+}, {
+    "anum": 77,
+    "type": "Transition",
+    "symbol": "Ir",
+    "name": "Iridium",
+    "mass": "192.22",
+    "elneg": 2.2
+}, {
+    "anum": 78,
+    "type": "Transition",
+    "symbol": "Pt",
+    "name": "Platinum",
+    "mass": "195.08",
+    "elneg": 2.2
+}, {
+    "anum": 79,
+    "type": "Transition",
+    "symbol": "Au",
+    "name": "Gold",
+    "mass": "196.97",
+    "elneg": 2.4
+}, {
+    "anum": 80,
+    "type": "Transition",
+    "symbol": "Hg",
+    "name": "Mercury",
+    "mass": "200.59",
+    "elneg": 1.9
+}, {
+    "anum": 81,
+    "type": "Poor",
+    "symbol": "Tl",
+    "name": "Thallium",
+    "mass": "204.38",
+    "elneg": 1.8
+}, {
+    "anum": 82,
+    "type": "Poor",
+    "symbol": "Pb",
+    "name": "Lead",
+    "mass": "207.2",
+    "elneg": 1.9
+}, {
+    "anum": 83,
+    "type": "Poor",
+    "symbol": "Bi",
+    "name": "Bismuth",
+    "mass": "208.98",
+    "elneg": 1.9
+}, {
+    "anum": 84,
+    "type": "Poor",
+    "symbol": "Po",
+    "name": "Polonium",
+    "mass": "(209)",
+    "elneg": 2
+}, {
+    "anum": 85,
+    "type": "Metalloid",
+    "symbol": "At",
+    "name": "Astatine",
+    "mass": "(210)",
+    "elneg": 2.2
+}, {
+    "anum": 86,
+    "type": "Noble",
+    "symbol": "Rn",
+    "name": "Radon",
+    "mass": "(222)",
+    "elneg": 2.4
+}, {
+    "anum": 87,
+    "type": "Alkali",
+    "symbol": "Fr",
+    "name": "Francium",
+    "mass": "(223)",
+    "elneg": 0.7
+}, {
+    "anum": 88,
+    "type": "Alkali",
+    "symbol": "Ra",
+    "name": "Radium",
+    "mass": "(226)",
+    "elneg": 0.9
+}, {
+    "anum": 89,
+    "type": null,
+    "symbol": "Ac",
+    "name": "Actinium",
+    "mass": "(227)",
+    "elneg": 1.1
+}, {
+    "anum": 90,
+    "type": null,
+    "symbol": "Th",
+    "name": "Thorium",
+    "mass": "232.04",
+    "elneg": 1.3
+}, {
+    "anum": 91,
+    "type": null,
+    "symbol": "Pa",
+    "name": "Protactinium",
+    "mass": "231.04",
+    "elneg": 1.5
+}, {
+    "anum": 92,
+    "type": null,
+    "symbol": "U",
+    "name": "Uranium",
+    "mass": "238.03",
+    "elneg": 1.7
+}, {
+    "anum": 93,
+    "type": null,
+    "symbol": "Np",
+    "name": "Neptunium",
+    "mass": "(237)",
+    "elneg": 1.3
+}, {
+    "anum": 94,
+    "type": null,
+    "symbol": "Pu",
+    "name": "Plutonium",
+    "mass": "(244)",
+    "elneg": 1.3
+}, {
+    "anum": 95,
+    "type": null,
+    "symbol": "Am",
+    "name": "Americium",
+    "mass": "(243)",
+    "elneg": 1.3
+}, {
+    "anum": 96,
+    "type": null,
+    "symbol": "Cm",
+    "name": "Curium",
+    "mass": "(247)",
+    "elneg": 1.3
+}, {
+    "anum": 97,
+    "type": null,
+    "symbol": "Bk",
+    "name": "Berkelium",
+    "mass": "(247)",
+    "elneg": 1.3
+}, {
+    "anum": 98,
+    "type": null,
+    "symbol": "Cf",
+    "name": "Californium",
+    "mass": "(251)",
+    "elneg": 1.3
+}, {
+    "anum": 99,
+    "type": null,
+    "symbol": "Es",
+    "name": "Einsteinium",
+    "mass": "(252)",
+    "elneg": 1.3
+}, {
+    "anum": 100,
+    "type": null,
+    "symbol": "Fm",
+    "name": "Fermium",
+    "mass": "(257)",
+    "elneg": 1.3
+}, {
+    "anum": 101,
+    "type": null,
+    "symbol": "Md",
+    "name": "Mendelevium",
+    "mass": "(258)",
+    "elneg": 1.3
+}, {
+    "anum": 102,
+    "type": null,
+    "symbol": "No",
+    "name": "Nobelium",
+    "mass": "(259)",
+    "elneg": 1.5
+}, {
+    "anum": 103,
+    "type": null,
+    "symbol": "Lr",
+    "name": "Lawrencium",
+    "mass": "(266)"
+}, {
+    "anum": 104,
+    "type": "Transition",
+    "symbol": "Rf",
+    "name": "Rutherfordium",
+    "mass": "(267)"
+}, {
+    "anum": 105,
+    "type": "Transition",
+    "symbol": "Db",
+    "name": "Dubnium",
+    "mass": "(268)"
+}, {
+    "anum": 106,
+    "type": "Transition",
+    "symbol": "Sg",
+    "name": "Seaborgium",
+    "mass": "(269)"
+}, {
+    "anum": 107,
+    "type": "Transition",
+    "symbol": "Bh",
+    "name": "Bohrium",
+    "mass": "(270)"
+}, {
+    "anum": 108,
+    "type": "Transition",
+    "symbol": "Hs",
+    "name": "Hassium",
+    "mass": "(270)"
+}, {
+    "anum": 109,
+    "type": null,
+    "symbol": "Mt",
+    "name": "Meitnerium",
+    "mass": "(278)"
+}, {
+    "anum": 110,
+    "type": null,
+    "symbol": "Ds",
+    "name": "Darmstadtium",
+    "mass": "(281)"
+}, {
+    "anum": 111,
+    "type": null,
+    "symbol": "Rg",
+    "name": "Roentgenium",
+    "mass": "(282)"
+}, {
+    "anum": 112,
+    "type": "Transition",
+    "symbol": "Cn",
+    "name": "Copernicium",
+    "mass": "(285)"
+}, {
+    "anum": 113,
+    "type": null,
+    "symbol": "Nh",
+    "name": "Nihonium",
+    "mass": "(286)"
+}, {
+    "anum": 114,
+    "type": "Poor",
+    "symbol": "Fl",
+    "name": "Flerovium",
+    "mass": "(289)"
+}, {
+    "anum": 115,
+    "type": null,
+    "symbol": "Mc",
+    "name": "Moscovium",
+    "mass": "(290)"
+}, {
+    "anum": 116,
+    "type": null,
+    "symbol": "Lv",
+    "name": "Livermorium",
+    "mass": "(293)"
+}, {
+    "anum": 117,
+    "type": null,
+    "symbol": "Ts",
+    "name": "Tennessine",
+    "mass": "(294)"
+}, {
+    "anum": 118,
+    "type": null,
+    "symbol": "Og",
+    "name": "Oganesson",
+    "mass": "(294)"
+}]
