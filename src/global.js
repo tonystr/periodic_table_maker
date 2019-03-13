@@ -235,7 +235,7 @@ function Header(props) {
 
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('class', 'theme');
-        link.setAttribute('href', `${process.env.PUBLIC_URL}/themes/${themes[index].filename}`);
+        link.setAttribute('href', index !== 0 ? `${process.env.PUBLIC_URL}/themes/${themes[index].filename}` : '');
 
         Author.setTheme(index);
         // this.setState({ selectedTheme: index });

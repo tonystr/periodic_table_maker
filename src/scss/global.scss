@@ -56,6 +56,24 @@ $golden_ratio: 1.618;
     100% { transform: rotate(-90deg); }
 }
 
+*::-webkit-scrollbar {
+    background: transparent;
+    width: 9px;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: lighten($c_coca, 2%);
+    border-radius: 10px;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -300,6 +318,95 @@ a:hover {
 .redirbar {
     display: flex;
     justify-content: space-between;
+}
+
+#home {
+
+    .above {
+        padding-top: 9rem;
+        padding-bottom: 7rem;
+        text-align: center;
+
+        .undertitle {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: $c_txtwhite;
+        }
+    }
+
+    .below {
+        position: relative;
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1rem;
+            background: linear-gradient(to top, $c_coca, transparent);
+            z-index: 2;
+        }
+
+        .content {
+            width: 90%;
+            padding: 0 5%;
+            position: relative;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            height: 24rem;
+
+            >div {
+                width: 48%;
+            }
+
+            .dashboard {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+
+                .title {
+                    font-size: 1.2rem;
+                    margin: 0;
+                    margin-bottom: .6rem;
+                    z-index: 3;
+                }
+
+                .pad {
+                    border-top: 1px solid $c_gondola;
+                    height: 3rem;
+                }
+
+                border-bottom: none;
+            }
+
+            .right {
+                display: flex;
+                flex-direction:column;
+                justify-content: center;
+
+                .message {
+                    font-size: 1.6rem;
+                    width: 80%;
+                    max-width: 32rem;
+                    margin: 0 auto;
+                    text-align: center;
+                }
+            }
+
+            .left {
+                overflow-y: hidden;
+
+                .tablesection {
+                    height: 100%;
+                    overflow-y: scroll;
+                }
+            }
+        }
+    }
 }
 
 .colorpreview {

@@ -38,11 +38,28 @@ export default function TableMissing(props) {
     return (
         <>
             <Header />
-            <div className='home'>
-                <div className={'dashboard'}>
-                    <h1>Public tables</h1>
-                    <div className='tablesection'>
-                        {renderTables()}
+            <div id='home'>
+                <div className='above'>
+                    <h1>Welcome to Periodic Table Builder</h1>
+                    <div className='undertitle'>Build your very own periodic table of elements</div>
+                </div>
+                <div className='below'>
+                    <div className='content'>
+                        <div className='left'>
+                            <div className='dashboard'>
+                                <div className='title'>Public tables created by our users</div>
+                                <div className='tablesection'>
+                                    {renderTables()}
+                                    {renderTables()}
+                                    <div className='pad' />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='right'>
+                            <div className='message'>
+                                <Link to='login'>Log in</Link> or <Link to='signup'>sign up</Link> to make your own periodic table of elements
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
