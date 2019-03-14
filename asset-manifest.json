@@ -1,13 +1,13 @@
 {
-  "main.css": "/static/css/main.e9937823.chunk.css",
-  "main.js": "/static/js/main.1e56911b.chunk.js",
-  "main.js.map": "/static/js/main.1e56911b.chunk.js.map",
-  "runtime~main.js": "/static/js/runtime~main.fdfcfda2.js",
-  "runtime~main.js.map": "/static/js/runtime~main.fdfcfda2.js.map",
-  "static/js/2.4965a9ea.chunk.js": "/static/js/2.4965a9ea.chunk.js",
-  "static/js/2.4965a9ea.chunk.js.map": "/static/js/2.4965a9ea.chunk.js.map",
-  "index.html": "/index.html",
-  "precache-manifest.c6dee407c06555b0ce34622c921106b2.js": "/precache-manifest.c6dee407c06555b0ce34622c921106b2.js",
-  "service-worker.js": "/service-worker.js",
-  "static/css/main.e9937823.chunk.css.map": "/static/css/main.e9937823.chunk.css.map"
+  "main.css": "ptb.tonystr.net/static/css/main.48319223.chunk.css",
+  "main.js": "ptb.tonystr.net/static/js/main.cbee83d9.chunk.js",
+  "main.js.map": "ptb.tonystr.net/static/js/main.cbee83d9.chunk.js.map",
+  "runtime~main.js": "ptb.tonystr.net/static/js/runtime~main.35419529.js",
+  "runtime~main.js.map": "ptb.tonystr.net/static/js/runtime~main.35419529.js.map",
+  "static/js/2.4965a9ea.chunk.js": "ptb.tonystr.net/static/js/2.4965a9ea.chunk.js",
+  "static/js/2.4965a9ea.chunk.js.map": "ptb.tonystr.net/static/js/2.4965a9ea.chunk.js.map",
+  "index.html": "ptb.tonystr.net/index.html",
+  "precache-manifest.b650c6f3ca927854af1922b72ed3c780.js": "ptb.tonystr.net/precache-manifest.b650c6f3ca927854af1922b72ed3c780.js",
+  "service-worker.js": "ptb.tonystr.net/service-worker.js",
+  "static/css/main.48319223.chunk.css.map": "ptb.tonystr.net/static/css/main.48319223.chunk.css.map"
 }
