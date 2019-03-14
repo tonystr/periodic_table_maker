@@ -30,6 +30,19 @@
   100% {
     transform: rotate(-90deg); } }
 
+*::-webkit-scrollbar {
+  background: transparent;
+  width: 9px; }
+
+*::-webkit-scrollbar-thumb {
+  background: #ffedd0;
+  border-radius: 10px; }
+  *::-webkit-scrollbar-thumb:hover {
+    opacity: 1; }
+
+*::-webkit-scrollbar-track {
+  background: transparent; }
+
 body {
   margin: 0;
   padding: 0;
@@ -45,6 +58,7 @@ code {
 header {
   background-color: #ffda9d;
   padding: .8rem 2rem;
+  -webkit-app-region: drag;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.34);
   height: 1.4rem;
   display: flex;
@@ -54,8 +68,10 @@ header {
     header .tableoptions .dropdown {
       margin-top: .3rem;
       left: 50%;
-      transform: translateX(-50%); }
+      transform: translateX(-50%);
+      -webkit-app-region: no-drag; }
     header .tableoptions .btn {
+      -webkit-app-region: no-drag;
       border: 2px solid transparent;
       background-color: #ffe9c6;
       color: #6cc2f2;
@@ -77,7 +93,10 @@ header {
     text-align: center;
     justify-content: center;
     flex-shrink: 0; }
+  header a {
+    -webkit-app-region: no-drag; }
   header .user {
+    -webkit-app-region: no-drag;
     height: 1.3rem;
     float: right;
     position: relative;
@@ -208,6 +227,65 @@ a:hover {
 .redirbar {
   display: flex;
   justify-content: space-between; }
+
+#home .above {
+  padding-top: 9rem;
+  padding-bottom: 7rem;
+  text-align: center; }
+  #home .above .undertitle {
+    font-size: 1.2rem;
+    font-style: italic;
+    color: #6cc2f2; }
+
+#home .below {
+  position: relative; }
+  #home .below::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1rem;
+    background: linear-gradient(to top, #ffe9c6, transparent);
+    z-index: 2; }
+  #home .below .content {
+    width: 90%;
+    padding: 0 5%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 24rem; }
+    #home .below .content > div {
+      width: 48%; }
+    #home .below .content .dashboard {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border-bottom: none; }
+      #home .below .content .dashboard .title {
+        font-size: 1.2rem;
+        margin: 0;
+        margin-bottom: .6rem;
+        z-index: 3; }
+      #home .below .content .dashboard .pad {
+        border-top: 1px solid #ffda9d;
+        height: 3rem; }
+    #home .below .content .right {
+      display: flex;
+      flex-direction: column;
+      justify-content: center; }
+      #home .below .content .right .message {
+        font-size: 1.6rem;
+        width: 80%;
+        max-width: 32rem;
+        margin: 0 auto;
+        text-align: center; }
+    #home .below .content .left {
+      overflow-y: hidden; }
+      #home .below .content .left .tablesection {
+        height: 100%;
+        overflow-y: scroll; }
 
 .colorpreview {
   display: inline-block;

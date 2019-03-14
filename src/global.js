@@ -308,7 +308,7 @@ function findAncestor(el, cls) {
 }
 
 async function apiFetch(data, callBack) {
-    await fetch(`http://${window.location.hostname}:443`, {
+    await fetch(`http://ptb.tonystr.net:5487`, {
         headers: {
             accepts: 'application/json',
             data: JSON.stringify(data)

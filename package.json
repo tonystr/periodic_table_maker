@@ -2,8 +2,8 @@
   "name": "periodic_table_maker",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://ptb.tonystr.net:443",
-  "homepage": "ptb.tonystr.net",
+  "proxy": "http://ptb.tonystr.net:5487",
+  "homepage": "http://ptb.tonystr.net",
   "dependencies": {
     "async": "^2.6.1",
     "cors": "^2.8.5",
@@ -31,7 +31,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "disabled-predeploy": "npm run build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -b deploy -d build",
     "deploy-server": "gh-pages -b server -d server"
   },
