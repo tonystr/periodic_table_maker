@@ -16,7 +16,7 @@ self.__precacheManifest = [
     "url": "ptb.tonystr.net/static/css/main.48319223.chunk.css"
   },
   {
-    "revision": "5d674f9748deadc9b6267a07bdf50d0a",
+    "revision": "93a5cdd8731540298b4f5b44c2f424ff",
     "url": "ptb.tonystr.net/index.html"
   }
 ];
