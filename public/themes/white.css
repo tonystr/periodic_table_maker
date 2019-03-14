@@ -229,8 +229,8 @@ a:hover {
   justify-content: space-between; }
 
 #home .above {
-  padding-top: 8rem;
-  padding-bottom: 5rem;
+  padding-top: 9rem;
+  padding-bottom: 7rem;
   text-align: center; }
   #home .above .undertitle {
     font-size: 1.2rem;
@@ -249,8 +249,8 @@ a:hover {
     background: linear-gradient(to top, #ffffff, transparent);
     z-index: 2; }
   #home .below .content {
-    width: 80%;
-    padding: 0 10%;
+    width: 90%;
+    padding: 0 5%;
     position: relative;
     display: flex;
     flex-direction: row;
@@ -266,7 +266,7 @@ a:hover {
       #home .below .content .dashboard .title {
         font-size: 1.2rem;
         margin: 0;
-        margin-bottom: .4rem;
+        margin-bottom: .6rem;
         z-index: 3; }
       #home .below .content .dashboard .pad {
         border-top: 1px solid #e6e8ea;
@@ -278,7 +278,9 @@ a:hover {
       #home .below .content .right .message {
         font-size: 1.6rem;
         width: 80%;
-        margin: 0 auto; }
+        max-width: 32rem;
+        margin: 0 auto;
+        text-align: center; }
     #home .below .content .left {
       overflow-y: hidden; }
       #home .below .content .left .tablesection {

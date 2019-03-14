@@ -2,7 +2,7 @@
   "name": "periodic_table_maker",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:5487",
+  "proxy": "http://ptb.tonystr.net:443",
   "homepage": "ptb.tonystr.net",
   "dependencies": {
     "async": "^2.6.1",
