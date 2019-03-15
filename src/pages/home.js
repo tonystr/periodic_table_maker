@@ -50,7 +50,6 @@ export default function TableMissing(props) {
                                 <div className='title'>Public tables created by our users</div>
                                 <div className='tablesection'>
                                     {renderTables()}
-                                    {renderTables()}
                                     <div className='pad' />
                                 </div>
                             </div>
