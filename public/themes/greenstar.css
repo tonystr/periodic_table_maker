@@ -35,7 +35,7 @@
   width: 9px; }
 
 *::-webkit-scrollbar-thumb {
-  background: #ffedd0;
+  background: #605872;
   border-radius: 10px; }
   *::-webkit-scrollbar-thumb:hover {
     opacity: 1; }
@@ -49,14 +49,14 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #ffe9c6;
-  color: palevioletred; }
+  background-color: #5b546c;
+  color: #ca7091; }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace; }
 
 header {
-  background-color: #ffda9d;
+  background-color: #4b4a59;
   padding: .8rem 2rem;
   -webkit-app-region: drag;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.34);
@@ -73,14 +73,14 @@ header {
     header .tableoptions .btn {
       -webkit-app-region: no-drag;
       border: 2px solid transparent;
-      background-color: #ffe9c6;
-      color: #6cc2f2;
+      background-color: #5b546c;
+      color: #7a949c;
       padding: .1rem .2rem;
       border-radius: 1rem;
       transition: .1s all; }
       header .tableoptions .btn:hover {
-        border-color: #6cc2f2;
-        color: #6cc2f2;
+        border-color: #80aba4;
+        color: #80aba4;
         cursor: pointer; }
   header section {
     width: 34%;
@@ -100,7 +100,7 @@ header {
     height: 1.3rem;
     float: right;
     position: relative;
-    background-color: #ffe9c6;
+    background-color: #5b546c;
     padding: .1rem .5rem;
     padding-left: 1.6rem;
     border-radius: 1rem;
@@ -109,7 +109,7 @@ header {
     transition: .1s all;
     cursor: pointer; }
     header .user:hover {
-      border-color: #6cc2f2; }
+      border-color: #80aba4; }
     header .user::after {
       content: '';
       position: absolute;
@@ -117,7 +117,7 @@ header {
       top: 0.3rem;
       width: 1rem;
       height: 1rem;
-      background-color: #6cc2f2;
+      background-color: #80aba4;
       box-shadow: inset 0 0 0px 2px rgba(255, 255, 255, 0.2);
       border-radius: 1rem; }
   header .usercontrolls {
@@ -130,32 +130,32 @@ input {
   display: inline;
   padding: .2rem .6rem;
   animation: fadein .3s;
-  background: #ffda9d;
+  background: #4b4a59;
   border-radius: .3rem;
-  color: palevioletred;
+  color: #ca7091;
   border: 2px solid transparent;
   transition: .13s all; }
 
 input:hover {
-  border-color: #6cc2f2; }
+  border-color: #80aba4; }
 
 input[readonly] {
   background: transparent;
-  border-color: #ffda9d; }
+  border-color: #4b4a59; }
 
 .checkbox {
-  background-color: #ffda9d;
+  background-color: #4b4a59;
   width: 1.2rem;
   height: 1.2rem;
   border-radius: .3rem;
-  border: 2px solid #ffda9d;
+  border: 2px solid #4b4a59;
   font-size: 1rem; }
   .checkbox i {
     margin-left: .1rem;
     opacity: 0; }
 
 .checkbox:hover {
-  border-color: #6cc2f2;
+  border-color: #80aba4;
   cursor: pointer; }
 
 .checkbox.checked i {
@@ -176,24 +176,24 @@ input[readonly] {
   border: 2px solid transparent;
   border-radius: .4rem;
   transition: .14s all;
-  color: #6cc2f2;
-  background-color: #ffda9d; }
+  color: #7a949c;
+  background-color: #4b4a59; }
 
 .button.disabled {
-  color: #7ce2a2; }
+  color: #6a7189; }
 
 .button.hidden {
   opacity: 0;
   pointer-events: none; }
 
 .button:hover {
-  border-color: #6cc2f2;
-  color: #6cc2f2;
+  border-color: #80aba4;
+  color: #80aba4;
   cursor: pointer; }
 
 .button.delete:hover {
-  border-color: #ab41e1;
-  color: #ab41e1; }
+  border-color: #ca7091;
+  color: #ca7091; }
 
 .content {
   transition: 0.28s filter; }
@@ -213,7 +213,7 @@ input[readonly] {
   margin: 2rem; }
 
 a {
-  color: #6cc2f2;
+  color: #80aba4;
   outline: none;
   text-decoration: none; }
 
@@ -221,8 +221,8 @@ a:-webkit-any-link {
   text-decoration: none; }
 
 a:hover {
-  background-color: #6cc2f2;
-  color: #ffda9d; }
+  background-color: #80aba4;
+  color: #4b4a59; }
 
 .redirbar {
   display: flex;
@@ -235,7 +235,7 @@ a:hover {
   #home .above .undertitle {
     font-size: 1.2rem;
     font-style: italic;
-    color: #6cc2f2; }
+    color: #7a949c; }
 
 #home .below {
   position: relative; }
@@ -246,7 +246,7 @@ a:hover {
     left: 0;
     right: 0;
     height: 1rem;
-    background: linear-gradient(to top, #ffe9c6, transparent);
+    background: linear-gradient(to top, #5b546c, transparent);
     z-index: 2; }
   #home .below .content {
     width: 90%;
@@ -269,7 +269,7 @@ a:hover {
         margin-bottom: .6rem;
         z-index: 3; }
       #home .below .content .dashboard .pad {
-        border-top: 1px solid #ffda9d;
+        border-top: 1px solid #4b4a59;
         height: 3rem; }
     #home .below .content .right {
       display: flex;
@@ -303,12 +303,12 @@ a:hover {
     height: 50%; }
 
 .welcome {
-  color: #6cc2f2; }
+  color: #7a949c; }
 
 .dropdown {
   position: absolute;
   z-index: 700;
-  background-color: #ffda9d;
+  background-color: #4b4a59;
   padding: .8rem 0;
   margin: 0;
   border-radius: .2rem;
@@ -326,12 +326,12 @@ a:hover {
   .dropdown.choose {
     padding-left: 1rem; }
   .dropdown a, .dropdown a:hover {
-    color: palevioletred; }
+    color: #ca7091; }
   .dropdown li, .dropdown .field {
     padding: .14rem 1rem; }
     .dropdown li:hover, .dropdown .field:hover {
       cursor: pointer;
-      background-color: #ffe9c6; }
+      background-color: #5b546c; }
     .dropdown li.selected, .dropdown .field.selected {
       position: relative; }
     .dropdown li.selected::after, .dropdown .field.selected::after {
@@ -343,26 +343,26 @@ a:hover {
       text-rendering: auto;
       line-height: 1;
       font-size: .6rem;
-      border: 2px solid #6cc2f2;
+      border: 2px solid #80aba4;
       border-radius: 1rem;
       padding: 2px;
       position: absolute;
       left: -.5rem;
       top: .3rem;
-      color: #6cc2f2; }
+      color: #80aba4; }
 
 .dashboard {
   width: 70%;
   margin: 0 auto;
-  border-bottom: 1px solid #ffda9d; }
+  border-bottom: 1px solid #4b4a59; }
   .dashboard .table {
     position: relative;
     padding: .5rem 1rem;
     padding-bottom: 1rem;
-    border: 1px solid #ffda9d;
+    border: 1px solid #4b4a59;
     border-bottom: none;
     transition: .06s all;
-    color: palevioletred; }
+    color: #ca7091; }
     .dashboard .table .name {
       display: inline-block;
       font-size: 1.4rem;
@@ -371,15 +371,15 @@ a:hover {
     .dashboard .table .author {
       font-size: 1.4rem;
       display: inline-block;
-      color: #6cc2f2;
+      color: #7a949c;
       margin-left: 1rem; }
     .dashboard .table .note {
-      color: #6cc2f2; }
+      color: #7a949c; }
     .dashboard .table .options {
       position: absolute;
       right: .8rem;
       top: .6rem;
-      color: #ffda9d;
+      color: #4b4a59;
       transform: rotate(-90deg);
       z-index: 2; }
     .dashboard .table .options:hover::before {
@@ -389,14 +389,14 @@ a:hover {
       position: absolute;
       width: 1.4rem;
       height: 1.4rem;
-      border: 0.16rem solid #6cc2f2;
+      border: 0.16rem solid #80aba4;
       border-radius: 50%; }
     .dashboard .table .options:hover {
-      color: #6cc2f2; }
+      color: #80aba4; }
   .dashboard .table.last {
     padding: .5rem 1rem; }
     .dashboard .table.last .name {
-      color: #6cc2f2;
+      color: #80aba4;
       font-weight: normal;
       -webkit-user-select: none;
       /* webkit (safari, chrome) browsers */
@@ -407,12 +407,12 @@ a:hover {
       -ms-user-select: none;
       /* IE10+ */ }
   .dashboard .table:hover {
-    background-color: #7ce2a2;
+    background-color: #6a7189;
     cursor: pointer; }
 
 .warning {
-  border: 2px solid #ffda9d;
-  color: #6cc2f2;
+  border: 2px solid #4b4a59;
+  color: #7a949c;
   font-size: 1.1rem;
   padding: .6rem;
   padding-top: .34rem;
@@ -437,7 +437,7 @@ a:hover {
     content: '*';
     position: absolute;
     right: .4rem;
-    color: #ab41e1; }
+    color: #ca7091; }
   .login a {
     font-size: 1.2rem;
     width: 100%; }
@@ -450,7 +450,7 @@ a:hover {
   .ptable .group {
     display: flex; }
   .ptable th, .ptable td {
-    border: 2px solid #ffda9d;
+    border: 2px solid #4b4a59;
     border-spacing: 0; }
   .ptable .spacing {
     height: 2.8vw; }
@@ -464,7 +464,7 @@ a:hover {
     border-color: transparent; }
     .ptable .slidedown .symbol {
       font-size: 1.2vw;
-      color: #7ce2a2;
+      color: #6a7189;
       margin-top: 1.45vw;
       text-align: center; }
     .ptable .slidedown::before {
@@ -474,9 +474,9 @@ a:hover {
       width: 4.3vw;
       padding-left: 0.1vw;
       padding-right: 1px;
-      background-color: #ffe9c6;
+      background-color: #5b546c;
       transform: translateX(calc(-2px - 1px));
-      border: 2px solid #ffda9d;
+      border: 2px solid #4b4a59;
       height: 56%;
       bottom: 2px;
       border-bottom-left-radius: .6vw; }
@@ -489,7 +489,7 @@ a:hover {
     font-size: .78vw; }
   .ptable.show.mass.elneg .mass, .ptable.show.mass.elneg .element:hover .mass {
     left: 0;
-    color: #6cc2f2;
+    color: #7a949c;
     text-align: left;
     opacity: .74; }
     .ptable.show.mass.elneg .mass span, .ptable.show.mass.elneg .element:hover .mass span {
@@ -497,19 +497,19 @@ a:hover {
   .ptable.show.mass.elneg .elneg {
     opacity: .74;
     right: 0;
-    color: #ab41e1;
+    color: #ca7091;
     text-align: right; }
   .ptable.show.elneg:not(.mass) .elneg {
     opacity: .74;
-    color: #ab41e1;
+    color: #ca7091;
     bottom: 0; }
   .ptable.show.elneg:not(.mass) .element:hover .mass {
     opacity: 0;
-    color: #6cc2f2;
+    color: #7a949c;
     bottom: 0; }
   .ptable.show.mass:not(.elneg) .mass {
     opacity: .74;
-    color: #6cc2f2;
+    color: #7a949c;
     bottom: 0; }
   .ptable.show.tcolors .element.type-1 {
     color: #F2615A; }
@@ -537,7 +537,7 @@ a:hover {
     animation: fadein 0.084s;
     width: 4.3vw;
     padding: 0.1vw;
-    background-color: #ffe9c6;
+    background-color: #5b546c;
     margin: -2px -2px 0 0;
     display: inline-block;
     transition: 0.16s transform;
@@ -566,7 +566,7 @@ a:hover {
       left: .2vw;
       top: .2vw;
       font-size: 1vw;
-      color: #7ce2a2;
+      color: #6a7189;
       transition: 0.16s all; }
     .ptable .element .mass, .ptable .element .elneg {
       opacity: 0;
@@ -574,7 +574,7 @@ a:hover {
       position: absolute;
       bottom: 0;
       font-size: 1vw;
-      color: #ffe9c6;
+      color: #5b546c;
       text-align: center;
       transition: 0.16s all;
       z-index: 2; }
@@ -585,32 +585,32 @@ a:hover {
       cursor: pointer;
       border-radius: 3px/3px;
       transform: scale(1.2);
-      border-color: palevioletred; }
+      border-color: #ca7091; }
       .ptable .element:not(.slidedown):hover .symbol {
         transform: scale(1.2); }
       .ptable .element:not(.slidedown):hover .mass {
         opacity: 1;
-        color: palevioletred;
+        color: #ca7091;
         bottom: calc(-2px - .5vw); }
         .ptable .element:not(.slidedown):hover .mass span {
-          background-color: #ffe9c6; }
+          background-color: #5b546c; }
       .ptable .element:not(.slidedown):hover .anum {
         left: -.3vw;
         top: -.3vw;
-        background-color: #ffe9c6;
-        color: palevioletred;
+        background-color: #5b546c;
+        color: #ca7091;
         padding-right: .24vw; }
     .ptable .element:not(.slidedown).undef:hover {
-      color: #6cc2f2;
-      border-color: #6cc2f2; }
+      color: #80aba4;
+      border-color: #80aba4; }
       .ptable .element:not(.slidedown).undef:hover::after {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
         content: '+';
         position: absolute;
         top: -.8rem;
         right: -.8rem;
-        background-color: #ffe9c6;
-        border: 2px solid #6cc2f2;
+        background-color: #5b546c;
+        border: 2px solid #80aba4;
         height: 1rem;
         width: 1rem;
         font-size: 1.909rem;
@@ -620,10 +620,10 @@ a:hover {
         padding-right: .35rem;
         padding-left: .05rem; }
     .ptable .element.undef {
-      color: #7ce2a2; }
+      color: #6a7189; }
   .ptable.read-only .element:not(.slidedown).undef:hover {
-    color: #6cc2f2;
-    border-color: #6cc2f2; }
+    color: #7a949c;
+    border-color: #7a949c; }
     .ptable.read-only .element:not(.slidedown).undef:hover::after {
       display: none;
       opacity: 0; }
@@ -641,7 +641,7 @@ a:hover {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(255, 218, 157, 0.8);
+  background-color: rgba(75, 74, 89, 0.8);
   display: flex;
   align-items: center; }
   .inspector .padjust {
@@ -674,7 +674,7 @@ a:hover {
     cursor: text; }
   .inspector .card {
     padding: 0.8rem;
-    background-color: #ffe9c6;
+    background-color: #5b546c;
     width: 40rem;
     height: 24.72188rem;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
@@ -712,12 +712,12 @@ a:hover {
   padding: 0.1rem;
   position: absolute;
   border-radius: 5px;
-  border: 2px solid #ffda9d;
+  border: 2px solid #4b4a59;
   transition: .1s all; }
 
 .button-x:hover {
-  background-color: palevioletred;
-  color: #ffda9d;
+  background-color: #ca7091;
+  color: #4b4a59;
   cursor: pointer;
   animation: spin .18s ease-in-out; }
 
@@ -734,7 +734,7 @@ a:hover {
   width: 80%;
   margin: 3rem auto;
   font-size: 1.2rem;
-  color: palevioletred; }
+  color: #ca7091; }
   .table-error .ohno {
     margin-bottom: 1rem;
     font-size: 3rem;

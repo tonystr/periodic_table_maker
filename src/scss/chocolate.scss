@@ -1,0 +1,19 @@
+
+$c_coca:     #a9604c;
+$c_gondola:  #422936;
+$c_gold:     #422936;
+$c_gray:     #422936;
+$c_green:    #dca456;
+$c_red:      #dca456;
+$c_txtwhite: #dca456;
+
+@import 'global.scss';
+
+header .center,
+.dashboard .table:hover .name,
+input,
+.dropdown,
+.checkbox,
+.element {
+    color: $c_txtwhite;
+}

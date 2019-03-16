@@ -167,6 +167,22 @@ function Header(props) {
         filename: 'dracula.css',
         colorPreview: [ '#ff79c6', '#282a36' ]
     }, {
+        name: 'Dawnbringer',
+        filename: 'db32.css',
+        colorPreview: [ '#eec39a', '#45283c' ]
+    }, {
+        name: 'Greenstar',
+        filename: 'greenstar.css',
+        colorPreview: [ '#ca7091', '#6a7189' ]
+    }, {
+        name: 'Gameboy',
+        filename: 'gameboy.css',
+        colorPreview: [ '#5a3921', '#ffffb5' ]
+    }, {
+        name: 'Chocolate',
+        filename: 'chocolate.css',
+        colorPreview: [ '#422936', '#a9604c' ]
+    }, {
         name: 'Black',
         filename: 'black.css',
         colorPreview: [ '#c3cfd2', '#06080a' ]
@@ -279,15 +295,12 @@ function Header(props) {
 }
 
 function InputCheckbox(props) {
-
     const [checked, setChecked] = useState(props.checked || false);
 
-    const handleClick = evt => {
-        const checkbox = evt.target.classList.contains('checkbox') ?
-            evt.target :
-            findAncestor(evt.target, 'checkbox');
-
+    const handleClick = ({ target }) => {
+        const checkbox = target.classList.contains('checkbox') ? target : findAncestor(target, 'checkbox');
         const chk = checkbox && !checkbox.classList.contains('checked');
+
         setChecked(chk);
         props.onChange(chk);
     }
