@@ -1,7 +1,8 @@
 
 const mysql = require('mysql');
 const fs = require('fs');
-const data = JSON.parse(fs.readFileSync('../data/default_elements.json').toString());
+const path = require('path');
+const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data/default_elements.json')).toString());
 
 console.log('laoded data:', data);
 
@@ -15,7 +16,7 @@ const config = {
 
 const con = mysql.createConnection(config);
 
-const tableID = 9;
+const tableID = 12;
 
 con.connect(err => {
     if (err) return console.error(err);
