@@ -164,6 +164,41 @@ input[readonly] {
 .dashapp {
   min-height: 100%; }
 
+.electronshell {
+  width: 28.8rem;
+  margin-left: 2rem; }
+  .electronshell .shell, .electronshell .core {
+    padding: 1.6rem;
+    border: 2px solid #474F5E;
+    margin: -4px;
+    border-radius: 50%;
+    position: relative; }
+    .electronshell .shell.hidden, .electronshell .core.hidden {
+      border-color: transparent; }
+  .electronshell .electron {
+    position: absolute;
+    transform: translateX(-50%) translateY(-50%);
+    width: 0.928rem;
+    height: 0.928rem;
+    background-color: #474F5E;
+    border-radius: 50%; }
+    .electronshell .electron::after {
+      content: '';
+      position: absolute;
+      font-size: 2rem;
+      transform: translateX(23%) translateY(-38%); }
+  .electronshell .core {
+    width: 3.52rem;
+    height: 3.52rem;
+    padding: 0;
+    text-align: center;
+    background-color: #474F5E;
+    font-size: 1.3rem;
+    border-color: #c3cfd2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; }
+
 .bottom {
   position: absolute;
   bottom: 0;

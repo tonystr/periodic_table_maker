@@ -42,7 +42,6 @@ $golden_ratio: 1.618;
     100% { opacity: 0 }
 }
 
-
 @keyframes shake {
     0%   { transform: translateX(0) }
     25%  { transform: translateX(+6px) }
@@ -237,11 +236,59 @@ input[readonly] {
     opacity: 1;
 }
 
-.dashapp{
+.dashapp {
     min-height: 100%;
 }
 
-.bottom{
+.electronshell {
+    $r: 1.6rem;
+    width: $r * 18;
+    margin-left: 2rem;
+
+    .shell, .core {
+        padding: $r;
+        border: 2px solid $c_gray;
+        margin: -4px;
+        border-radius: 50%;
+        position: relative;
+
+        &.hidden {
+            border-color: transparent;
+        }
+    }
+
+    .electron {
+        position: absolute;
+        transform: translateX(-50%) translateY(-50%);
+        width: $r * .58;
+        height: $r * .58;
+        background-color: $c_gray;
+        border-radius: 50%;
+
+        &::after {
+            content: '';
+            position: absolute;
+            font-size: 2rem;
+            transform: translateX(23%) translateY(-38%);
+        }
+    }
+
+    .core {
+        width: $r * 2.2;
+        height: $r * 2.2;
+        padding: 0;
+        text-align: center;
+        background-color: $c_gray;
+        font-size: 1.3rem;
+        border-color: $c_gold;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}
+
+.bottom {
     position: absolute;
     bottom:0;
     width:100%;

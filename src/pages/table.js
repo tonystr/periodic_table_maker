@@ -240,6 +240,56 @@ function ElementInput(props) {
     );
 }
 
+function ElectronShell(props) {
+
+    const renderShells = num => {
+        let elm = <div className='core'><div className='symbol'>{props.elm.symbol}</div></div>;
+
+        let drawnEls = 0;
+        const shellmax = [
+            2,
+            8,
+            8 + Math.min(Math.max(props.elm.anom - 20 + (props.elm.anom > 23) - (props.elm.anom > 24), 0), 10),
+            8 + Math.min(Math.max(props.elm.anom - 44, 0), 10), 
+            8
+        ];
+        for (let i = 1; i < num; i++) {
+
+            let eltrons = [];
+            const max = Math.min(props.elm.anom - drawnEls, shellmax[i - 1]);
+            for (let j = 0; j < max; j++) {
+                let ang = ((j / max) * (2 * Math.PI) + Math.PI * 1.5) % (2 * Math.PI);
+                console.log({ang, max, j});
+                eltrons.push(
+                    <div
+                        key={max - j - 1}
+                        style={{
+                            left: `${Math.cos(ang) * 50 + 50}%`,
+                            top: `${Math.sin(ang) * 50 + 50}%`
+                        }}
+                        className='electron'
+                    />
+                );
+                drawnEls++;
+            }
+
+            elm = (
+                <div className={'shell ' + i + (!eltrons.length ? ' hidden' : '')}>
+                    {elm} {eltrons}
+                </div>
+            );
+        }
+
+        return elm;
+    }
+
+    return (
+        <div className='electronshell'>
+            {renderShells(8)}
+        </div>
+    );
+}
+
 class ElementCard extends Component {
     constructor(props) {
         super(props);
@@ -406,6 +456,7 @@ class ElementCard extends Component {
                         )}
                     </div>
                 </div>
+                <ElectronShell elm={this.state.elm} />
             </Center>
         );
     }
