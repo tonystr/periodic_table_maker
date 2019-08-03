@@ -321,7 +321,7 @@ function findAncestor(el, cls) {
 }
 
 async function apiFetch(data, callBack) {
-    await fetch(`https://test.tonystr.net/`, {
+    await fetch(`${document.location.protocol}//${document.location.host}/db`, {
         headers: {
             accepts: 'application/json',
             data: JSON.stringify(data)
