@@ -244,22 +244,14 @@ function ElectronShell(props) {
 
     const renderShells = num => {
         let elm = <div className='core'><div className='symbol'>{props.elm.symbol}</div></div>;
-
         let drawnEls = 0;
-        const shellmax = [
-            2,
-            8,
-            8 + Math.min(Math.max(props.elm.anom - 20 + (props.elm.anom > 23) - (props.elm.anom > 24), 0), 10),
-            8 + Math.min(Math.max(props.elm.anom - 44, 0), 10), 
-            8
-        ];
+
         for (let i = 1; i < num; i++) {
 
             let eltrons = [];
-            const max = Math.min(props.elm.anom - drawnEls, shellmax[i - 1]);
+            const max = Math.min(props.elm.anom - drawnEls, props.elecDist[i - 1]);
             for (let j = 0; j < max; j++) {
                 let ang = ((j / max) * (2 * Math.PI) + Math.PI * 1.5) % (2 * Math.PI);
-                console.log({ang, max, j});
                 eltrons.push(
                     <div
                         key={max - j - 1}
@@ -307,7 +299,14 @@ class ElementCard extends Component {
                 mass:   null,
                 elneg:  null
             },
-            tableID: props.tableID
+            tableID: props.tableID,
+            elecDist: [
+                2,
+                8,
+                8 + Math.min(Math.max(props.elm.atom_number - 20 + (props.elm.atom_number > 23) - (props.elm.atom_number > 24), 0), 10),
+                8 + Math.min(Math.max(props.elm.atom_number - 38 + (props.elm.atom_number > 40), 0), 10),
+                8
+            ]
         }
         if (!undef) this.fetchElement(this.props.elm.atom_number);
     }
@@ -456,7 +455,7 @@ class ElementCard extends Component {
                         )}
                     </div>
                 </div>
-                <ElectronShell elm={this.state.elm} />
+                <ElectronShell elm={this.state.elm} elecDist={this.state.elecDist} />
             </Center>
         );
     }
