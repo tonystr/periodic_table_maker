@@ -5,7 +5,7 @@
   "proxy": "http://ptb-server.tonystr.net",
   "homepage": "http://ptb.tonystr.net",
   "dependencies": {
-    "async": "^2.6.1",
+    "async": "^2.6.4",
     "cors": "^2.8.5",
     "electron": "^4.0.7",
     "electron-react-titlebar": "^0.8.1",
